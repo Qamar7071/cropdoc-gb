@@ -1,0 +1,5 @@
+name: r18_none
+model:
+  arch: resnet18
+data:
+  aug: none

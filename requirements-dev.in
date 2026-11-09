@@ -1,0 +1,6 @@
+# Developer tools (tests, lint). Installed on top of backend + ml requirements.
+pytest
+httpx
+ruff
+onnx
+pre-commit

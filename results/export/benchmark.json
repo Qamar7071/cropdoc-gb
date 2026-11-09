@@ -1,0 +1,18 @@
+{
+  "one_thread": {
+    "file": "/home/user/cropdoc-gb/models/active/model.onnx",
+    "size_mb": 12.02,
+    "latency_ms_median": 5.62,
+    "latency_ms_p90": 6.79,
+    "runs": 50,
+    "threads": 1
+  },
+  "all_threads": {
+    "file": "/home/user/cropdoc-gb/models/active/model.onnx",
+    "size_mb": 12.02,
+    "latency_ms_median": 6.36,
+    "latency_ms_p90": 10.01,
+    "runs": 50,
+    "threads": "default"
+  }
+}

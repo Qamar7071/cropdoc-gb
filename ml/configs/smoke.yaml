@@ -1,0 +1,5 @@
+# Seconds on CPU: synthetic coloured "leaves", tiny CNN, 2 epochs. Used by tests and `make smoke`.
+name: smoke
+model: {arch: small_cnn, pretrained: false}
+data: {synthetic: true, synthetic_root: ml/runs/_synthetic, img_size: 64, num_workers: 0, aug: standard}
+train: {epochs: 2, frozen_epochs: 0, batch_size: 16, lr_backbone: 1.0e-3, patience: 5, amp: false}

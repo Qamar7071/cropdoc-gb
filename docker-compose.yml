@@ -1,0 +1,27 @@
+# Optional Docker path (the simplest path is start.bat / start.sh).
+#   docker compose up --build                  → all-in-one app on http://localhost:8000
+#   docker compose --profile split up --build  → also an nginx frontend on http://localhost:8080
+services:
+  app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - cropdoc-data:/app/data
+    environment:
+      CROPDOC_CORS_ORIGINS: "http://localhost:8080"
+    restart: unless-stopped
+
+  web:
+    profiles: ["split"]
+    build:
+      context: frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+volumes:
+  cropdoc-data:

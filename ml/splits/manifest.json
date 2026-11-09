@@ -1,0 +1,72 @@
+{
+  "seed": 42,
+  "proportions": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "method": "StratifiedGroupKFold(20 folds): 3 test, 3 val, 14 train; groups = leaf-map \u222a pHash \u222a embeddings",
+  "thresholds": {
+    "phash_max_distance": 0,
+    "phash_calibrated": null,
+    "embedding_min_cosine": 0.9625
+  },
+  "embedding_arch": "mobilenetv3_large_100",
+  "data_sources": {
+    "plantvillage": {
+      "url": "https://github.com/spMohanty/PlantVillage-Dataset",
+      "commit": "7f7ecc7e1eaca78107e3affe7cb5abd9427e139a",
+      "paths": [
+        "raw/color",
+        "raw/segmented",
+        "leaf-map.json"
+      ],
+      "downloaded_utc": "2026-11-09T09:41:19+00:00"
+    },
+    "plantdoc": {
+      "url": "https://github.com/pratikkayal/PlantDoc-Dataset",
+      "commit": "5467f6012d78d1c446145d5f582da6096f852ae8",
+      "paths": [
+        "train",
+        "test"
+      ],
+      "downloaded_utc": "2026-11-09T09:41:41+00:00"
+    }
+  },
+  "splits": {
+    "group_aware": {
+      "file": "ml/splits/group_aware.csv.gz",
+      "sha256_csv": "c45b4f872b7052fd78e539fadfae33c4ea150b7ec603e5d00ea57f00a671e904",
+      "n_images": 54305,
+      "per_split": {
+        "train": 38010,
+        "val": 8150,
+        "test": 8145
+      },
+      "fraction": {
+        "train": 0.6999,
+        "val": 0.1501,
+        "test": 0.15
+      }
+    },
+    "naive": {
+      "file": "ml/splits/naive.csv.gz",
+      "sha256_csv": "666bbdb746827cae503954c10af842fc523957feb41fd03cae87ad36ea51df12",
+      "n_images": 54305,
+      "per_split": {
+        "train": 38013,
+        "val": 8146,
+        "test": 8146
+      },
+      "fraction": {
+        "train": 0.7,
+        "val": 0.15,
+        "test": 0.15
+      }
+    }
+  },
+  "groups_crossing_splits": {
+    "group_aware": 0,
+    "naive": 6170
+  }
+}

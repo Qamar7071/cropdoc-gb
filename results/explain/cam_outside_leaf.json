@@ -1,0 +1,74 @@
+{
+  "model_version": "deployed quick model",
+  "n_images": 1460,
+  "sampling": "up to 40 group-aware test photos per class with a leaf mask",
+  "cam_mass_outside_leaf_mean": 0.28462236255139123,
+  "background_area_fraction_mean": 0.4075505044162357,
+  "outside_to_area_ratio_median": 0.6660096976101556,
+  "cam_mass_in_border_mean": 0.19293817098137656,
+  "border_area_fraction": 0.2653061224489796,
+  "correct_vs_wrong_cam_outside": {
+    "correct": 0.28325807630774213,
+    "wrong": 0.3662521561297278
+  },
+  "accuracy_original": 0.9835616438356164,
+  "accuracy_leaf_removed": 0.24315068493150685,
+  "accuracy_background_removed": 0.8280821917808219,
+  "chance_accuracy": 0.02631578947368421,
+  "top_confusions": [
+    {
+      "true": "Corn_(maize)___Northern_Leaf_Blight",
+      "predicted": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+      "count": 12
+    },
+    {
+      "true": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+      "predicted": "Tomato___Bacterial_spot",
+      "count": 11
+    },
+    {
+      "true": "Tomato___Spider_mites Two-spotted_spider_mite",
+      "predicted": "Tomato___Target_Spot",
+      "count": 11
+    },
+    {
+      "true": "Tomato___Early_blight",
+      "predicted": "Tomato___Target_Spot",
+      "count": 7
+    },
+    {
+      "true": "Tomato___Septoria_leaf_spot",
+      "predicted": "Peach___Bacterial_spot",
+      "count": 6
+    },
+    {
+      "true": "Tomato___Spider_mites Two-spotted_spider_mite",
+      "predicted": "Tomato___healthy",
+      "count": 5
+    },
+    {
+      "true": "Tomato___Early_blight",
+      "predicted": "Tomato___Bacterial_spot",
+      "count": 5
+    },
+    {
+      "true": "Tomato___Target_Spot",
+      "predicted": "Tomato___Spider_mites Two-spotted_spider_mite",
+      "count": 5
+    },
+    {
+      "true": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+      "predicted": "Corn_(maize)___Northern_Leaf_Blight",
+      "count": 5
+    },
+    {
+      "true": "Cherry_(including_sour)___Powdery_mildew",
+      "predicted": "Apple___Apple_scab",
+      "count": 4
+    }
+  ],
+  "figures": [
+    "results/explain/gallery.png",
+    "results/explain/confusion_matrix.png"
+  ]
+}

@@ -1,0 +1,6 @@
+name: r18_std_naive
+model:
+  arch: resnet18
+data:
+  aug: standard
+  split: naive

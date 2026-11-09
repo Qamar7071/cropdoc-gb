@@ -1,0 +1,6 @@
+name: mbv3_std_naive
+model:
+  arch: mobilenetv3_large_100
+data:
+  aug: standard
+  split: naive

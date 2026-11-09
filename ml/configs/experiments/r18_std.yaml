@@ -1,0 +1,5 @@
+name: r18_std
+model:
+  arch: resnet18
+data:
+  aug: standard

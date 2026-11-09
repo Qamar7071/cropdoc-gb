@@ -1,0 +1,65 @@
+{
+  "rule": {
+    "min_confidence": "lowest confidence with \u226599% accuracy on kept validation photos",
+    "max_energy": "95% of validation photos accepted (95%-TPR operating point)"
+  },
+  "thresholds": {
+    "min_confidence": 0.64,
+    "max_energy": -6.530911922454834
+  },
+  "validation_coverage_at_min_confidence": 0.9869938650306749,
+  "previous_thresholds": {
+    "min_confidence": 0.64,
+    "max_energy": -3.932274103164673
+  },
+  "behaviour": {
+    "lab_test": {
+      "confident": {
+        "share": 0.939840392879067,
+        "n": 7655,
+        "accuracy": 0.9922926192031352
+      },
+      "low_confidence": {
+        "share": 0.004542664211172499,
+        "n": 37,
+        "accuracy": 0.5945945945945946
+      },
+      "unsupported": {
+        "share": 0.05561694290976059,
+        "n": 453,
+        "accuracy": 0.8587196467991169
+      }
+    },
+    "plantdoc_real_world": {
+      "confident": {
+        "share": 0.14313421256788209,
+        "n": 369,
+        "accuracy": 0.4254742547425474
+      },
+      "low_confidence": {
+        "share": 0.00504266873545384,
+        "n": 13,
+        "accuracy": 0.3076923076923077
+      },
+      "unsupported": {
+        "share": 0.851823118696664,
+        "n": 2196,
+        "accuracy": 0.17122040072859745
+      }
+    },
+    "non_leaf_photos": {
+      "confident": {
+        "share": 0.028426395939086295,
+        "n": 28
+      },
+      "low_confidence": {
+        "share": 0.0020304568527918783,
+        "n": 2
+      },
+      "unsupported": {
+        "share": 0.9695431472081218,
+        "n": 955
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+# Experiment matrix (docs/PLAN.md §4). Each experiment runs with every seed; finished runs are skipped.
+seeds: [0, 1, 2]
+blocks:
+  A: [imb_none, imb_weighted_loss, imb_balanced_sampler]            # imbalance handling (ResNet18, standard aug)
+  B: [cnn_none, cnn_std, cnn_strong, cnn_bgrand,
+      r18_none, r18_std, r18_strong, r18_bgrand,
+      mbv3_none, mbv3_std, mbv3_strong, mbv3_bgrand]                 # model × augmentation, group-aware split
+  C: [cnn_std_naive, r18_std_naive, mbv3_std_naive]                  # leakage: naive split
+  D: [r18_combined, mbv3_combined]                                   # stretch: strong + background randomization
+  E: [openset]                                                        # unseen-disease detection

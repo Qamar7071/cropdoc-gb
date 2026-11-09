@@ -1,0 +1,29 @@
+[project]
+name = "cropdoc-gb"
+version = "1.0.0"
+description = "CropDoc GB: AI plant-disease scanner for Gilgit-Baltistan (FastAPI + React + ONNX) with a lab-to-field research study."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = ["frontend", "data", "dist", "ml/notebooks", ".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+ignore = ["E501", "B008"]  # long lines are handled by the formatter; FastAPI uses calls in defaults
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "cropdoc"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests", "ml/tests"]
+pythonpath = ["backend", "ml/src", "."]
+addopts = "-q -p no:cacheprovider"
+markers = [
+    "data: needs the downloaded datasets in data/raw (skipped otherwise)",
+    "model: needs the trained model in models/active (skipped otherwise)",
+]
+filterwarnings = ["ignore::DeprecationWarning:torch.*", "ignore::UserWarning:torch.*"]

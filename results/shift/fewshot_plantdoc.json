@@ -1,0 +1,154 @@
+{
+  "k": [
+    0,
+    5,
+    10,
+    20
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "accuracy_mean": [
+    0.268361581920904,
+    0.40395480225988706,
+    0.442090395480226,
+    0.4675141242937853
+  ],
+  "accuracy_std": [
+    0.0024463994457187507,
+    0.06486419493336176,
+    0.036037714186929574,
+    0.014880866882560368
+  ],
+  "macro_f1_mean": [
+    0.24513330423038968,
+    0.3946599125113423,
+    0.4412366791852673,
+    0.46820164824118304
+  ],
+  "macro_f1_std": [
+    0.0023831171265931827,
+    0.06432909849298865,
+    0.038740910618087696,
+    0.013347628689789148
+  ],
+  "crop_hint_accuracy_mean": [
+    0.5268361581920904,
+    0.653954802259887,
+    0.6666666666666666,
+    0.6779661016949152
+  ],
+  "crop_hint_accuracy_std": [
+    0.0024463994457187385,
+    0.029761733765120712,
+    0.023337163335958064,
+    0.015277759641796548
+  ],
+  "runs": [
+    {
+      "k": 0,
+      "seed": 0,
+      "support_photos": 0,
+      "accuracy": 0.2711864406779661,
+      "macro_f1": 0.2458689837544528,
+      "crop_hint_accuracy": 0.5296610169491526
+    },
+    {
+      "k": 0,
+      "seed": 1,
+      "support_photos": 0,
+      "accuracy": 0.2669491525423729,
+      "macro_f1": 0.2424690914656716,
+      "crop_hint_accuracy": 0.5254237288135594
+    },
+    {
+      "k": 0,
+      "seed": 2,
+      "support_photos": 0,
+      "accuracy": 0.2669491525423729,
+      "macro_f1": 0.24706183747104463,
+      "crop_hint_accuracy": 0.5254237288135594
+    },
+    {
+      "k": 5,
+      "seed": 0,
+      "support_photos": 137,
+      "accuracy": 0.4788135593220339,
+      "macro_f1": 0.46893632460367923,
+      "crop_hint_accuracy": 0.6822033898305084
+    },
+    {
+      "k": 5,
+      "seed": 1,
+      "support_photos": 137,
+      "accuracy": 0.3686440677966102,
+      "macro_f1": 0.35681894908339823,
+      "crop_hint_accuracy": 0.6567796610169492
+    },
+    {
+      "k": 5,
+      "seed": 2,
+      "support_photos": 137,
+      "accuracy": 0.3644067796610169,
+      "macro_f1": 0.35822446384694934,
+      "crop_hint_accuracy": 0.6228813559322034
+    },
+    {
+      "k": 10,
+      "seed": 0,
+      "support_photos": 272,
+      "accuracy": 0.4830508474576271,
+      "macro_f1": 0.48583629390489885,
+      "crop_hint_accuracy": 0.690677966101695
+    },
+    {
+      "k": 10,
+      "seed": 1,
+      "support_photos": 272,
+      "accuracy": 0.4279661016949153,
+      "macro_f1": 0.4219391927050353,
+      "crop_hint_accuracy": 0.6652542372881356
+    },
+    {
+      "k": 10,
+      "seed": 2,
+      "support_photos": 272,
+      "accuracy": 0.4152542372881356,
+      "macro_f1": 0.4159345509458679,
+      "crop_hint_accuracy": 0.6440677966101694
+    },
+    {
+      "k": 20,
+      "seed": 0,
+      "support_photos": 542,
+      "accuracy": 0.4533898305084746,
+      "macro_f1": 0.4578242213408454,
+      "crop_hint_accuracy": 0.6822033898305084
+    },
+    {
+      "k": 20,
+      "seed": 1,
+      "support_photos": 542,
+      "accuracy": 0.4830508474576271,
+      "macro_f1": 0.4832590470058501,
+      "crop_hint_accuracy": 0.690677966101695
+    },
+    {
+      "k": 20,
+      "seed": 2,
+      "support_photos": 542,
+      "accuracy": 0.4661016949152542,
+      "macro_f1": 0.46352167637685354,
+      "crop_hint_accuracy": 0.6610169491525424
+    }
+  ],
+  "n_eval": 236,
+  "n_eval_classes": 27,
+  "dataset": "PlantDoc (public real-world web photos; pool = PlantDoc train, evaluation = PlantDoc test)",
+  "model": "frozen ImageNet MobileNetV3-Large features + linear head (lab-trained, then adapted)",
+  "pool_photos": 2321,
+  "pool_near_duplicates_removed": 21,
+  "figure": "results/shift/fewshot_plantdoc.png"
+}

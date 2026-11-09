@@ -1,0 +1,37 @@
+{
+  "attribution": "Leaf photos: PlantVillage dataset (D. P. Hughes, M. Salath\u00e9; https://github.com/spMohanty/PlantVillage-Dataset), licensed CC BY-SA 3.0. Re-encoded without metadata; unchanged otherwise.",
+  "examples": [
+    {
+      "id": "early-blight",
+      "file": "/examples/early-blight.jpg",
+      "class_id": "Potato___Early_blight",
+      "label_key": "examples.earlyBlight",
+      "split": "test",
+      "source": "raw/PlantVillage-Dataset/raw/color/Potato___Early_blight/fd59ab68-681f-4aca-ae95-6f73bf8caad7___RS_Early.B 7118.JPG"
+    },
+    {
+      "id": "yellow-leaf-curl",
+      "file": "/examples/yellow-leaf-curl.jpg",
+      "class_id": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+      "label_key": "examples.yellowLeafCurl",
+      "split": "test",
+      "source": "raw/PlantVillage-Dataset/raw/color/Tomato___Tomato_Yellow_Leaf_Curl_Virus/124aa215-3f93-4819-a474-d462728a709b___YLCV_GCREC 2455.JPG"
+    },
+    {
+      "id": "powdery-mildew",
+      "file": "/examples/powdery-mildew.jpg",
+      "class_id": "Squash___Powdery_mildew",
+      "label_key": "examples.powderyMildew",
+      "split": "test",
+      "source": "raw/PlantVillage-Dataset/raw/color/Squash___Powdery_mildew/18e9c6da-b719-4ae6-afc8-bf6601c5f63a___UMD_Powd.M 9629.JPG"
+    },
+    {
+      "id": "healthy-leaf",
+      "file": "/examples/healthy-leaf.jpg",
+      "class_id": "Tomato___healthy",
+      "label_key": "examples.healthyLeaf",
+      "split": "test",
+      "source": "raw/PlantVillage-Dataset/raw/color/Tomato___healthy/92482fe8-95b5-48b9-b32e-eadc3ab6ac59___RS_HL 9901.JPG"
+    }
+  ]
+}

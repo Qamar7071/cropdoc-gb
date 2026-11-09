@@ -1,0 +1,5 @@
+name: mbv3_bgrand
+model:
+  arch: mobilenetv3_large_100
+data:
+  aug: bgrand

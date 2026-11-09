@@ -1,0 +1,5 @@
+name: mbv3_std
+model:
+  arch: mobilenetv3_large_100
+data:
+  aug: standard

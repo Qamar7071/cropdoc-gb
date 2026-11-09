@@ -1,0 +1,33 @@
+# Defaults for every run. Experiments override only what they change (see experiments/*.yaml).
+name: run
+seed: 0
+deterministic: true
+model:
+  arch: resnet18            # small_cnn | resnet18 | mobilenetv3_large_100 (timm names)
+  pretrained: true
+  dropout: 0.2
+data:
+  split: group_aware        # group_aware | naive
+  aug: standard             # none | standard | strong | bgrand | combined
+  img_size: 224
+  num_workers: 2            # Colab free tier has 2 vCPUs
+  class_balance: none       # none | weighted_loss | balanced_sampler (block A decides the default)
+  background_dir: data/backgrounds   # optional photos for background randomization (else procedural)
+  bg_p: 0.8
+  exclude_classes: []       # open-set experiment holds out diseases here
+  max_train_per_class: null
+train:
+  epochs: 12
+  frozen_epochs: 2          # head-only epochs for pretrained models
+  batch_size: 64
+  lr_head: 1.0e-3
+  lr_backbone: 1.0e-4
+  weight_decay: 1.0e-4
+  warmup_epochs: 1
+  patience: 3               # early stopping on validation macro-F1
+  amp: true
+  label_smoothing: 0.0      # kept at 0: it would distort the calibration study
+logging:
+  wandb_project: null       # set a project name to mirror CSV logs to Weights & Biases
+output:
+  runs_dir: ml/runs         # Colab: set CROPDOC_RUNS or output.runs_dir to a Google Drive folder

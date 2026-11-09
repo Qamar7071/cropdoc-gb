@@ -1,0 +1,31 @@
+{
+  "n_photos": 18283,
+  "sampling": "up to 400 train / 150 test photos per class (group-aware split)",
+  "border_pixel_std_mean": 0.1180093143773431,
+  "background_area_fraction_mean": 0.5203320689400353,
+  "most_uniform_backgrounds": {
+    "Grape___healthy": 0.075,
+    "Orange___Haunglongbing_(Citrus_greening)": 0.0767,
+    "Raspberry___healthy": 0.0803,
+    "Cherry_(including_sour)___healthy": 0.0866,
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus": 0.0884
+  },
+  "least_uniform_backgrounds": {
+    "Apple___Apple_scab": 0.1419,
+    "Pepper,_bell___Bacterial_spot": 0.1424,
+    "Corn_(maize)___healthy": 0.1465,
+    "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": 0.1603,
+    "Potato___Early_blight": 0.1638
+  },
+  "border_only_probe": {
+    "accuracy": 0.6142055267702936,
+    "macro_f1": 0.5960779099542667
+  },
+  "background_only_probe": {
+    "accuracy": 0.5980138169257341,
+    "macro_f1": 0.5834031578948261
+  },
+  "chance_accuracy": 0.02631578947368421,
+  "majority_class_accuracy": 0.03238341968911917,
+  "note": "Probes never see leaf pixels. Accuracy far above chance means the background predicts the class."
+}

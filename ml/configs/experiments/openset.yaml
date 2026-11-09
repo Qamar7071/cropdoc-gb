@@ -1,0 +1,7 @@
+# Block E: train without 4 diseases (chosen in advance, one per crop); they become "unseen disease" test photos.
+name: openset
+model:
+  arch: mobilenetv3_large_100
+data:
+  aug: bgrand
+  exclude_classes: ["Tomato___Target_Spot", "Apple___Cedar_apple_rust", "Grape___Esca_(Black_Measles)", "Corn_(maize)___Common_rust_"]

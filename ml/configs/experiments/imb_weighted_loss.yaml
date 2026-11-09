@@ -1,0 +1,6 @@
+name: imb_weighted_loss
+model:
+  arch: resnet18
+data:
+  aug: standard
+  class_balance: weighted_loss

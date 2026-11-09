@@ -1,0 +1,10 @@
+{
+  "temperature": 1.0327781214773315,
+  "fitted_on": "validation split (group-aware), ONNX logits",
+  "thresholds": {
+    "min_confidence": 0.64,
+    "max_energy": -6.530911922454834,
+    "provisional": false,
+    "source": "Milestone 2: chosen on validation data only (results/calibration/thresholds.json); behaviour on unseen diseases, non-leaf and real-world photos in results/ood/ood_summary.json. GB field check pending."
+  }
+}

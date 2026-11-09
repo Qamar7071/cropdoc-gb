@@ -1,0 +1,33 @@
+{
+  "model": "Frozen ImageNet MobileNetV3-Large features + linear head (3 seeds)",
+  "naive": {
+    "accuracy": 0.985514362877486,
+    "macro_f1": 0.9797538001937872,
+    "accuracy_std": 0.0008852323288642184
+  },
+  "group_aware": {
+    "accuracy": 0.9830980151422141,
+    "macro_f1": 0.9785315526896765,
+    "accuracy_std": 0.0006179524808897566
+  },
+  "inflation_accuracy_points": 0.24163477352718843,
+  "inflation_ci_seed0": {
+    "estimate": 0.0025800172029281088,
+    "ci_low": -0.0012257760722553135,
+    "ci_high": 0.006385902039166433,
+    "level": 0.95,
+    "n_boot": 2000,
+    "paired": false
+  },
+  "naive_exposed_fraction": 0.7478517063589492,
+  "naive_test_accuracy_exposed": 0.9885095206828628,
+  "naive_test_accuracy_not_exposed": 0.9776046738072055,
+  "inflation_by_model_points": {
+    "1-nearest-neighbour on CNN features": 2.0385319062770524,
+    "Classical features + logistic regression": 0.910480116028578,
+    "Classical features + random forest": 0.762334580322066,
+    "Frozen CNN features + linear head": 0.24163477352718843,
+    "Tiny MLP (ANN) on 32x32 pixels": 1.0739933395800816
+  },
+  "baselines_file": "results/baselines/baselines.json"
+}

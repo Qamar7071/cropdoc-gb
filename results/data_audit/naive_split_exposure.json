@@ -1,0 +1,6 @@
+{
+  "description": "Naive split: share of test photos whose duplicate group also has photos in train",
+  "test_images": 8146,
+  "exposed_test_images": 6092,
+  "exposed_fraction": 0.7478517063589492
+}

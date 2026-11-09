@@ -1,0 +1,11 @@
+name: cnn_none
+model:
+  arch: small_cnn
+  pretrained: false
+train:
+  epochs: 20
+  frozen_epochs: 0
+  lr_backbone: 1.0e-3
+  patience: 5
+data:
+  aug: none

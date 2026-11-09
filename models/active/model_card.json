@@ -1,0 +1,69 @@
+{
+  "model_version": "quick-mbv3l-2026-11-09",
+  "name": "CropDoc GB quick model",
+  "architecture": "MobileNetV3-Large (ImageNet-pretrained, timm) + global-average-pool + linear head",
+  "num_classes": 38,
+  "input": "RGB photo, resized to 256 px (shorter side), centre-cropped to 224\u00d7224",
+  "preprocessing": {
+    "resize": 256,
+    "crop": 224,
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "training": {
+    "recipe": "stage 1: linear head on frozen features (full train split); stage 2: fine-tune last 3 blocks + head for \u22643 epochs on a class-balanced subset (\u2264300 photos/class) with standard augmentation",
+    "selected": "stage2_finetune",
+    "seed": 42,
+    "hardware": "CPU only (4 cores)",
+    "minutes": 15.6
+  },
+  "data": {
+    "dataset": "PlantVillage (colour photos, lab conditions)",
+    "split": "group-aware (photos of the same leaf never cross splits)",
+    "split_sha256": "c45b4f872b7052fd78e539fadfae33c4ea150b7ec603e5d00ea57f00a671e904",
+    "sizes": {
+      "train": 38010,
+      "val": 8150,
+      "test": 8145
+    },
+    "source": {
+      "url": "https://github.com/spMohanty/PlantVillage-Dataset",
+      "commit": "7f7ecc7e1eaca78107e3affe7cb5abd9427e139a",
+      "paths": [
+        "raw/color",
+        "raw/segmented",
+        "leaf-map.json"
+      ],
+      "downloaded_utc": "2026-11-09T09:41:19+00:00"
+    }
+  },
+  "metrics": {
+    "test_accuracy": 0.9830570902394107,
+    "test_macro_f1": 0.9810468292499097,
+    "test_n": 8145,
+    "test_ece_calibrated": 0.002959950483233187,
+    "val_accuracy": 0.983680981595092,
+    "val_macro_f1": 0.980304869190541,
+    "source": "results/quick_model/metrics.json"
+  },
+  "calibration": {
+    "temperature": 1.0327781214773315,
+    "fitted_on": "validation"
+  },
+  "intended_use": "General guidance for farmers and students; not a diagnosis.",
+  "limitations": [
+    "Trained only on lab photos (plain backgrounds); accuracy on real field photos is lower (see Field Intelligence).",
+    "Covers only the 38 PlantVillage classes (14 crops). Other crops, e.g. apricot, are unsupported.",
+    "Quick CPU model; a stronger model from the Colab sweep replaces it only if it scores better."
+  ],
+  "onnx_sha256": "5ca8ba3b295d9a76548fae056347280a9e6b1ee346495c3a3aa6e6a1ef20badb",
+  "created_utc": "2026-11-09T11:06:12+00:00"
+}

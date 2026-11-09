@@ -1,0 +1,6 @@
+name: imb_none
+model:
+  arch: resnet18
+data:
+  aug: standard
+  class_balance: none

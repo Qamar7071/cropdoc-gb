@@ -1,0 +1,6 @@
+name: imb_balanced_sampler
+model:
+  arch: resnet18
+data:
+  aug: standard
+  class_balance: balanced_sampler

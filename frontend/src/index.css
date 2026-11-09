@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+/* Design tokens (original CropDoc GB palette; contrast-checked for WCAG AA where text sits on them) */
+@theme {
+  --color-brand-950: #062716;
+  --color-brand-900: #0b3d1f;
+  --color-brand-850: #0e4724;
+  --color-brand-800: #11532b;
+  --color-brand-700: #15803d; /* buttons with white text: 5.0:1 */
+  --color-brand-600: #16a34a;
+  --color-brand-500: #22c55e;
+  --color-brand-400: #4ade80; /* accent text on dark green: 6.7:1 */
+  --color-brand-200: #bbf7d0;
+  --color-brand-100: #dcfce7;
+  --color-brand-50: #f0fdf4;
+  --color-page: #e7f2e9;
+  --font-sans: "Segoe UI", system-ui, -apple-system, "Noto Sans", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", "Urdu Typesetting", "Segoe UI", "Noto Sans Arabic", serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-page text-gray-900 antialiased;
+}
+
+html[lang="ur"] body {
+  font-family: var(--font-urdu);
+  line-height: 1.9;
+}
+
+/* Keep numbers and Latin names readable inside Urdu text */
+html[lang="ur"] .latin {
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+.page-backdrop {
+  background:
+    radial-gradient(1200px 380px at 85% -60px, rgba(74, 222, 128, 0.18), transparent 70%),
+    linear-gradient(180deg, #0b3d1f 0, #0b3d1f 300px, #dcebdf 300px, #e7f2e9 100%);
+}
+
+/* Print stylesheet: "Download report" prints only the result card */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body,
+  .page-backdrop {
+    background: #fff !important;
+  }
+  .print-card {
+    box-shadow: none !important;
+    border: 1px solid #d1d5db;
+    break-inside: avoid;
+  }
+}
+
+.print-only {
+  display: none;
+}
+
+@keyframes scan-line {
+  0% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(140px);
+    opacity: 0.2;
+  }
+}
+
+.animate-scan {
+  animation: scan-line 2.8s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scan,
+  .animate-pulse {
+    animation: none !important;
+  }
+}

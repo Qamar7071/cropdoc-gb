@@ -1,0 +1,7 @@
+{
+  "n_images": 16,
+  "max_abs_diff_logits": 2.574920654296875e-05,
+  "max_abs_diff_cams": 0.000335693359375,
+  "same_top1": true,
+  "tolerance": 0.001
+}

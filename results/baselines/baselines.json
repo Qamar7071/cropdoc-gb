@@ -1,0 +1,95 @@
+{
+  "description": "Test accuracy / macro-F1 on the naive and the group-aware split (mean \u00b1 std over seeds)",
+  "rows": [
+    {
+      "model": "1-nearest-neighbour on CNN features",
+      "split": "group_aware",
+      "accuracy_mean": 0.9411909146715777,
+      "accuracy_std": 0.0,
+      "macro_f1_mean": 0.9282294075068472,
+      "macro_f1_std": 0.0,
+      "runs": 1
+    },
+    {
+      "model": "1-nearest-neighbour on CNN features",
+      "split": "naive",
+      "accuracy_mean": 0.9615762337343482,
+      "accuracy_std": 0.0,
+      "macro_f1_mean": 0.9516930688391415,
+      "macro_f1_std": 0.0,
+      "runs": 1
+    },
+    {
+      "model": "Classical features + logistic regression",
+      "split": "group_aware",
+      "accuracy_mean": 0.8322897483118478,
+      "accuracy_std": 0.0,
+      "macro_f1_mean": 0.8025729779439693,
+      "macro_f1_std": 0.0,
+      "runs": 1
+    },
+    {
+      "model": "Classical features + logistic regression",
+      "split": "naive",
+      "accuracy_mean": 0.8413945494721335,
+      "accuracy_std": 0.0,
+      "macro_f1_mean": 0.8181314379945124,
+      "macro_f1_std": 0.0,
+      "runs": 1
+    },
+    {
+      "model": "Classical features + random forest",
+      "split": "group_aware",
+      "accuracy_mean": 0.9002250869654184,
+      "accuracy_std": 0.0019033379912802796,
+      "macro_f1_mean": 0.8686194397533962,
+      "macro_f1_std": 0.003486394256229351,
+      "runs": 3
+    },
+    {
+      "model": "Classical features + random forest",
+      "split": "naive",
+      "accuracy_mean": 0.907848432768639,
+      "accuracy_std": 0.0012599070560881044,
+      "macro_f1_mean": 0.8790079703713009,
+      "macro_f1_std": 0.0012815072434266075,
+      "runs": 3
+    },
+    {
+      "model": "Frozen CNN features + linear head",
+      "split": "group_aware",
+      "accuracy_mean": 0.9830980151422141,
+      "accuracy_std": 0.0006179524808897566,
+      "macro_f1_mean": 0.9785315526896765,
+      "macro_f1_std": 0.0011192258482171378,
+      "runs": 3
+    },
+    {
+      "model": "Frozen CNN features + linear head",
+      "split": "naive",
+      "accuracy_mean": 0.985514362877486,
+      "accuracy_std": 0.0008852323288642184,
+      "macro_f1_mean": 0.9797538001937872,
+      "macro_f1_std": 0.0007287521796129519,
+      "runs": 3
+    },
+    {
+      "model": "Tiny MLP (ANN) on 32x32 pixels",
+      "split": "group_aware",
+      "accuracy_mean": 0.8458358911397585,
+      "accuracy_std": 0.0006056332550418305,
+      "macro_f1_mean": 0.7922779456933147,
+      "macro_f1_std": 0.003342501049073601,
+      "runs": 3
+    },
+    {
+      "model": "Tiny MLP (ANN) on 32x32 pixels",
+      "split": "naive",
+      "accuracy_mean": 0.8565758245355594,
+      "accuracy_std": 0.0008173739403976624,
+      "macro_f1_mean": 0.8086892156721938,
+      "macro_f1_std": 0.0019230259843449064,
+      "runs": 3
+    }
+  ]
+}

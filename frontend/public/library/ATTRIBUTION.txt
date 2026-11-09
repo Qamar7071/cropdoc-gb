@@ -1,0 +1,1 @@
+Leaf photos: PlantVillage dataset (D. P. Hughes, M. Salathé; https://github.com/spMohanty/PlantVillage-Dataset), licensed CC BY-SA 3.0. Re-encoded without metadata; unchanged otherwise.

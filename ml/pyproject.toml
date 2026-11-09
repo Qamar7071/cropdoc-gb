@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cropdoc"
+version = "1.0.0"
+description = "Training and research code for CropDoc GB (data, models, training, evaluation, calibration, shift, explainability, export)."
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,15 @@
+# Training / research dependencies (Colab or a dev machine; not needed to run the app).
+torch
+torchvision
+timm
+scikit-learn
+pandas
+scipy
+matplotlib
+pyyaml
+tqdm
+onnx
+onnxscript
+onnxruntime
+pillow
+numpy

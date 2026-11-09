@@ -1,0 +1,5 @@
+name: mbv3_combined
+model:
+  arch: mobilenetv3_large_100
+data:
+  aug: combined

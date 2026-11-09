@@ -1,0 +1,23 @@
+model,split,seed,accuracy,macro_f1
+Frozen CNN features + linear head,naive,0,0.9857598821507488,0.9798107511971734
+Frozen CNN features + linear head,naive,1,0.9845322857844341,0.9789982434196763
+Frozen CNN features + linear head,naive,2,0.9862509206972747,0.9804524059645118
+Classical features + logistic regression,naive,0,0.8413945494721335,0.8181314379945124
+Classical features + random forest,naive,0,0.9089123496194451,0.8794049348602686
+Classical features + random forest,naive,1,0.9064571568868156,0.8800440225373656
+Classical features + random forest,naive,2,0.9081757917996562,0.8775749537162683
+Tiny MLP (ANN) on 32x32 pixels,naive,0,0.8563712251411736,0.8075178354810316
+Tiny MLP (ANN) on 32x32 pixels,naive,1,0.8574760618708569,0.8109085918674527
+Tiny MLP (ANN) on 32x32 pixels,naive,2,0.8558801865946477,0.8076412196680972
+1-nearest-neighbour on CNN features,naive,0,0.9615762337343482,0.9516930688391415
+Frozen CNN features + linear head,group_aware,0,0.9831798649478207,0.9782731651984643
+Frozen CNN features + linear head,group_aware,1,0.9824432166973603,0.9775641182268154
+Frozen CNN features + linear head,group_aware,2,0.983670963781461,0.97975737464375
+Classical features + logistic regression,group_aware,0,0.8322897483118478,0.8025729779439693
+Classical features + random forest,group_aware,0,0.8988336402701044,0.8668627426382007
+Classical features + random forest,group_aware,1,0.8994475138121547,0.8663608381449938
+Classical features + random forest,group_aware,2,0.9023941068139963,0.8726347384769938
+Tiny MLP (ANN) on 32x32 pixels,group_aware,0,0.845426642111725,0.7918144752728317
+Tiny MLP (ANN) on 32x32 pixels,group_aware,1,0.8465316144874155,0.789191366626689
+Tiny MLP (ANN) on 32x32 pixels,group_aware,2,0.8455494168201351,0.7958279951804235
+1-nearest-neighbour on CNN features,group_aware,0,0.9411909146715777,0.9282294075068472

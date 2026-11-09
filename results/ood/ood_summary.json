@@ -1,0 +1,57 @@
+{
+  "id_set": "PlantVillage group-aware test split",
+  "score_direction": "higher = more unfamiliar",
+  "sets": [
+    {
+      "name": "Unseen diseases (4 held out)",
+      "kind": "near",
+      "model": "frozen features + linear head (34 classes)",
+      "n_id": 7507,
+      "n_ood": 638,
+      "auroc_msp": 0.8078819225358318,
+      "auroc_energy": 0.7701367960436508,
+      "fpr95_msp": 0.5407523510971787,
+      "fpr95_energy": 0.6489028213166145,
+      "held_out_classes": [
+        "Tomato___Target_Spot",
+        "Apple___Cedar_apple_rust",
+        "Grape___Esca_(Black_Measles)",
+        "Corn_(maize)___Common_rust_"
+      ],
+      "id_accuracy": 0.9869455175169841
+    },
+    {
+      "name": "Non-leaf photos (everyday objects)",
+      "kind": "far",
+      "model": "deployed quick model",
+      "n_id": 8145,
+      "n_ood": 985,
+      "auroc_msp": 0.9755372951547616,
+      "auroc_energy": 0.9913187686382291,
+      "fpr95_msp": 0.14111675126903553,
+      "fpr95_energy": 0.03654822335025381,
+      "deployed_thresholds": {
+        "confident": 0.19898477157360406,
+        "low_confidence": 0.048730964467005075,
+        "unsupported": 0.7522842639593909
+      }
+    },
+    {
+      "name": "Real-world leaf photos (PlantDoc) vs lab photos",
+      "kind": "shift",
+      "model": "deployed quick model",
+      "n_id": 8145,
+      "n_ood": 2578,
+      "auroc_msp": 0.9558134395920337,
+      "auroc_energy": 0.9670486112599361,
+      "fpr95_msp": 0.26066718386346005,
+      "fpr95_energy": 0.16408068269976725
+    }
+  ],
+  "thresholds_in_app": {
+    "min_confidence": 0.64,
+    "max_energy": -3.932274103164673,
+    "provisional": true,
+    "source": "validation: lowest confidence with \u226599% accuracy on kept photos; energy accepts 99% of validation photos. Provisional until Milestone 2 evaluates them on real out-of-distribution images."
+  }
+}

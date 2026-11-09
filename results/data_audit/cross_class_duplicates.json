@@ -1,0 +1,14 @@
+{
+  "description": "Photos with identical (rotation/flip-invariant) pHash in different classes",
+  "n_images": 2,
+  "examples": [
+    {
+      "class_id": "Raspberry___healthy",
+      "path": "raw/PlantVillage-Dataset/raw/color/Raspberry___healthy/020e14fb-6016-4d7f-b489-445e0021b58e___Mary_HL 6324.JPG"
+    },
+    {
+      "class_id": "Soybean___healthy",
+      "path": "raw/PlantVillage-Dataset/raw/color/Soybean___healthy/ee68e9db-1852-46b8-9eda-f9401d9c6c8e___RS_HL 5724 1.JPG"
+    }
+  ]
+}

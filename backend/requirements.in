@@ -1,0 +1,9 @@
+# Runtime dependencies for the CropDoc GB web app (no PyTorch needed at runtime).
+fastapi
+uvicorn
+python-multipart
+pydantic
+sqlalchemy
+pillow
+numpy
+onnxruntime
