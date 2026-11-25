@@ -63,7 +63,17 @@ export function ErrorBanner({ error, onRetry }: { error: unknown; onRetry?: () =
   return (
     <div role="alert" className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-900">
       <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
-      <p className="flex-1 text-sm font-medium">{message}</p>
+      <p className="flex-1 text-sm font-medium break-words">
+        {message.split(/(https?:\/\/[^\s),]+)/g).map((part, index) =>
+          /^https?:\/\//.test(part) ? (
+            <a key={index} href={part} target="_blank" rel="noreferrer" className="font-semibold underline latin">
+              {part}
+            </a>
+          ) : (
+            part
+          ),
+        )}
+      </p>
       {onRetry && (
         <button type="button" onClick={onRetry} className="flex items-center gap-1 text-sm font-semibold underline">
           <RotateCcw className="h-4 w-4" aria-hidden="true" />

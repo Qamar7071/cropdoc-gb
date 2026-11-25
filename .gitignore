@@ -40,3 +40,6 @@ build/
 Thumbs.db
 .vscode/
 .idea/
+
+# third-party design reference screenshots (inspiration only, not published)
+design/Screenshot*

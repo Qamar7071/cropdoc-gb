@@ -68,8 +68,8 @@ export function TopBar() {
             <Logo compact tagline={t("app.tagline")} />
           </span>
         </NavLink>
-        <nav aria-label={t("nav.main")} className="mx-auto hidden lg:block">
-          <ul className="flex items-center gap-1 2xl:gap-2">
+        <nav aria-label={t("nav.main")} className="mx-auto hidden min-w-0 overflow-x-auto [scrollbar-width:none] lg:block">
+          <ul className="flex items-center gap-1">
             {NAV_ITEMS.map(({ to, key, icon: Icon, ...rest }) => (
               <li key={to}>
                 <NavLink
@@ -77,14 +77,14 @@ export function TopBar() {
                   end={"end" in rest}
                   title={t(key)}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 whitespace-nowrap rounded-xl px-3 py-2.5 text-[15px] font-semibold transition-colors 2xl:px-4 ${
+                    `flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-2.5 py-2.5 text-[14.5px] font-semibold transition-colors ${
                       isActive ? "bg-brand-700 text-white shadow-md" : "text-white/90 hover:bg-white/10"
                     }`
                   }
                 >
                   <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
-                  {/* labels from 1280 px; icon-only (with title + accessible name) on smaller laptops */}
-                  <span className="sr-only xl:not-sr-only">{t(key)}</span>
+                  {/* labels from 1400 px (never wrapped); icon-only with title + accessible name below that */}
+                  <span className="sr-only min-[1400px]:not-sr-only min-[1400px]:whitespace-nowrap">{t(key)}</span>
                 </NavLink>
               </li>
             ))}

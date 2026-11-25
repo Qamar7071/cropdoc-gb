@@ -21,6 +21,18 @@ lab photos fail on real field photos.**
 The first start installs about 50 MB of libraries (internet needed), then the browser opens
 **http://127.0.0.1:8000**. Later starts work offline. Docker: `docker compose up --build`.
 
+## Troubleshooting
+- **"The AI engine (ONNX Runtime) could not start … DLL load failed" (Windows):** install the latest
+  [Microsoft Visual C++ Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe), restart if asked,
+  and run `start.bat` again. `start.bat` detects this and offers to install it for you with `winget`.
+  If it still fails:
+  - make sure you installed **64-bit Python 3.11 from python.org** (not Anaconda, not the Microsoft Store);
+  - delete the `.venv` folder next to `start.bat` and run `start.bat` again (it reinstalls cleanly);
+  - check whether an old `onnxruntime.dll` sits in `C:\Windows\System32` (some programs put one there).
+- **The browser does not open:** go to http://127.0.0.1:8000 yourself. If port 8000 is busy, the console
+  shows the port it used instead.
+- **"Model not loaded":** the `models/active/` folder is missing or incomplete; unzip the package again.
+
 ## The headline finding: the lab → field gap
 The deployed model is excellent on lab photos and poor on real-world photos of the **same 28 diseases**:
 <!-- BEGIN:headline_gap -->

@@ -13,6 +13,7 @@ If the package is missing the service reports ``loaded = False`` and the API ref
 from __future__ import annotations
 
 import json
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -28,6 +29,25 @@ NOT_LOADED_HELP = (
     "Model not loaded. Train the quick model with `python scripts/train_quick.py` "
     "(or run ml/notebooks/colab_run.ipynb) so that models/active/model.onnx exists, then restart."
 )
+VC_REDIST_URL = "https://aka.ms/vs/17/release/vc_redist.x64.exe"
+
+
+def runtime_help(exc: BaseException, platform: str | None = None) -> str:
+    """Actionable message when ONNX Runtime itself cannot start (the model files are fine)."""
+    platform = platform or sys.platform
+    detail = str(exc).strip()
+    if platform.startswith("win") and "DLL load failed" in detail:
+        return (
+            "The AI engine (ONNX Runtime) could not start on this Windows computer: a Microsoft system "
+            "library it needs is missing or outdated. Fix: install the latest Microsoft Visual C++ "
+            f"Redistributable (x64) from {VC_REDIST_URL}, restart the computer if the installer asks, "
+            "then run start.bat again. If it still fails, see 'Troubleshooting' in README.md. "
+            f"(Technical detail: {detail})"
+        )
+    return (
+        "The AI engine (ONNX Runtime) could not be imported. Re-run the start script so it can reinstall "
+        f"the dependencies; see 'Troubleshooting' in README.md. (Technical detail: {detail})"
+    )
 
 
 @dataclass
@@ -64,7 +84,9 @@ class InferenceService:
             return cls(loaded=False, reason=NOT_LOADED_HELP)
         try:
             import onnxruntime as ort
-
+        except ImportError as exc:  # engine problem (e.g. missing Windows runtime), not a model problem
+            return cls(loaded=False, reason=runtime_help(exc))
+        try:
             options = ort.SessionOptions()
             options.log_severity_level = 3
             session = ort.InferenceSession(str(model_path), options, providers=["CPUExecutionProvider"])

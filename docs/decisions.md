@@ -80,3 +80,12 @@ Naive vs group-aware split: +0.24 accuracy points for the frozen-feature head (9
 (`results/leakage/leakage_summary.json`). The lab→PlantDoc drop is 77 points. The README leads with the
 field gap and reports leakage honestly as a smaller, model-dependent effect. Fine-tuned CNNs (Colab block C)
 may memorize more: PENDING.
+
+## 2026-11-09 · D14 Windows: detect a broken ONNX Runtime at start-up and guide the fix
+A Windows user saw "DLL load failed while importing onnxruntime_pybind11_state", and the app wrongly
+suggested retraining the model. The usual cause is a missing or outdated Microsoft Visual C++
+Redistributable (x64). Now: (1) the backend separates "engine cannot start" from "model missing" and
+shows the fix with the official download link; (2) `scripts/ensure_deps.py` (run by start.bat) test-imports
+ONNX Runtime on every start and, only with the user's consent, installs the runtime with winget or opens
+the download link; (3) README has a Troubleshooting section. Not reproducible on Linux here; covered by a
+unit test that simulates the Windows import error.
