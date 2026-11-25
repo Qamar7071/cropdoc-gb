@@ -89,3 +89,26 @@ shows the fix with the official download link; (2) `scripts/ensure_deps.py` (run
 ONNX Runtime on every start and, only with the user's consent, installs the runtime with winget or opens
 the download link; (3) README has a Troubleshooting section. Not reproducible on Linux here; covered by a
 unit test that simulates the Windows import error.
+
+## 2026-11-25 · D15 Live Scan runs the model on the server, about two frames per second, with a 2-of-3 vote
+**What:** a Live Scan page sends the part of the camera image inside an on-screen box to a new endpoint,
+`POST /api/predict/live` (no saving, small transparent heatmap). The page shows a disease as found only when **2 of the
+last 3 frames** are `confident` about the same class, and keeps it until the window holds no confident frame for it.
+**Why:** single frames can be blurry or caught mid-movement, so answers would flicker; a short vote keeps the screen
+steady while reacting within about a second. Server-side inference reuses the exact same ONNX model, temperature
+and thresholds as the photo scanner (a test checks that both endpoints agree on the same image), so the safety rules
+stay in one place. **Alternatives:** running the model in the browser with onnxruntime-web (works offline on the
+phone, but duplicates preprocessing, calibration and OOD logic in TypeScript and adds a ~12 MB download plus a large
+WASM runtime; possible later); sending every frame (wasteful on phones and Wi-Fi). Live frames get their own rate
+limit bucket (240/min/IP) so they cannot starve photo scans. **Verified:** Playwright with a fake webcam showing a
+PlantVillage test photo (desktop landscape and phone portrait frames) locks on the right class with the real model.
+
+## 2026-11-25 · D16 Phone mode = HTTPS on the local network with a self-signed certificate
+Browsers expose the camera only on secure origins (`https://` or `localhost`), so a phone opening
+`http://192.168.x.x:8000` cannot use Live Scan. `run.py --phone` (`start-phone.bat`, `./start.sh --phone`, `make phone`)
+creates a certificate once in `data/app/certs` (EC P-256, valid 825 days, covering the LAN IPs; recreated when the
+Wi-Fi address changes), serves on `0.0.0.0:8443`, prints the phone address and exposes it at `GET /api/network` so the
+laptop shows a QR code. The phone shows a one-time "not private" warning. Adds the `cryptography` package (wheels for
+Windows, macOS, Linux). **Alternatives:** mkcert (needs a CA installed on every phone: too hard for farmers), a tunnel
+service (sends photos through a third party), cloud deployment (documented in `docs/deploy.md` for use without a laptop).
+When the page is opened over plain HTTP anyway, it explains why and offers "Take a photo" (works everywhere).

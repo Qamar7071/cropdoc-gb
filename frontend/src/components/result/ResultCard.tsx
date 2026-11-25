@@ -64,7 +64,7 @@ export function ResultCard({ result, previewUrl, loading, error, onSave, saving 
             data-testid="confidence-badge"
           >
             <Zap className="h-4 w-4" aria-hidden="true" />
-            {t("result.confidence")}: <span className="latin">{probability(result.confidence)}</span>
+            {t("result.confidence")}: <span dir="ltr" className="latin">{probability(result.confidence)}</span>
           </span>
         )}
       </div>

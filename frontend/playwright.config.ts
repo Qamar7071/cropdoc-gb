@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+import { execFileSync } from "node:child_process";
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -8,6 +9,17 @@ import { join } from "node:path";
 const PORT = Number(process.env.E2E_PORT ?? 8765);
 const PYTHON = process.env.CROPDOC_PYTHON ?? "../.venv/bin/python";
 const dataDir = mkdtempSync(join(tmpdir(), "cropdoc-e2e-"));
+
+// Fake webcam for the live-scanner test: a real PlantVillage test photo shown as a looping video.
+const fakeCamera = join(dataDir, "leaf.y4m");
+execFileSync(PYTHON, ["e2e/make_fake_camera.py", "public/examples/early-blight.jpg", fakeCamera]);
+const fakePhoneCamera = join(dataDir, "leaf-portrait.y4m");
+execFileSync(PYTHON, ["e2e/make_fake_camera.py", "public/examples/early-blight.jpg", fakePhoneCamera, "720", "1280", "contain"]);
+const cameraArgs = (file: string) => [
+  "--use-fake-device-for-media-stream",
+  "--use-fake-ui-for-media-stream",
+  `--use-file-for-fake-video-capture=${file}`,
+];
 
 export default defineConfig({
   testDir: "./e2e",
@@ -23,5 +35,20 @@ export default defineConfig({
     reuseExistingServer: false,
     timeout: 120_000,
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] }, testIgnore: /live\.spec\.ts/ },
+    {
+      name: "live-camera",
+      testMatch: /live\.spec\.ts/,
+      grepInvert: /@phone/,
+      use: { ...devices["Desktop Chrome"], permissions: ["camera"], launchOptions: { args: cameraArgs(fakeCamera) } },
+    },
+    {
+      // a phone held upright: portrait camera frames
+      name: "live-camera-phone",
+      testMatch: /live\.spec\.ts/,
+      grep: /@phone/,
+      use: { ...devices["Desktop Chrome"], permissions: ["camera"], launchOptions: { args: cameraArgs(fakePhoneCamera) } },
+    },
+  ],
 });

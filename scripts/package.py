@@ -2,7 +2,7 @@
 
 Steps: build the frontend → run the tests → refresh docs numbers from results/ → zip.
 The zip contains: backend, built frontend (+ source), ml code, models/active, results (without the
-UI screenshots), scripts, docs, README, MODEL_CARD, start.bat, start.sh, docker-compose.yml.
+UI screenshots), scripts, docs, README, MODEL_CARD, start.bat, start-phone.bat, start.sh, docker-compose.yml.
 Excluded: data (except READMEs), node_modules, virtual environments, caches, .git.
 
     python scripts/package.py                 # full build
@@ -45,7 +45,9 @@ INCLUDE = [
     "requirements-dev.in",
     "requirements-dev.txt",
     "start.bat",
+    "start-phone.bat",
     "start.sh",
+    "Dockerfile",
     "docker-compose.yml",
     ".dockerignore",
     ".gitattributes",

@@ -1,4 +1,4 @@
-import { BarChart3, BookOpen, ChevronDown, FlaskConical, Home, Info, Languages, Mountain, ScanLine } from "lucide-react";
+import { BarChart3, BookOpen, ChevronDown, FlaskConical, Home, Info, Languages, Mountain, ScanLine, Video } from "lucide-react";
 import { NavLink } from "react-router";
 
 import { useI18n } from "../i18n";
@@ -7,6 +7,7 @@ import { Logo } from "./Logo";
 
 export const NAV_ITEMS = [
   { to: "/", key: "nav.home", icon: Home, end: true },
+  { to: "/live", key: "nav.live", icon: Video },
   { to: "/scanner", key: "nav.scanner", icon: ScanLine },
   { to: "/dashboard", key: "nav.dashboard", icon: BarChart3 },
   { to: "/library", key: "nav.library", icon: BookOpen },

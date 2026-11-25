@@ -90,6 +90,33 @@ class PredictResponse(BaseModel):
     disclaimer: str = "General guidance only, not a diagnosis. Please consult an agriculture expert."
 
 
+class LivePredictResponse(BaseModel):
+    """Lightweight answer for one live-camera frame. Never saved; no full-size images."""
+
+    status: Status
+    class_id: str
+    crop: str
+    disease: str
+    healthy: bool
+    confidence: float = Field(..., description="Calibrated probability of the top class.")
+    top3: list[TopPrediction]
+    disease_info: DiseaseBrief
+    heatmap_png: str = Field(
+        ..., description="Base64 PNG (RGBA, 112 px): Grad-CAM with transparency, to draw over the camera."
+    )
+    crop_hint: str | None = None
+    model_version: str
+    inference_ms: float = Field(..., description="Server time spent on this frame, in milliseconds.")
+    disclaimer: str = "General guidance only, not a diagnosis. Please consult an agriculture expert."
+
+
+class NetworkInfo(BaseModel):
+    """How to open the app from a phone on the same Wi-Fi (filled in by `run.py --phone`)."""
+
+    phone_mode: bool
+    urls: list[str] = Field(default_factory=list)
+
+
 class FeedbackIn(BaseModel):
     correct: bool
     correct_class_id: str | None = Field(None, description="Required when correct is false.")

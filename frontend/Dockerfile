@@ -1,5 +1,5 @@
 # Optional split deployment: nginx serves the built frontend and proxies /api to the backend service.
-# Used by `docker compose --profile split up --build` (the default all-in-one image is backend/Dockerfile).
+# Used by `docker compose --profile split up --build` (the default all-in-one image is the root Dockerfile).
 FROM node:22-alpine AS build
 WORKDIR /src
 COPY package.json package-lock.json .npmrc ./

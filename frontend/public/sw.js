@@ -1,6 +1,6 @@
 /* CropDoc GB service worker: makes the app installable and the shell available offline.
    API calls (/api/*) are NEVER cached: predictions and history always come from the server. */
-const CACHE = "cropdoc-shell-v1";
+const CACHE = "cropdoc-shell-v2";
 const SHELL = ["/", "/manifest.webmanifest", "/icons/logo.svg", "/icons/icon-192.png"];
 
 self.addEventListener("install", (event) => {

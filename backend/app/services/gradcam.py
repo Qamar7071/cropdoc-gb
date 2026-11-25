@@ -38,6 +38,17 @@ def heatmap_image(cam: np.ndarray, size: tuple[int, int]) -> Image.Image:
     return Image.fromarray(colormap(big), mode="RGB")
 
 
+def heatmap_rgba(cam: np.ndarray, size: tuple[int, int]) -> Image.Image:
+    """Coloured heatmap whose transparency follows the CAM (for drawing over a live camera view).
+
+    Weak regions are fully transparent, so the farmer still sees the leaf; strong regions glow.
+    """
+    small = Image.fromarray((normalize_cam(cam) * 255).astype(np.uint8), mode="L")
+    big = np.asarray(small.resize(size, Image.Resampling.BILINEAR), dtype=np.float32) / 255.0
+    alpha = (np.clip((big - 0.5) / 0.5, 0.0, 1.0) ** 0.8 * 0.75 * 255).astype(np.uint8)
+    return Image.fromarray(np.dstack([colormap(big), alpha]), mode="RGBA")
+
+
 def overlay(image: Image.Image, heatmap: Image.Image, alpha: float = 0.45) -> Image.Image:
     """Blend the heatmap over the photo."""
     return Image.blend(image.convert("RGB"), heatmap.resize(image.size), alpha)

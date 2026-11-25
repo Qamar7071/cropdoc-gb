@@ -38,7 +38,11 @@ class TokenBucket:
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
-    """Apply a per-IP token bucket to POST requests on the given path prefixes."""
+    """Apply a per-IP token bucket to POST requests on exactly the given paths.
+
+    Exact matching matters: ``/api/predict/live`` has its own, larger bucket and must not also
+    drain the bucket of ``/api/predict``.
+    """
 
     def __init__(self, app, per_minute: int = 30, paths: tuple[str, ...] = ("/api/predict",)):
         super().__init__(app)
@@ -47,7 +51,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         self.bucket = TokenBucket(capacity=max(per_minute, 1), refill_per_second=max(per_minute, 1) / 60.0)
 
     async def dispatch(self, request: Request, call_next) -> Response:
-        if self.enabled and request.method == "POST" and request.url.path.startswith(self.paths):
+        if self.enabled and request.method == "POST" and request.url.path.rstrip("/") in self.paths:
             client = request.client.host if request.client else "unknown"
             if not self.bucket.allow(client):
                 return JSONResponse(

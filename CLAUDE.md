@@ -57,6 +57,7 @@ make data       # download PlantVillage (+ masks) and PlantDoc
 make split      # manifest, duplicate groups, group-aware + naive splits
 make train      # quick CPU model -> models/active (scripts/train_quick.py)
 make api        # run backend on http://localhost:8000 (serves built frontend)
+make phone      # HTTPS on the Wi-Fi (self-signed) so phones can use Live Scan; prints the address
 make web        # Vite dev server (proxy /api -> :8000)
 make test       # backend + ml pytest, frontend vitest
 make lint       # ruff (python) + tsc/eslint (frontend)

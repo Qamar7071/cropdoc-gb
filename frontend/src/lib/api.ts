@@ -70,6 +70,27 @@ export interface PredictResponse {
   disclaimer: string;
 }
 
+export interface LivePredictResponse {
+  status: Status;
+  class_id: string;
+  crop: string;
+  disease: string;
+  healthy: boolean;
+  confidence: number;
+  top3: TopPrediction[];
+  disease_info: PredictResponse["disease_info"];
+  heatmap_png: string;
+  crop_hint: string | null;
+  model_version: string;
+  inference_ms: number;
+  disclaimer: string;
+}
+
+export interface NetworkInfo {
+  phone_mode: boolean;
+  urls: string[];
+}
+
 export interface Feedback {
   correct: boolean;
   correct_class_id: string | null;
@@ -174,7 +195,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
   try {
     response = await fetch(path, init);
-  } catch {
+  } catch (error) {
+    if (init?.signal?.aborted) throw error; // cancelled on purpose (e.g. live scanner stopped)
     throw new ApiError(0, "network");
   }
   if (!response.ok) {
@@ -211,6 +233,13 @@ export const api = {
     form.append("save", String(options.save));
     return request<PredictResponse>("/api/predict", { method: "POST", body: form });
   },
+  predictLive: (frame: Blob, options: { cropHint?: string; signal?: AbortSignal }) => {
+    const form = new FormData();
+    form.append("image", frame, "frame.jpg");
+    if (options.cropHint) form.append("crop_hint", options.cropHint);
+    return request<LivePredictResponse>("/api/predict/live", { method: "POST", body: form, signal: options.signal });
+  },
+  network: () => request<NetworkInfo>("/api/network"),
   scans: (params: {
     q?: string;
     disease?: string;

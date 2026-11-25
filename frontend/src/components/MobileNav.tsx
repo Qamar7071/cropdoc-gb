@@ -1,5 +1,5 @@
-/* Bottom navigation for phones and tablets (< 1024 px), with a centre scan button. */
-import { BarChart3, BookOpen, Camera, FlaskConical, History, Home, Info, Menu, X } from "lucide-react";
+/* Bottom navigation for phones and tablets (< 1024 px), with a centre live-scan button. */
+import { BarChart3, BookOpen, FlaskConical, History, Home, Info, Menu, ScanLine, Video, X } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router";
 
@@ -27,12 +27,12 @@ export function MobileNav() {
             <History className="h-5 w-5" aria-hidden="true" />
             {t("nav.history")}
           </NavLink>
-          <NavLink to="/scanner" className="flex flex-1 flex-col items-center" aria-label={t("nav.scanner")}>
+          <NavLink to="/live" className="flex flex-1 flex-col items-center" aria-label={t("nav.live")} data-testid="mobile-live">
             {({ isActive }) => (
               <span
                 className={`-mt-6 flex h-14 w-14 items-center justify-center rounded-full border-4 border-white shadow-lg ${isActive ? "bg-brand-800" : "bg-brand-700"}`}
               >
-                <Camera className="h-6 w-6 text-white" aria-hidden="true" />
+                <Video className="h-6 w-6 text-white" aria-hidden="true" />
               </span>
             )}
           </NavLink>
@@ -58,6 +58,7 @@ export function MobileNav() {
             </div>
             <ul className="grid gap-1" onClick={() => setOpen(false)}>
               {[
+                { to: "/scanner", key: "nav.scanner", icon: ScanLine },
                 { to: "/library", key: "nav.library", icon: BookOpen },
                 { to: "/field-intelligence", key: "nav.field", icon: FlaskConical },
                 { to: "/about", key: "nav.about", icon: Info },

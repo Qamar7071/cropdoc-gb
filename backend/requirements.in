@@ -7,3 +7,4 @@ sqlalchemy
 pillow
 numpy
 onnxruntime
+cryptography  # self-signed HTTPS certificate for phone mode (start --phone)

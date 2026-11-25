@@ -24,7 +24,7 @@ export function TopPredictions({ items }: { items: TopPrediction[] }) {
                 style={{ width: `${Math.max(2, item.probability * 100)}%` }}
               />
             </span>
-            <span className="text-end text-[15px] font-semibold tabular-nums text-gray-800 latin">{probability(item.probability)}</span>
+            <span className="text-end text-[15px] font-semibold tabular-nums text-gray-800 latin"><bdi dir="ltr">{probability(item.probability)}</bdi></span>
           </li>
         ))}
       </ul>

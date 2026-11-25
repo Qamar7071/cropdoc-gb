@@ -58,6 +58,11 @@ class Settings:
         )
     )
     rate_limit_per_minute: int = int(os.environ.get("CROPDOC_RATE_LIMIT_PER_MINUTE", "30"))
+    # live camera mode sends ~1-2 small frames per second, so it gets its own, larger bucket
+    live_rate_limit_per_minute: int = int(os.environ.get("CROPDOC_LIVE_RATE_LIMIT_PER_MINUTE", "240"))
+    # set by `run.py --phone`: the app is served over HTTPS on the local network for phones
+    phone_mode: bool = field(default_factory=lambda: os.environ.get("CROPDOC_PHONE_MODE", "") == "1")
+    public_urls: list[str] = field(default_factory=lambda: _env_list("CROPDOC_PUBLIC_URLS", []))
 
     @property
     def db_url(self) -> str:

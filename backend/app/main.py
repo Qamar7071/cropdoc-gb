@@ -53,6 +53,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         per_minute=settings.rate_limit_per_minute,
         paths=("/api/predict", "/api/contribute"),
     )
+    app.add_middleware(
+        RateLimitMiddleware,
+        per_minute=settings.live_rate_limit_per_minute,
+        paths=("/api/predict/live",),
+    )
     app.include_router(api_router, prefix="/api")
     _mount_frontend(app, settings.frontend_dist)
     return app

@@ -5,8 +5,9 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends
 
 from app import __version__
-from app.api.deps import get_inference
-from app.schemas import ClassOut, Health, ModelInfo
+from app.api.deps import get_inference, get_settings
+from app.config import Settings
+from app.schemas import ClassOut, Health, ModelInfo, NetworkInfo
 from app.services.inference import InferenceService
 
 router = APIRouter(tags=["health"])
@@ -39,4 +40,12 @@ def model_info(inference: InferenceService = Depends(get_inference)) -> ModelInf
         crops=inference.crops,
         model_card=inference.model_card,
         calibration=inference.calibration,
+    )
+
+
+@router.get("/network", response_model=NetworkInfo)
+def network(settings: Settings = Depends(get_settings)) -> NetworkInfo:
+    """Addresses a phone on the same Wi-Fi can open (only in `start --phone` mode)."""
+    return NetworkInfo(
+        phone_mode=settings.phone_mode, urls=settings.public_urls if settings.phone_mode else []
     )

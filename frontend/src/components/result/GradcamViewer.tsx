@@ -58,7 +58,7 @@ export function GradcamViewer({ overlay, heatmap, modelView }: { overlay: string
               />
             </div>
             <label className="mt-4 block text-sm font-semibold text-gray-800">
-              {t("result.opacity")}: <span className="latin">{opacity}%</span>
+              {t("result.opacity")}: <span dir="ltr" className="latin">{opacity}%</span>
               <input
                 type="range"
                 min={0}

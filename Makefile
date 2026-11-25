@@ -6,7 +6,7 @@ export PYTHONPATH := $(CURDIR)/ml/src:$(CURDIR)/backend
 
 HAS_WEB := $(wildcard frontend/package.json)
 
-.PHONY: help setup data split train api web web-build test test-py test-web lint format e2e package \
+.PHONY: help setup data split train api phone web web-build test test-py test-web lint format e2e package \
         baseline leakage background sweep sweep-status promote eval calibrate ood shift fewshot explain export \
         report research smoke
 
@@ -31,6 +31,9 @@ train: ## quick CPU model -> models/active (real metrics in model_card.json)
 # ----------------------------------------------------------------------------- app
 api: ## run the app (API + built frontend) at http://127.0.0.1:8000
 	$(PY) backend/run.py --no-browser
+
+phone: ## run over HTTPS on your Wi-Fi so a phone can use the live camera (prints the address)
+	$(PY) backend/run.py --phone --no-browser
 
 web: ## frontend dev server with hot reload (proxies /api to :8000)
 	cd frontend && $(NPM) run dev

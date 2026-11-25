@@ -175,6 +175,7 @@ class InferenceService:
             },
             "crop_hint": crop_hint,
             "model_version": self.version,
+            "cam": cams[0, top],
             "images": {
                 "model_view": model_view,
                 "heatmap": heat,

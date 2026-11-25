@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Camera, FlaskConical, Microscope, Sprout } from "lucide-react";
+import { ArrowRight, Camera, FlaskConical, Microscope, Sprout, Video } from "lucide-react";
 import { Link } from "react-router";
 
 import { Hero } from "../components/Hero";
@@ -51,13 +51,21 @@ export function HomePage() {
               <p className="mt-3 text-lg text-gray-700">{t("home.lead")}</p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
-                  to="/scanner"
+                  to="/live"
                   className="inline-flex items-center gap-2 rounded-xl bg-brand-700 px-6 py-3 text-base font-semibold text-white shadow hover:bg-brand-800"
+                  data-testid="home-live-cta"
+                >
+                  <Video className="h-5 w-5" aria-hidden="true" />
+                  {t("home.liveCta")}
+                  <ArrowRight className="h-5 w-5 rtl:rotate-180" aria-hidden="true" />
+                </Link>
+                <Link
+                  to="/scanner"
+                  className="inline-flex items-center gap-2 rounded-xl border border-brand-700 px-5 py-3 font-semibold text-brand-800 hover:bg-brand-50"
                   data-testid="home-cta"
                 >
                   <Camera className="h-5 w-5" aria-hidden="true" />
                   {t("home.cta")}
-                  <ArrowRight className="h-5 w-5 rtl:rotate-180" aria-hidden="true" />
                 </Link>
                 <Link
                   to="/field-intelligence"

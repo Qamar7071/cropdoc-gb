@@ -7,7 +7,7 @@ Base URL when running locally: `http://127.0.0.1:8000`. Interactive OpenAPI docs
 
 ### `GET /api/health`
 ```json
-{ "status": "ok", "app_version": "1.0.0", "model_loaded": true, "model_version": "quick-mbv3l-2026-11-09",
+{ "status": "ok", "app_version": "1.1.0", "model_loaded": true, "model_version": "quick-mbv3l-2026-11-09",
   "reason": null, "num_classes": 38, "thresholds_provisional": true,
   "metrics": { "test_accuracy": 0.983, "test_macro_f1": 0.981, "test_n": 8145, "source": "results/quick_model/metrics.json" } }
 ```
@@ -55,8 +55,34 @@ Errors:
 - 413: the file or the image dimensions are too large.
 - 415: not a valid JPG/PNG.
 - 422: unknown crop_hint or district.
-- 429: rate limit (default 30 per minute per IP on `/api/predict` and `/api/contribute`).
+- 429: rate limit (default 30 per minute per IP on `/api/predict` and `/api/contribute`; live frames have their own bucket, below).
 - 503: no model is loaded. A prediction is never invented.
+
+### `POST /api/predict/live` (multipart/form-data)
+One frame from the live camera. Same model, temperature, thresholds and `status` rules as `/api/predict`, but
+**nothing is saved** and no full-size images are returned, so a phone can call it about twice a second.
+
+| field | type | notes |
+|---|---|---|
+| `image` | file | JPG or PNG, ≤ 5 MB; the app sends the scan-box area as a ~384 px square JPEG |
+| `crop_hint` | string, optional | as above |
+
+Response (abridged; numbers show the shape only):
+```json
+{ "status": "confident", "class_id": "Potato___Early_blight", "crop": "Potato", "disease": "Early blight",
+  "healthy": false, "confidence": 0.97, "top3": [ … ], "disease_info": { … },
+  "heatmap_png": "<base64 RGBA PNG, 112×112: Grad-CAM with transparency, drawn over the camera view>",
+  "crop_hint": null, "model_version": "quick-mbv3l-2026-11-09", "inference_ms": 12.3,
+  "disclaimer": "General guidance only, not a diagnosis. Please consult an agriculture expert." }
+```
+`inference_ms` is the server time measured for this frame. The app decides what to show from several frames
+(see `frontend/src/lib/live.ts`: a disease is shown as found only when 2 of the last 3 frames agree confidently).
+Rate limit: `CROPDOC_LIVE_RATE_LIMIT_PER_MINUTE` (default 240 per IP), separate from the photo scanner's limit.
+
+### `GET /api/network`
+`{ "phone_mode": true, "urls": ["https://192.168.1.20:8443"] }` when started with `run.py --phone`
+(`start-phone.bat`, `./start.sh --phone`), otherwise `{ "phone_mode": false, "urls": [] }`. The Live Scan page turns the
+first URL into a QR code for the phone.
 
 ## History
 

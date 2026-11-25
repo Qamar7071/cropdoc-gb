@@ -11,6 +11,7 @@ import { FieldIntelPage } from "./pages/FieldIntelPage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { HomePage } from "./pages/HomePage";
 import { LibraryPage } from "./pages/LibraryPage";
+import { LiveScanPage } from "./pages/LiveScanPage";
 import { ScanDetailPage } from "./pages/ScanDetailPage";
 import { ScannerPage } from "./pages/ScannerPage";
 
@@ -32,6 +33,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/scanner" element={<ScannerPage />} />
+          <Route path="/live" element={<LiveScanPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/library" element={<LibraryPage />} />
           <Route path="/library/:id" element={<DiseaseDetailPage />} />

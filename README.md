@@ -1,12 +1,20 @@
 # CropDoc GB: AI Plant Disease Scanner for Gilgit-Baltistan
 
-Photograph a leaf and CropDoc GB names the likely disease. It shows **where the AI looked**
+Point your phone or laptop camera at a leaf and CropDoc GB names the likely disease **live, on screen,
+like a scanner**, or upload a photo for a full report. It shows **where the AI looked**
 (Grad-CAM heatmap) and gives an **honest confidence** with a "not sure, ask an expert" warning. It
 also offers **general care guidance** with sources. It runs privately on your own computer. Behind
 the app is a measured study of the problem most plant-disease demos hide: **models trained on clean
 lab photos fail on real field photos.**
 
 > General guidance only, not a diagnosis. Please consult an agriculture expert.
+
+| Live Scan on a laptop | Live Scan on a phone |
+|---|---|
+| ![Live Scan on a laptop: the camera view with the scan box and heatmap, the answer and guidance beside it](docs/img/live-desktop.jpg) | <img src="docs/img/live-phone.jpg" alt="Live Scan on a phone: the box turns green when the answer is stable" width="260"> |
+
+The screenshots come from the automated end-to-end test (`frontend/e2e/live.spec.ts`): a fake webcam shows a PlantVillage
+*test* photo of potato early blight and the real model answers every frame.
 
 ![Disease Scanner](docs/img/scanner-desktop.jpg)
 
@@ -21,6 +29,32 @@ lab photos fail on real field photos.**
 The first start installs about 50 MB of libraries (internet needed), then the browser opens
 **http://127.0.0.1:8000**. Later starts work offline. Docker: `docker compose up --build`.
 
+### Live Scan (camera)
+Open **Live Scan** (top menu, or the green camera button at the bottom on a phone) and allow the camera.
+1. Hold the camera about a hand-span from **one** leaf and fit it inside the box.
+2. About twice a second the box's contents go to the model (same model, calibration and safety thresholds as the photo
+   scanner). The box turns **green** and the disease name appears once **2 of the last 3 frames agree** confidently;
+   amber means "not sure, move closer", red means "no supported leaf".
+3. The panel shows the disease, crop, calibrated confidence, top-3, description and cultural guidance; the
+   heatmap button shows where the model is looking.
+4. Tap the round button to **save a full report** (with Grad-CAM) to My Scoutings.
+
+Live frames are never stored. Buttons: pause, heatmap, flashlight (phones that support it), switch camera, take a photo.
+
+### Use it on your phone
+Browsers allow the live camera only on `https://` addresses (or on `localhost`). So for a phone on the same Wi-Fi:
+
+| Windows | macOS / Linux |
+|---|---|
+| Double-click **`start-phone.bat`** | Run `./start.sh --phone` |
+
+The console prints an address such as `https://192.168.1.20:8443`, and **Live Scan on the laptop shows a QR code** for
+it. Open it on the phone. The first time the phone warns "connection not private" because the computer made its own
+certificate: tap **Advanced → Proceed**. Photos stay on your Wi-Fi. If Windows asks about the firewall, allow
+**Private networks**. On the phone, "Add to Home screen" installs it like an app.
+
+To use it anywhere without the laptop, deploy it to a free HTTPS host: see [`docs/deploy.md`](docs/deploy.md).
+
 ## Troubleshooting
 - **"The AI engine (ONNX Runtime) could not start … DLL load failed" (Windows):** install the latest
   [Microsoft Visual C++ Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe), restart if asked,
@@ -32,6 +66,13 @@ The first start installs about 50 MB of libraries (internet needed), then the br
 - **The browser does not open:** go to http://127.0.0.1:8000 yourself. If port 8000 is busy, the console
   shows the port it used instead.
 - **"Model not loaded":** the `models/active/` folder is missing or incomplete; unzip the package again.
+- **Live Scan says "Live camera needs a secure link" on a phone:** you opened an `http://` address. Start with
+  `start-phone.bat` / `./start.sh --phone` and open the `https://` address it prints (or deploy, `docs/deploy.md`).
+  "Take a photo" still works meanwhile.
+- **"Camera permission is blocked":** tap the lock icon in the address bar → Permissions → Camera → Allow, then reload.
+- **"Camera is busy":** close video-call or camera apps that are using it.
+- **The phone cannot open the address:** both devices must be on the same Wi-Fi (not a guest network that isolates
+  devices), and the firewall must allow Python on private networks.
 
 ## The headline finding: the lab → field gap
 The deployed model is excellent on lab photos and poor on real-world photos of the **same 28 diseases**:
@@ -97,7 +138,10 @@ unsure, can help a farmer decide when to call the extension officer. It is only 
 trusted on *real* field photos, which is why the field study comes first.
 
 ## What the app does
-- **Scan:** drag-and-drop, file picker or camera; optional crop hint; top-3 predictions with calibrated probabilities.
+- **Live Scan:** point the camera at a leaf and the answer appears on screen within about a second, with a scan box
+  that turns green when 2 of the last 3 frames agree, a live heatmap, flashlight and camera switch. Works on laptops
+  (webcam) and phones (back camera); one tap saves a full report.
+- **Scan a photo:** drag-and-drop, file picker or camera; optional crop hint; top-3 predictions with calibrated probabilities.
 - **Explain:** a Grad-CAM heatmap with an opacity slider.
 - **Be honest:** "Not sure, please consult an agriculture expert" and "unsupported" warnings (non-leaves, crops such as apricot that the model does not know).
 - **Remember:** My Scoutings history (search, filter, compare with a reference photo, delete, feedback) and a dashboard computed only from your saved scans.
@@ -188,7 +232,7 @@ products or doses (enforced by a test). Photos and history stay on the device. C
 only with consent and after an expert has checked the label.
 
 ## Reproduce
-- **App:** the quick start above.
+- **App:** the quick start above (`make phone` = phone mode for developers).
 - **Developers:** `make setup` (Python 3.11 + Node 22), `make data` (PlantVillage + PlantDoc, no API keys), `make split`,
   `make train` (about 15 minutes on 4 CPU cores), `make research` (every CPU experiment), `make report`, `make test`,
   `make e2e`, `make package`.
@@ -199,11 +243,11 @@ only with consent and after an expert has checked the label.
 ## Project structure
 ```
 backend/   FastAPI app (ONNX Runtime inference, Grad-CAM, SQLite history, upload security)
-frontend/  React + Vite + TypeScript + Tailwind (7 pages, EN/UR, PWA), vitest + Playwright
+frontend/  React + Vite + TypeScript + Tailwind (8 pages incl. Live Scan, EN/UR, PWA), vitest + Playwright
 ml/        cropdoc package: data, models, train, sweep, evaluate, calibration, research/*, configs, Colab notebook
 models/active/  deployed ONNX model + model card + calibration (thresholds)
 results/   every metric and plot as JSON/CSV/PNG: the only source of numbers in the docs and UI
-docs/      PLAN, decisions, preregistration, api, field_collection_guide
+docs/      PLAN, decisions, preregistration, api, deploy, field_collection_guide
 scripts/   download_data, train_quick, package, fresh_install_test, prepare_ui_assets
 ```
 

@@ -67,7 +67,7 @@ export function ScanDetailPage() {
                   {s.disease} <span className="text-base font-normal text-gray-700">({crop(s.crop)})</span>
                 </p>
                 <p className="text-sm text-gray-700">
-                  {t("result.confidence")}: <span className="latin">{probability(s.confidence)}</span> · {t(`status.${s.status}`)}
+                  {t("result.confidence")}: <span dir="ltr" className="latin">{probability(s.confidence)}</span> · {t(`status.${s.status}`)}
                 </p>
               </div>
               <FeedbackControl scanId={s.id} existing={s.feedback} />
