@@ -1,10 +1,32 @@
 [project]
 name = "cropdoc-gb"
-version = "1.1.0"
+version = "1.1.1"
 description = "CropDoc GB: AI plant-disease scanner for Gilgit-Baltistan (FastAPI + React + ONNX) with a lab-to-field research study."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
+# Runtime of the web app only (no PyTorch). Used by cloud hosts that install from pyproject.toml
+# (Vercel). The full pinned set lives in backend/requirements.txt (a test keeps both in sync).
+dependencies = [
+    "fastapi==0.162.2",
+    "uvicorn==0.54.0",
+    "python-multipart==0.0.33",
+    "pydantic==2.14.3",
+    "sqlalchemy==2.1.8",
+    "pillow==13.0.0",
+    "numpy==2.4.6; python_full_version < '3.12'",
+    "numpy==2.5.4; python_full_version >= '3.12'",
+    "onnxruntime==1.31.1",
+]
+
+[project.optional-dependencies]
+phone = ["cryptography==50.0.2"]  # self-signed HTTPS for `start --phone` (installed by start.bat/start.sh)
+
+[tool.vercel]
+entrypoint = "index:app"  # root index.py; see docs/deploy.md
+
+[tool.uv]
+package = false  # this repository is an app, not an installable library
 
 [tool.ruff]
 line-length = 110

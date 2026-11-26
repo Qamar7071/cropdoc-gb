@@ -12,20 +12,28 @@ from app.services.diseases import DiseaseLibrary
 from app.services.inference import InferenceService
 
 
+def _ready(request: Request):
+    """App state, loading it on first use if the host skipped the start-up (lifespan) step."""
+    from app.main import ensure_ready  # local import: app.main imports this module's routers
+
+    ensure_ready(request.app)
+    return request.app.state
+
+
 def get_settings(request: Request) -> Settings:
     return request.app.state.settings
 
 
 def get_inference(request: Request) -> InferenceService:
-    return request.app.state.inference
+    return _ready(request).inference
 
 
 def get_diseases(request: Request) -> DiseaseLibrary:
-    return request.app.state.diseases
+    return _ready(request).diseases
 
 
 def get_session(request: Request) -> Iterator[Session]:
-    session = request.app.state.session_factory()
+    session = _ready(request).session_factory()
     try:
         yield session
     finally:

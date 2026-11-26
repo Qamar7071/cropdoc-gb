@@ -34,6 +34,9 @@ class Health(BaseModel):
         default_factory=dict, description="Copied from models/active/model_card.json."
     )
     thresholds_provisional: bool | None = None
+    temporary_storage: bool = Field(
+        False, description="True on serverless hosts where saved scans can disappear after a restart."
+    )
 
 
 class ClassOut(BaseModel):

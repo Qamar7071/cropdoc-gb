@@ -44,6 +44,13 @@ test("live scan: camera frames get a stable answer, then a saved full report", a
 
   // the round button saves a full report (with Grad-CAM) to history and opens it
   await page.getByTestId("live-capture").click();
+  const report = page.getByTestId("live-report");
+  await expect(report).toBeVisible({ timeout: 30_000 });
+  await expect(report.getByTestId("disease-name")).toHaveText("Early blight");
+  await expect(report.getByTestId("disclaimer")).toBeVisible();
+  await page.screenshot({ path: `${SHOTS}/live-report-1440.jpg`, type: "jpeg", quality: 80 });
+  // the report was also saved: it opens from My Scoutings
+  await report.getByTestId("live-report-history").click();
   await page.waitForURL(/\/history\/[0-9a-f]{32}$/, { timeout: 30_000 });
   await expect(page.getByText("Early blight").first()).toBeVisible();
   await expect(page.getByTestId("disclaimer")).toBeVisible();

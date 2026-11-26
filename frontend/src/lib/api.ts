@@ -11,6 +11,8 @@ export interface Health {
   num_classes: number;
   metrics: Record<string, number | string>;
   thresholds_provisional: boolean | null;
+  /** True on serverless hosts (Vercel) where saved scans can disappear and are shared by all visitors. */
+  temporary_storage?: boolean;
 }
 
 export interface ClassInfo {

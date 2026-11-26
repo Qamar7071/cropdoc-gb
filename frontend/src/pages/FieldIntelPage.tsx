@@ -20,6 +20,7 @@ import { PageShell } from "../components/PageShell";
 import { Button, Card, CardTitle, ErrorBanner, IconBubble, PendingNotice, Skeleton } from "../components/ui";
 import { useI18n } from "../i18n";
 import { api, type FieldSection } from "../lib/api";
+import { prepareUpload } from "../lib/files";
 import { asNumber, decimal, percent } from "../lib/format";
 import { useDistrict } from "../state/district";
 
@@ -297,7 +298,9 @@ function ContributeForm() {
   const [label, setLabel] = useState("");
   const [consent, setConsent] = useState(false);
   const model = useQuery({ queryKey: ["model"], queryFn: api.model, staleTime: Infinity });
-  const mutation = useMutation({ mutationFn: () => api.contribute(file as File, label || "unknown", consent, district || undefined) });
+  const mutation = useMutation({
+    mutationFn: async () => api.contribute(await prepareUpload(file as File), label || "unknown", consent, district || undefined),
+  });
   const submit = (event: FormEvent) => {
     event.preventDefault();
     if (file && consent) mutation.mutate();

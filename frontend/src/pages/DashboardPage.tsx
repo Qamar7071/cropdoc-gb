@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { PageShell } from "../components/PageShell";
-import { Card, CardTitle, EmptyState, ErrorBanner, Skeleton } from "../components/ui";
+import { Card, CardTitle, EmptyState, ErrorBanner, Skeleton, TemporaryStorageNotice } from "../components/ui";
 import { useI18n } from "../i18n";
 import { api, type CountItem } from "../lib/api";
 
@@ -41,6 +41,9 @@ export function DashboardPage() {
 
   return (
     <PageShell title={t("dashboard.title")}>
+      <div className="mb-4">
+        <TemporaryStorageNotice />
+      </div>
       {stats.isPending && <Skeleton className="h-64 w-full" />}
       {stats.isError && <ErrorBanner error={stats.error} onRetry={() => stats.refetch()} />}
       {stats.data && stats.data.total_scans === 0 && (

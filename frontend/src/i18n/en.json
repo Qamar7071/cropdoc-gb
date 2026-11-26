@@ -27,7 +27,7 @@
   "upload.choose": "Choose File",
   "upload.camera": "Camera",
   "upload.analyze": "Analyze",
-  "upload.formats": "Supported formats: JPG, PNG | Max size: 5MB",
+  "upload.formats": "Supported formats: JPG, PNG | Large photos are reduced automatically",
   "upload.change": "Change photo",
   "upload.save": "Save to My Scoutings",
   "upload.cropHint": "Crop (optional)",
@@ -35,7 +35,7 @@
   "upload.quickExamples": "Quick Examples",
   "upload.examplesNote": "Real photos from the PlantVillage test split (never used for training).",
   "upload.errorType": "Only JPG and PNG images are supported.",
-  "upload.errorSize": "The file is larger than 5 MB.",
+  "upload.errorSize": "The file is larger than 25 MB.",
   "upload.preview": "Selected leaf photo",
   "upload.dropzoneLabel": "Upload a leaf photo: drop a file here or press Enter to choose one",
   "camera.title": "Take a leaf photo",
@@ -260,5 +260,8 @@
   "phone.warning": "First time only: the phone says \"connection not private\". Tap Advanced → Proceed. The certificate is made by this computer and data stays on your Wi-Fi.",
   "phone.howTo": "To scan with a phone on the same Wi-Fi, close the app and start it in phone mode. On Windows double-click:",
   "phone.howToMac": "Mac/Linux: ./start.sh --phone. Then scan the QR code shown here with your phone.",
-  "home.liveCta": "Start live scan"
+  "home.liveCta": "Start live scan",
+  "live.openInHistory": "View in My Scoutings",
+  "live.backToScan": "Back to live scan",
+  "storage.temporary": "Online demo: saved scans are kept only for a short time (the server restarts) and everyone using this link sees the same list. For a private, lasting history, run CropDoc GB on your own computer (start.bat / start.sh)."
 }

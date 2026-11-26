@@ -112,3 +112,21 @@ laptop shows a QR code. The phone shows a one-time "not private" warning. Adds t
 Windows, macOS, Linux). **Alternatives:** mkcert (needs a CA installed on every phone: too hard for farmers), a tunnel
 service (sends photos through a third party), cloud deployment (documented in `docs/deploy.md` for use without a laptop).
 When the page is opened over plain HTTP anyway, it explains why and offers "Take a photo" (works everywhere).
+
+## 2026-11-26 · D17 Vercel support: same app as a serverless function, with honest limits
+**What happened:** the owner deployed the repository to Vercel and it did not run: Vercel runs serverless functions,
+and the repository had no entry point or dependency list it could use (only `backend/requirements.txt` and a start
+script). **Changes:** a root `index.py` exposes the FastAPI app; `pyproject.toml` declares the runtime libraries
+(pinned like `backend/requirements.txt`, a test keeps them equal; no PyTorch; `[tool.vercel] entrypoint`);
+`vercel.json` builds the web app; `.vercelignore` leaves out training code and datasets. On Vercel (`VERCEL` env var)
+data goes to `/tmp/cropdoc`, the rate limiter uses the visitor IP from the proxy headers, the model also loads on the
+first request if the host skips the start-up event, and `/api/health` reports `temporary_storage: true` so the UI
+warns that saved scans are temporary and shared. Because requests are capped at 4.5 MB, the browser now shrinks
+photos above 3.5 MB to at most 2048 px JPEG before upload (useful on mobile data everywhere). The Live Scan full
+report is shown from the server's answer in a dialog instead of re-reading it from history, so it works when saved
+data lives on another copy of the function. **Verified here:** a rehearsal with the upload set from `.vercelignore`,
+Python 3.12 (Vercel's default), dependencies installed from `pyproject.toml` (177 MB, limit 500 MB), a read-only
+project folder and an unprivileged user: pages, assets, live scan, saving, history and research data all respond.
+**Not verified here:** a real Vercel build (vercel.com is not reachable from this environment).
+**Alternatives:** frontend on Vercel + API elsewhere (two deployments and CORS for a beginner); recommending only
+Render / Hugging Face Spaces (kept as the first choice in `docs/deploy.md` because history persists there).

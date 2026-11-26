@@ -44,17 +44,35 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
     drain the bucket of ``/api/predict``.
     """
 
-    def __init__(self, app, per_minute: int = 30, paths: tuple[str, ...] = ("/api/predict",)):
+    def __init__(
+        self,
+        app,
+        per_minute: int = 30,
+        paths: tuple[str, ...] = ("/api/predict",),
+        trust_proxy_headers: bool = False,
+    ):
         super().__init__(app)
         self.paths = paths
+        self.trust_proxy_headers = trust_proxy_headers
         self.enabled = per_minute > 0
         self.bucket = TokenBucket(capacity=max(per_minute, 1), refill_per_second=max(per_minute, 1) / 60.0)
 
     async def dispatch(self, request: Request, call_next) -> Response:
-        if self.enabled and request.method == "POST" and request.url.path.rstrip("/") in self.paths:
-            client = request.client.host if request.client else "unknown"
-            if not self.bucket.allow(client):
-                return JSONResponse(
-                    {"detail": "Too many requests. Please wait a minute and try again."}, status_code=429
-                )
+        limited = self.enabled and request.method == "POST" and request.url.path.rstrip("/") in self.paths
+        if limited and not self.bucket.allow(client_key(request, self.trust_proxy_headers)):
+            return JSONResponse(
+                {"detail": "Too many requests. Please wait a minute and try again."}, status_code=429
+            )
         return await call_next(request)
+
+
+def client_key(request: Request, trust_proxy_headers: bool = False) -> str:
+    """Who is asking: the connecting IP, or (behind a trusted hosting proxy) the visitor's IP."""
+    if trust_proxy_headers:
+        real = request.headers.get("x-real-ip", "").strip()
+        if real:
+            return real
+        forwarded = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+        if forwarded:
+            return forwarded
+    return request.client.host if request.client else "unknown"

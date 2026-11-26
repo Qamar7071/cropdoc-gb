@@ -1,17 +1,18 @@
 /* Live Scan: point the camera at a leaf and the answer appears on screen, like a scanner. */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Camera, Lock, RotateCcw, ScanLine, VideoOff } from "lucide-react";
+import { Camera, History, Lock, RotateCcw, ScanLine, VideoOff, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { LiveDetails } from "../components/live/LiveDetails";
 import { LiveViewport } from "../components/live/LiveViewport";
 import { PhoneConnect } from "../components/live/PhoneConnect";
+import { ResultCard } from "../components/result/ResultCard";
 import { useCamera, type CameraProblem } from "../components/live/useCamera";
 import { canvasToBlob, cropReticle, grabReticle, useLiveScan } from "../components/live/useLiveScan";
 import { Button } from "../components/ui";
 import { useI18n } from "../i18n";
-import { api, ApiError } from "../lib/api";
+import { api, ApiError, type PredictResponse } from "../lib/api";
 import { checkFile } from "../lib/files";
 import { useDistrict } from "../state/district";
 
@@ -31,10 +32,12 @@ export function LiveScanPage() {
   const [cropHint, setCropHint] = useState("");
   const [still, setStill] = useState<{ file: File; url: string } | null>(null);
   const [stillError, setStillError] = useState<unknown>(null);
+  // the full report is shown straight from the server's answer (works even where saved scans are temporary)
+  const [fullReport, setFullReport] = useState<{ result: PredictResponse; url: string } | null>(null);
 
   const model = useQuery({ queryKey: ["model"], queryFn: api.model, staleTime: Infinity });
   const camera = useCamera(videoRef, still === null);
-  const running = camera.stream !== null && !paused && still === null;
+  const running = camera.stream !== null && !paused && still === null && fullReport === null;
   const live = useLiveScan({ video: videoRef, view: viewRef, running, cropHint });
   const { liveView, showStill, reset } = live;
 
@@ -90,14 +93,20 @@ export function LiveScanPage() {
       const blob = canvas && (await canvasToBlob(canvas, 0.92));
       if (!blob) throw new ApiError(400, t("live.noFrame"));
       const file = new File([blob], "live-scan.jpg", { type: "image/jpeg" });
-      return api.predict(file, { cropHint: cropHint || undefined, district: district || undefined, save: true });
+      const result = await api.predict(file, { cropHint: cropHint || undefined, district: district || undefined, save: true });
+      return { result, url: URL.createObjectURL(blob) };
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["scans"] });
       queryClient.invalidateQueries({ queryKey: ["stats"] });
-      if (data.scan_id) navigate(`/history/${data.scan_id}`);
+      setFullReport(data);
     },
   });
+
+  function closeReport() {
+    if (fullReport) URL.revokeObjectURL(fullReport.url);
+    setFullReport(null);
+  }
 
   function acceptPhoto(file: File | undefined) {
     if (!file) return;
@@ -184,6 +193,26 @@ export function LiveScanPage() {
           </div>
         </div>
       </div>
+
+      {fullReport && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-label={t("result.title")} data-testid="live-report">
+          <div className="max-h-[94dvh] w-full max-w-5xl overflow-y-auto rounded-t-3xl bg-brand-50 p-3 sm:rounded-3xl sm:p-4">
+            <div className="mb-3 flex flex-wrap items-center justify-end gap-2">
+              {fullReport.result.scan_id && (
+                <Button variant="secondary" onClick={() => navigate(`/history/${fullReport.result.scan_id}`)} data-testid="live-report-history">
+                  <History className="h-4 w-4" aria-hidden="true" />
+                  {t("live.openInHistory")}
+                </Button>
+              )}
+              <Button variant="primary" onClick={closeReport} data-testid="live-report-close">
+                <X className="h-4 w-4" aria-hidden="true" />
+                {t("live.backToScan")}
+              </Button>
+            </div>
+            <ResultCard result={fullReport.result} previewUrl={fullReport.url} loading={false} error={null} />
+          </div>
+        </div>
+      )}
 
       <input
         ref={photoInput}

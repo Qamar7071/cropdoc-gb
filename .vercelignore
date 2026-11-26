@@ -1,0 +1,15 @@
+# Keep the Vercel upload small: only the web app, the model and the result files it reads.
+.venv
+data
+ml
+design
+dist
+docs
+scripts
+results/ui
+backend/tests
+frontend/node_modules
+frontend/dist
+frontend/test-results
+.github
+*.ipynb

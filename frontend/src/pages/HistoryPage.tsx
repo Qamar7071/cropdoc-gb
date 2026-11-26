@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 import { PageShell } from "../components/PageShell";
-import { Button, EmptyState, ErrorBanner, Skeleton } from "../components/ui";
+import { Button, EmptyState, ErrorBanner, Skeleton, TemporaryStorageNotice } from "../components/ui";
 import { useI18n } from "../i18n";
 import { api, type ScanSummary } from "../lib/api";
 import { formatDate, probability } from "../lib/format";
@@ -99,6 +99,7 @@ export function HistoryPage() {
   return (
     <PageShell title={t("history.title")}>
       <div className="mx-auto max-w-2xl space-y-4">
+        <TemporaryStorageNotice />
         <div className="flex gap-2">
           <label className="relative flex-1">
             <span className="sr-only">{t("history.search")}</span>

@@ -53,7 +53,8 @@ it. Open it on the phone. The first time the phone warns "connection not private
 certificate: tap **Advanced → Proceed**. Photos stay on your Wi-Fi. If Windows asks about the firewall, allow
 **Private networks**. On the phone, "Add to Home screen" installs it like an app.
 
-To use it anywhere without the laptop, deploy it to a free HTTPS host: see [`docs/deploy.md`](docs/deploy.md).
+To use it anywhere without the laptop, deploy it to a free HTTPS host (Hugging Face Spaces, Render or Vercel):
+see [`docs/deploy.md`](docs/deploy.md).
 
 ## Troubleshooting
 - **"The AI engine (ONNX Runtime) could not start … DLL load failed" (Windows):** install the latest
@@ -71,6 +72,9 @@ To use it anywhere without the laptop, deploy it to a free HTTPS host: see [`doc
   "Take a photo" still works meanwhile.
 - **"Camera permission is blocked":** tap the lock icon in the address bar → Permissions → Camera → Allow, then reload.
 - **"Camera is busy":** close video-call or camera apps that are using it.
+- **Deployed on Vercel but it does not work:** set Framework Preset to `FastAPI` (or `Other`) and Root Directory to the
+  repository root (not `frontend`), then redeploy without the build cache. Check `https://<project>.vercel.app/api/health`.
+  Details: [`docs/deploy.md`](docs/deploy.md#option-c-vercel-free-serverless).
 - **The phone cannot open the address:** both devices must be on the same Wi-Fi (not a guest network that isolates
   devices), and the firewall must allow Python on private networks.
 

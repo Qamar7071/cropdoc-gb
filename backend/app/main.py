@@ -6,6 +6,7 @@ One process serves everything: the JSON API under ``/api`` and the built React a
 
 from __future__ import annotations
 
+import threading
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -29,10 +30,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        settings.ensure_dirs()
-        app.state.session_factory = init_db(settings.db_url)
-        app.state.inference = InferenceService.load(settings.model_dir)
-        app.state.diseases = DiseaseLibrary.load(settings.diseases_file)
+        ensure_ready(app)
         yield
 
     app = FastAPI(
@@ -52,15 +50,39 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         RateLimitMiddleware,
         per_minute=settings.rate_limit_per_minute,
         paths=("/api/predict", "/api/contribute"),
+        trust_proxy_headers=settings.trust_proxy_headers,
     )
     app.add_middleware(
         RateLimitMiddleware,
         per_minute=settings.live_rate_limit_per_minute,
         paths=("/api/predict/live",),
+        trust_proxy_headers=settings.trust_proxy_headers,
     )
     app.include_router(api_router, prefix="/api")
     _mount_frontend(app, settings.frontend_dist)
     return app
+
+
+_ready_lock = threading.Lock()
+
+
+def ensure_ready(app: FastAPI) -> None:
+    """Create folders, open the database and load the model + disease library (once per process).
+
+    Normally run by the lifespan at start-up. Dependencies also call it, so the app still works on
+    hosts that skip lifespan events (some serverless platforms): the first request does the loading.
+    """
+    if getattr(app.state, "ready", False):
+        return
+    with _ready_lock:
+        if getattr(app.state, "ready", False):
+            return
+        settings: Settings = app.state.settings
+        settings.ensure_dirs()
+        app.state.session_factory = init_db(settings.db_url)
+        app.state.inference = InferenceService.load(settings.model_dir)
+        app.state.diseases = DiseaseLibrary.load(settings.diseases_file)
+        app.state.ready = True
 
 
 def _mount_frontend(app: FastAPI, dist: Path) -> None:

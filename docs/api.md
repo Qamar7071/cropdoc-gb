@@ -7,12 +7,13 @@ Base URL when running locally: `http://127.0.0.1:8000`. Interactive OpenAPI docs
 
 ### `GET /api/health`
 ```json
-{ "status": "ok", "app_version": "1.1.0", "model_loaded": true, "model_version": "quick-mbv3l-2026-11-09",
-  "reason": null, "num_classes": 38, "thresholds_provisional": true,
+{ "status": "ok", "app_version": "1.1.1", "model_loaded": true, "model_version": "quick-mbv3l-2026-11-09",
+  "reason": null, "num_classes": 38, "thresholds_provisional": true, "temporary_storage": false,
   "metrics": { "test_accuracy": 0.983, "test_macro_f1": 0.981, "test_n": 8145, "source": "results/quick_model/metrics.json" } }
 ```
 `metrics` is copied verbatim from `models/active/model_card.json` (real measured values). When no model is
-installed: `model_loaded: false` and `reason` explains how to train one.
+installed: `model_loaded: false` and `reason` explains how to train one. `temporary_storage` is `true` on serverless
+hosts (Vercel), where saved scans can disappear; the UI then shows a notice on My Scoutings and Dashboard.
 
 ### `GET /api/model`
 Class list (`id`, `crop`, `disease`, `healthy`), supported `crops`, the 10 GB `districts`, the full

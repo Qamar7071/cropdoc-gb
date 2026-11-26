@@ -1,8 +1,10 @@
 /* End-to-end tests against the REAL backend + model, plus screenshots at 1440 / 768 / 390 px
    saved to results/ui/ for comparison with the design references. */
 import { expect, test, type Browser, type Page } from "@playwright/test";
-import { mkdirSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { execFileSync } from "node:child_process";
+import { mkdirSync, mkdtempSync, statSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -155,4 +157,34 @@ test("Urdu toggle switches to right-to-left", async ({ browser }) => {
   await expect(phone.locator("html")).toHaveAttribute("dir", "rtl");
   await shot(phone, "history-ur-390");
   await phone.context().close();
+});
+
+test("large phone photos are shrunk in the browser before upload (hosts limit requests to 4.5 MB)", async ({ browser }) => {
+  const big = join(mkdtempSync(join(tmpdir(), "cropdoc-big-")), "phone-photo.jpg");
+  execFileSync(process.env.CROPDOC_PYTHON ?? "../.venv/bin/python", [resolve(HERE, "make_big_photo.py"), EXAMPLE, big]);
+  expect(statSync(big).size).toBeGreaterThan(3.5 * 1024 * 1024);
+
+  const page = await openPage(browser, 1280, 900);
+  // record the size of the photo the app actually sends (runs in the browser)
+  await page.addInitScript(() => {
+    type Body = { get?: (name: string) => { size?: number } | null };
+    const scope = globalThis as unknown as {
+      fetch: (input: unknown, init?: { body?: Body }) => Promise<unknown>;
+      sentBytes?: number;
+    };
+    const original = scope.fetch.bind(globalThis);
+    scope.fetch = (input, init) => {
+      const image = typeof init?.body?.get === "function" ? init.body.get("image") : null;
+      if (image && typeof image.size === "number") scope.sentBytes = image.size;
+      return original(input, init);
+    };
+  });
+  await page.goto("/scanner");
+  await page.getByTestId("file-input").setInputFiles(big);
+  await page.getByTestId("analyze-button").click();
+  await expect(page.getByTestId("disease-name")).toBeVisible({ timeout: 30_000 });
+  const sentBytes = await page.evaluate(() => (globalThis as unknown as { sentBytes?: number }).sentBytes ?? 0);
+  expect(sentBytes).toBeGreaterThan(0);
+  expect(sentBytes).toBeLessThanOrEqual(3.5 * 1024 * 1024);
+  await page.context().close();
 });

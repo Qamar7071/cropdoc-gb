@@ -7,6 +7,7 @@ import { ResultCard } from "../components/result/ResultCard";
 import { UploadCard } from "../components/upload/UploadCard";
 import { useI18n } from "../i18n";
 import { api, type PredictResponse } from "../lib/api";
+import { prepareUpload } from "../lib/files";
 import { useDistrict } from "../state/district";
 
 export function ScannerPage() {
@@ -25,8 +26,8 @@ export function ScannerPage() {
   }, [previewUrl]);
 
   const mutation = useMutation({
-    mutationFn: (vars: { file: File; save: boolean }) =>
-      api.predict(vars.file, { cropHint: cropHint || undefined, district: district || undefined, save: vars.save }),
+    mutationFn: async (vars: { file: File; save: boolean }) =>
+      api.predict(await prepareUpload(vars.file), { cropHint: cropHint || undefined, district: district || undefined, save: vars.save }),
     onSuccess: (data) => {
       setResult(data);
       if (data.saved) {

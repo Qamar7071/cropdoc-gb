@@ -14,11 +14,19 @@ router = APIRouter(tags=["health"])
 
 
 @router.get("/health", response_model=Health)
-def health(inference: InferenceService = Depends(get_inference)) -> Health:
+def health(
+    inference: InferenceService = Depends(get_inference), settings: Settings = Depends(get_settings)
+) -> Health:
     """Is the model loaded? Which version? Real metrics from model_card.json."""
     if not inference.loaded:
-        return Health(app_version=__version__, model_loaded=False, reason=inference.reason)
+        return Health(
+            app_version=__version__,
+            model_loaded=False,
+            reason=inference.reason,
+            temporary_storage=settings.temporary_storage,
+        )
     return Health(
+        temporary_storage=settings.temporary_storage,
         app_version=__version__,
         model_loaded=True,
         model_version=inference.version,

@@ -1,5 +1,8 @@
 # Deploy CropDoc GB online (use it anywhere, on any phone)
 
+Quick choice: **Hugging Face Spaces** or **Render** run the app as a normal server (history kept while it runs).
+**Vercel** works too (serverless; saved scans are temporary). All give the `https://` address phones need.
+
 On your own computer, `start.bat` / `start.sh` is enough, and **phone mode** (`start-phone.bat`,
 `./start.sh --phone`) lets phones on the same Wi-Fi use Live Scan. To use the app **without the laptop**,
 for example in the field on mobile data, put it on a cloud host. Every host below gives an `https://` address,
@@ -44,7 +47,34 @@ It needs no GPU and no PyTorch; 512 MB of RAM is enough.
 4. Your app is at `https://cropdoc-gb-xxxx.onrender.com`. On the free plan it sleeps after some idle time, and the
    first visit after that takes about a minute to wake up.
 
-## Option C: any server with Docker
+## Option C: Vercel (free, serverless)
+Vercel does not run a normal server. It runs the FastAPI app as short serverless functions, and this repository is
+set up for that: the root `index.py` exposes the app, `pyproject.toml` lists the runtime libraries (no PyTorch),
+`vercel.json` builds the web app, and `.vercelignore` leaves out training code and datasets.
+1. Vercel → **Add New → Project** → import `cropdoc-gb` from GitHub.
+2. In **Configure Project** (or later in **Settings → Build and Deployment**):
+   - **Framework Preset:** `FastAPI` (if it is not offered, choose `Other`);
+   - **Root Directory:** leave empty (the repository root), **not** `frontend`;
+   - Build / Output / Install commands: leave the switches **off** (`vercel.json` sets the build command).
+3. **Deploy**. If you already deployed with other settings, change them as above, then
+   **Deployments → ⋯ → Redeploy** (untick "use existing build cache").
+4. Open `https://<project>.vercel.app/api/health`: it should show `"model_loaded": true`. Then open the app,
+   **Live Scan** → allow the camera.
+
+What is different on Vercel (the app handles all of it):
+- The project folder is read-only, so scans are saved in `/tmp`, which is **temporary**: saved scans can disappear
+  when Vercel starts a fresh copy, and different copies do not share them. My Scoutings and Dashboard show a notice.
+  The Live Scan full report is shown straight away from the answer, so it never depends on saved data.
+- Requests are limited to 4.5 MB, so the app shrinks large phone photos in the browser before uploading.
+- The first request after a quiet period starts a new copy (the model loads in a few seconds); after that, live
+  frames are answered quickly.
+- Every live frame is one function call; the free plan's monthly limits are generous for personal use.
+
+If the deployment fails, open the failed deployment → **Build Logs** (or **Logs** for runtime errors) and look for
+the first red line. Common causes: Root Directory set to `frontend`; a Framework Preset of `Vite` (that serves only
+the web pages, so every scan fails); an old build cache.
+
+## Option D: any server with Docker
 ```bash
 docker compose up --build -d
 ```

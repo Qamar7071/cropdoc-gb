@@ -1,8 +1,9 @@
 /* Small shared UI building blocks. */
-import { AlertCircle, AlertTriangle, Clock, Inbox, RotateCcw } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { AlertCircle, AlertTriangle, Clock, CloudOff, Inbox, RotateCcw } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { ApiError } from "../lib/api";
+import { api, ApiError } from "../lib/api";
 import { useI18n } from "../i18n";
 
 export function Card({ children, className = "", ...rest }: { children: ReactNode; className?: string } & React.HTMLAttributes<HTMLElement>) {
@@ -145,5 +146,18 @@ export function CategoryBadge({ category }: { category: string }) {
     <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${tone[category] ?? "bg-gray-100 text-gray-800"}`}>
       {t(`category.${category}`)}
     </span>
+  );
+}
+
+/** Shown on online demo hosts (serverless) where saved scans are temporary and shared by all visitors. */
+export function TemporaryStorageNotice() {
+  const { t } = useI18n();
+  const health = useQuery({ queryKey: ["health"], queryFn: api.health, staleTime: 60_000 });
+  if (!health.data?.temporary_storage) return null;
+  return (
+    <p className="flex items-start gap-2.5 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-950" role="note" data-testid="temporary-storage">
+      <CloudOff className="mt-0.5 h-5 w-5 shrink-0 text-sky-700" aria-hidden="true" />
+      {t("storage.temporary")}
+    </p>
   );
 }
