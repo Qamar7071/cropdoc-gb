@@ -52,10 +52,9 @@ Vercel does not run a normal server. It runs the FastAPI app as short serverless
 set up for that: the root `index.py` exposes the app, `pyproject.toml` lists the runtime libraries (no PyTorch),
 `vercel.json` builds the web app, and `.vercelignore` leaves out training code and datasets.
 1. Vercel → **Add New → Project** → import `cropdoc-gb` from GitHub.
-2. In **Configure Project** (or later in **Settings → Build and Deployment**):
-   - **Framework Preset:** `FastAPI` (if it is not offered, choose `Other`);
-   - **Root Directory:** leave empty (the repository root), **not** `frontend`;
-   - Build / Output / Install commands: leave the switches **off** (`vercel.json` sets the build command).
+2. Settings: `vercel.json` already sets **Framework = FastAPI**, an empty Install Command (Vercel then installs
+   `pyproject.toml` itself) and the build command, so leftover dashboard values cannot break the build. Only check
+   that **Root Directory** is empty (the repository root), **not** `frontend`.
 3. **Deploy**. If you already deployed with other settings, change them as above, then
    **Deployments → ⋯ → Redeploy** (untick "use existing build cache").
 4. Open `https://<project>.vercel.app/api/health`: it should show `"model_loaded": true`. Then open the app,

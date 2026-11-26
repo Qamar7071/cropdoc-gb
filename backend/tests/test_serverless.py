@@ -199,3 +199,16 @@ def test_supported_python_versions_match_the_pins():
     for script in ("start.sh", "start.bat", "scripts/ensure_deps.py"):
         text = (ROOT / script).read_text()
         assert "(3, 10)" not in text and "(3, 11)" in text, script
+
+
+def test_vercel_config_pins_the_settings_that_dashboards_can_override():
+    """Old dashboard settings (Framework "Other", an npm Install Command, a Vite output folder) broke builds."""
+    import json
+
+    config = json.loads((ROOT / "vercel.json").read_text())
+    assert config["framework"] == "fastapi"  # runs our build command inside Vercel's Python builder
+    assert config["installCommand"] == ""  # empty = no custom install: Vercel installs pyproject.toml with uv
+    assert (
+        config["outputDirectory"] == "public" and (ROOT / "public").is_dir()
+    )  # FastAPI preset's static folder
+    assert "npm ci" in config["buildCommand"] and "npm run build" in config["buildCommand"]

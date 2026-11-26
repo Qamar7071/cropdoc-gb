@@ -151,3 +151,12 @@ libraries with `uv lock` on `pyproject.toml`, which resolves *every* Python vers
 **Fix:** `requires-python = ">=3.11"`; `start.sh`, `start.bat` and `scripts/ensure_deps.py` also ask for 3.11+
 (with 3.10 the pinned libraries could never install). A test keeps these in line. `uv lock --no-build` and
 `uv sync --no-build --python 3.12` now succeed, as on Vercel.
+
+## 2026-11-26 · D20 vercel.json pins the framework, install and output settings
+v1.1.3 still failed to build on Vercel. Reading Vercel's builder code (`@vercel/python`, `@vercel/frameworks`): our
+build command runs only when the project's framework is a Python preset; with the dashboard preset "Other" (likely,
+because the project was created before the repository looked like a FastAPI app) the build is treated as static and
+expects an output folder; and a leftover dashboard Install Command replaces the Python install. `vercel.json` now
+sets `"framework": "fastapi"`, `"installCommand": ""` (empty = Vercel installs `pyproject.toml` with uv),
+`"outputDirectory": "public"` (the FastAPI preset's static folder; `public/robots.txt` keeps it present).
+The real Vercel build log was not available here; the result is read from the commit status on GitHub.

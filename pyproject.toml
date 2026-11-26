@@ -1,6 +1,6 @@
 [project]
 name = "cropdoc-gb"
-version = "1.1.3"
+version = "1.1.4"
 description = "CropDoc GB: AI plant-disease scanner for Gilgit-Baltistan (FastAPI + React + ONNX) with a lab-to-field research study."
 readme = "README.md"
 requires-python = ">=3.11"
