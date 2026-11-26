@@ -160,3 +160,11 @@ expects an output folder; and a leftover dashboard Install Command replaces the 
 sets `"framework": "fastapi"`, `"installCommand": ""` (empty = Vercel installs `pyproject.toml` with uv),
 `"outputDirectory": "public"` (the FastAPI preset's static folder; `public/robots.txt` keeps it present).
 The real Vercel build log was not available here; the result is read from the commit status on GitHub.
+
+## 2026-11-26 · D21 The real Vercel failure: Root Directory was `backend`
+The owner's build log showed `Creating virtual environment at "/vercel/path0/backend/..."`, `Installing required
+dependencies from backend/requirements.txt` and `cd: frontend: No such file or directory`: the Vercel project's Root
+Directory is `backend`, so Vercel never saw the repository root (model, web app, `pyproject.toml`, `index.py`). That
+also explains the earlier 500: Vercel ran `backend/app/main.py` directly and it crashed writing to the read-only
+folder (fixed in D18 anyway). **Fix:** set Root Directory to the repository root in the Vercel dashboard (only the
+owner can change it). The build command now stops with a plain message naming this setting if `frontend/` is missing.

@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "fastapi",
   "installCommand": "",
-  "buildCommand": "cd frontend && npm ci && npm run build",
+  "buildCommand": "test -d frontend || { echo 'ERROR: set Vercel Root Directory to the repository root, not backend/ (Settings > Build and Deployment). See docs/deploy.md' >&2; exit 1; }; cd frontend && npm ci && npm run build",
   "outputDirectory": "public"
 }

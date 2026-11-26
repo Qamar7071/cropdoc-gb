@@ -54,7 +54,7 @@ set up for that: the root `index.py` exposes the app, `pyproject.toml` lists the
 1. Vercel → **Add New → Project** → import `cropdoc-gb` from GitHub.
 2. Settings: `vercel.json` already sets **Framework = FastAPI**, an empty Install Command (Vercel then installs
    `pyproject.toml` itself) and the build command, so leftover dashboard values cannot break the build. Only check
-   that **Root Directory** is empty (the repository root), **not** `frontend`.
+   that **Root Directory** is empty (the repository root), **not** `backend` or `frontend`.
 3. **Deploy**. If you already deployed with other settings, change them as above, then
    **Deployments → ⋯ → Redeploy** (untick "use existing build cache").
 4. Open `https://<project>.vercel.app/api/health`: it should show `"model_loaded": true`. Then open the app,
@@ -72,7 +72,8 @@ What is different on Vercel (the app handles all of it):
 If the site shows an error, open `https://<project>.vercel.app/api/health`: when start-up failed, its `reason`
 says why (the app keeps running and reports problems instead of crashing). If the app could not even load, the page
 itself shows "CropDoc GB could not start on this server" with the error. Otherwise open the deployment →
-**Build Logs** (or **Logs** for runtime errors) and look for the first red line. Common causes: Root Directory set to `frontend`; a Framework Preset of `Vite` (that serves only
+**Build Logs** (or **Logs** for runtime errors) and look for the first red line. Common causes: Root Directory set to `backend` (log: `cd: frontend: No such file or directory` and
+`Installing required dependencies from backend/requirements.txt`) or to `frontend`; a Framework Preset of `Vite` (that serves only
 the web pages, so every scan fails); an old build cache.
 
 ## Option D: any server with Docker
