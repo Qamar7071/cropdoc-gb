@@ -114,3 +114,75 @@ def test_pyproject_dependencies_match_backend_pins():
     }
     assert top_level <= {item.split("==")[0] for item in declared}
     assert not any(name.startswith(("torch", "timm")) for name in (i.split("==")[0] for i in declared))
+
+
+def test_read_only_data_folder_falls_back_to_temp(tmp_path):
+    from app.config import with_writable_storage
+
+    blocker = tmp_path / "not-a-folder"
+    blocker.write_text("a file where the data folder should be")  # mkdir below it fails like a read-only disk
+    settings = Settings(data_dir=blocker / "app", inbox_dir=blocker / "inbox", temporary_storage=False)
+    usable = with_writable_storage(settings)
+    assert usable.data_dir != settings.data_dir and usable.temporary_storage is True
+    assert usable.data_dir.is_dir()
+
+
+def test_vercel_handler_variables_alone_mean_serverless():
+    env = {k: v for k, v in os.environ.items() if not k.startswith(("VERCEL", "AWS_LAMBDA", "LAMBDA_"))}
+    env.pop("CROPDOC_DATA_DIR", None)
+    env["__VC_HANDLER_ENTRYPOINT"] = "index.py"  # always set by Vercel's Python handler
+    code = (
+        "from app.config import Settings; s = Settings(); print(s.data_dir.as_posix(), s.temporary_storage)"
+    )
+    out = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=ROOT / "backend",
+        env=env,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.split()
+    assert out == ["/tmp/cropdoc/app", "True"]
+
+
+def test_failed_startup_is_reported_not_crashed(monkeypatch, tmp_path, tiny_model_dir, diseases_file):
+    def broken_db(url):
+        raise RuntimeError("database unavailable")
+
+    monkeypatch.setattr("app.main.init_db", broken_db)
+    settings = Settings(
+        model_dir=tiny_model_dir,
+        data_dir=tmp_path / "app",
+        inbox_dir=tmp_path / "inbox",
+        frontend_dist=tmp_path / "no-dist",
+        diseases_file=diseases_file,
+    )
+    with TestClient(create_app(settings)) as client:  # lifespan runs and fails, but the server stays up
+        health = client.get("/api/health")
+        assert health.status_code == 200
+        body = health.json()
+        assert body["model_loaded"] is False and "database unavailable" in body["reason"]
+        assert client.get("/api/scans").status_code == 503
+        predict = client.post("/api/predict", files={"image": ("leaf.jpg", image_bytes(), "image/jpeg")})
+        assert predict.status_code == 503 and "could not start" in predict.json()["detail"]
+
+
+def test_entrypoint_shows_the_error_when_the_app_cannot_import():
+    code = """
+import asyncio, sys
+sys.modules["app.main"] = None  # simulate a broken install: importing app.main raises ImportError
+import index
+sent = []
+async def receive():
+    return {"type": "http.request", "body": b""}
+async def send(message):
+    sent.append(message)
+asyncio.run(index.app({"type": "http", "method": "GET", "path": "/"}, receive, send))
+print(sent[0]["status"])
+print(sent[1]["body"].decode())
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", code], cwd=ROOT, capture_output=True, text=True, check=True
+    )
+    assert result.stdout.startswith("500")
+    assert "CropDoc GB could not start" in result.stdout and "ModuleNotFoundError" in result.stdout

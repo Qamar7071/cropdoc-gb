@@ -6,6 +6,7 @@ One process serves everything: the JSON API under ``/api`` and the built React a
 
 from __future__ import annotations
 
+import logging
 import threading
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -17,7 +18,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app import __version__
 from app.api import router as api_router
-from app.config import Settings
+from app.config import Settings, with_writable_storage
 from app.db import init_db
 from app.ratelimit import RateLimitMiddleware
 from app.services.diseases import DiseaseLibrary
@@ -30,7 +31,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        ensure_ready(app)
+        try:
+            ensure_ready(app)
+        except Exception:  # never crash the server: requests report the problem (see api/deps.py)
+            logger.exception("CropDoc GB start-up failed; requests will report the reason")
         yield
 
     app = FastAPI(
@@ -63,6 +67,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     return app
 
 
+logger = logging.getLogger("cropdoc")
 _ready_lock = threading.Lock()
 
 
@@ -77,8 +82,8 @@ def ensure_ready(app: FastAPI) -> None:
     with _ready_lock:
         if getattr(app.state, "ready", False):
             return
-        settings: Settings = app.state.settings
-        settings.ensure_dirs()
+        settings = with_writable_storage(app.state.settings)
+        app.state.settings = settings
         app.state.session_factory = init_db(settings.db_url)
         app.state.inference = InferenceService.load(settings.model_dir)
         app.state.diseases = DiseaseLibrary.load(settings.diseases_file)

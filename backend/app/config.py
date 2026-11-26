@@ -7,15 +7,46 @@ running ``start.bat`` / ``start.sh`` works without any configuration.
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
+import tempfile
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-# Serverless hosts (Vercel) give a read-only project folder; only /tmp is writable, and it is
-# temporary: saved scans can disappear when the host starts a fresh copy of the app.
-ON_VERCEL = bool(os.environ.get("VERCEL"))
-WRITABLE_ROOT = Path("/tmp/cropdoc") if ON_VERCEL else PROJECT_ROOT / "data"
+# Serverless hosts (Vercel, AWS Lambda) give a read-only project folder; only the temp folder is
+# writable, and it is temporary: saved scans can disappear when the host starts a fresh copy.
+# Several signals, because not every host exposes the same variables at runtime
+# (Vercel's own handler always sets __VC_HANDLER_ENTRYPOINT; VERCEL=1 can be switched off).
+SERVERLESS_SIGNALS = (
+    "VERCEL",
+    "VERCEL_ENV",
+    "VERCEL_URL",
+    "VERCEL_REGION",
+    "VERCEL_IPC_PATH",
+    "__VC_HANDLER_ENTRYPOINT",
+    "AWS_LAMBDA_FUNCTION_NAME",
+    "LAMBDA_TASK_ROOT",
+)
+
+
+def on_serverless() -> bool:
+    """True when running as a serverless function (checked when Settings are created)."""
+    return any(os.environ.get(name) for name in SERVERLESS_SIGNALS)
+
+
+def temp_root() -> Path:
+    return Path(tempfile.gettempdir()) / "cropdoc"
+
+
+def _writable_root() -> Path:
+    return temp_root() if on_serverless() else PROJECT_ROOT / "data"
+
+
+def _flag(name: str, serverless_default: bool) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return serverless_default and on_serverless()
+    return value == "1"
 
 
 def _env_path(name: str, default: Path) -> Path:
@@ -41,8 +72,10 @@ class Settings:
     results_dir: Path = field(
         default_factory=lambda: _env_path("CROPDOC_RESULTS_DIR", PROJECT_ROOT / "results")
     )
-    data_dir: Path = field(default_factory=lambda: _env_path("CROPDOC_DATA_DIR", WRITABLE_ROOT / "app"))
-    inbox_dir: Path = field(default_factory=lambda: _env_path("CROPDOC_INBOX_DIR", WRITABLE_ROOT / "inbox"))
+    data_dir: Path = field(default_factory=lambda: _env_path("CROPDOC_DATA_DIR", _writable_root() / "app"))
+    inbox_dir: Path = field(
+        default_factory=lambda: _env_path("CROPDOC_INBOX_DIR", _writable_root() / "inbox")
+    )
     frontend_dist: Path = field(
         default_factory=lambda: _env_path("CROPDOC_FRONTEND_DIST", PROJECT_ROOT / "frontend" / "dist")
     )
@@ -66,13 +99,9 @@ class Settings:
     public_urls: list[str] = field(default_factory=lambda: _env_list("CROPDOC_PUBLIC_URLS", []))
     # behind a hosting proxy every request comes from the proxy's address; the real visitor's IP is
     # in X-Real-IP / X-Forwarded-For. Only trust those headers where a known proxy sets them.
-    trust_proxy_headers: bool = field(
-        default_factory=lambda: os.environ.get("CROPDOC_TRUST_PROXY", "1" if ON_VERCEL else "") == "1"
-    )
+    trust_proxy_headers: bool = field(default_factory=lambda: _flag("CROPDOC_TRUST_PROXY", True))
     # True where saved scans do not survive restarts (serverless): the UI tells the user so
-    temporary_storage: bool = field(
-        default_factory=lambda: os.environ.get("CROPDOC_TEMPORARY_STORAGE", "1" if ON_VERCEL else "") == "1"
-    )
+    temporary_storage: bool = field(default_factory=lambda: _flag("CROPDOC_TEMPORARY_STORAGE", True))
 
     @property
     def db_url(self) -> str:
@@ -83,3 +112,22 @@ class Settings:
         """Create writable folders on first start."""
         for path in (self.data_dir, self.data_dir / "scans", self.inbox_dir):
             path.mkdir(parents=True, exist_ok=True)
+
+
+def with_writable_storage(settings: Settings) -> Settings:
+    """Settings whose data folders can really be written; else the same settings using the temp folder.
+
+    Protects against read-only project folders (serverless hosts, a copy on a CD, locked school PCs):
+    instead of crashing at start-up, scans are kept in the temp folder and marked as temporary.
+    """
+    try:
+        settings.ensure_dirs()
+        probe = settings.data_dir / f".write-test-{os.getpid()}"
+        probe.write_bytes(b"")
+        probe.unlink()
+        return settings
+    except OSError:
+        root = temp_root()
+        fallback = replace(settings, data_dir=root / "app", inbox_dir=root / "inbox", temporary_storage=True)
+        fallback.ensure_dirs()
+        return fallback

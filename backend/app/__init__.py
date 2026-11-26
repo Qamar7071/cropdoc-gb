@@ -1,3 +1,3 @@
 """CropDoc GB web backend (FastAPI). Runtime deps: FastAPI, ONNX Runtime, NumPy, Pillow, SQLAlchemy."""
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"

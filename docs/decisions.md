@@ -130,3 +130,15 @@ project folder and an unprivileged user: pages, assets, live scan, saving, histo
 **Not verified here:** a real Vercel build (vercel.com is not reachable from this environment).
 **Alternatives:** frontend on Vercel + API elsewhere (two deployments and CORS for a beginner); recommending only
 Render / Hugging Face Spaces (kept as the first choice in `docs/deploy.md` because history persists there).
+
+## 2026-11-26 · D18 Never crash at start-up; detect serverless hosts from several signals
+**What happened:** the Vercel deployment answered `500 FUNCTION_INVOCATION_FAILED`. Reproduced here by running the app
+through Vercel's own open-source Python handler (`vercel-runtime` 0.26.0, the package Vercel's builder installs) on a
+read-only copy as an unprivileged user: when the `VERCEL` variable is not present at runtime, the app tried to create
+`data/app` inside the read-only project folder, the start-up step raised `PermissionError`, and the function failed.
+**Fix:** (1) serverless detection uses several signals (`VERCEL*`, Vercel's handler variables `__VC_HANDLER_*`,
+AWS Lambda variables); (2) `with_writable_storage` test-writes the data folder and falls back to the temp folder
+(marked temporary) instead of crashing; (3) a failed start-up no longer stops the server: `/api/health` returns the
+reason and other endpoints answer 503 with it; (4) if the app cannot even be imported, `index.py` serves a plain
+page with the error type and location (standard library only). **Verified:** with and without `VERCEL`, Vercel's
+handler serves `/api/health` (model loaded), `/`, `/live`, a live frame, a saved scan and the history.

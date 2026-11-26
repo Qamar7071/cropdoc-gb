@@ -70,8 +70,10 @@ What is different on Vercel (the app handles all of it):
   frames are answered quickly.
 - Every live frame is one function call; the free plan's monthly limits are generous for personal use.
 
-If the deployment fails, open the failed deployment → **Build Logs** (or **Logs** for runtime errors) and look for
-the first red line. Common causes: Root Directory set to `frontend`; a Framework Preset of `Vite` (that serves only
+If the site shows an error, open `https://<project>.vercel.app/api/health`: when start-up failed, its `reason`
+says why (the app keeps running and reports problems instead of crashing). If the app could not even load, the page
+itself shows "CropDoc GB could not start on this server" with the error. Otherwise open the deployment →
+**Build Logs** (or **Logs** for runtime errors) and look for the first red line. Common causes: Root Directory set to `frontend`; a Framework Preset of `Vite` (that serves only
 the web pages, so every scan fails); an old build cache.
 
 ## Option D: any server with Docker
