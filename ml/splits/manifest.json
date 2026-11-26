@@ -63,6 +63,17 @@
         "val": 0.15,
         "test": 0.15
       }
+    },
+    "plantdoc_group_aware": {
+      "sha256_csv": "9bf7f6459172c3a2f794d43b828c80bb15f272fa97f598ce07056b4c0031ba6d",
+      "method": "StratifiedGroupKFold(20): 5 test, 3 val, 12 train; groups = embedding cosine >= 0.95 \u222a identical dihedral pHash",
+      "sizes": {
+        "train": 1545,
+        "val": 387,
+        "test": 646
+      },
+      "near_duplicate_groups_with_more_than_one_photo": 88,
+      "seed": 42
     }
   },
   "groups_crossing_splits": {

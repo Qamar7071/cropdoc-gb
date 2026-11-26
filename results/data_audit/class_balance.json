@@ -1,0 +1,372 @@
+{
+  "lab": {
+    "classes_present_in_train": 38,
+    "train_min": 108,
+    "train_max": 3854,
+    "imbalance_ratio_max_over_min": 35.68518518518518,
+    "classes_missing": []
+  },
+  "field": {
+    "classes_present_in_train": 28,
+    "train_min": 2,
+    "train_max": 115,
+    "imbalance_ratio_max_over_min": 57.5,
+    "classes_missing": [
+      "Apple___Black_rot",
+      "Cherry_(including_sour)___Powdery_mildew",
+      "Corn_(maize)___healthy",
+      "Grape___Esca_(Black_Measles)",
+      "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+      "Orange___Haunglongbing_(Citrus_greening)",
+      "Peach___Bacterial_spot",
+      "Potato___healthy",
+      "Strawberry___Leaf_scorch",
+      "Tomato___Target_Spot"
+    ]
+  },
+  "per_class": [
+    {
+      "class_id": "Apple___Apple_scab",
+      "lab_train": 443,
+      "lab_val": 97,
+      "lab_test": 90,
+      "field_train": 57,
+      "field_val": 13,
+      "field_test": 23
+    },
+    {
+      "class_id": "Apple___Black_rot",
+      "lab_train": 435,
+      "lab_val": 93,
+      "lab_test": 93,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Apple___Cedar_apple_rust",
+      "lab_train": 191,
+      "lab_val": 40,
+      "lab_test": 44,
+      "field_train": 54,
+      "field_val": 14,
+      "field_test": 21
+    },
+    {
+      "class_id": "Apple___healthy",
+      "lab_train": 1155,
+      "lab_val": 245,
+      "lab_test": 245,
+      "field_train": 54,
+      "field_val": 15,
+      "field_test": 22
+    },
+    {
+      "class_id": "Blueberry___healthy",
+      "lab_train": 1055,
+      "lab_val": 225,
+      "lab_test": 222,
+      "field_train": 69,
+      "field_val": 18,
+      "field_test": 30
+    },
+    {
+      "class_id": "Cherry_(including_sour)___Powdery_mildew",
+      "lab_train": 708,
+      "lab_val": 173,
+      "lab_test": 171,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Cherry_(including_sour)___healthy",
+      "lab_train": 587,
+      "lab_val": 144,
+      "lab_test": 123,
+      "field_train": 34,
+      "field_val": 9,
+      "field_test": 14
+    },
+    {
+      "class_id": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+      "lab_train": 359,
+      "lab_val": 76,
+      "lab_test": 78,
+      "field_train": 39,
+      "field_val": 10,
+      "field_test": 19
+    },
+    {
+      "class_id": "Corn_(maize)___Common_rust_",
+      "lab_train": 834,
+      "lab_val": 179,
+      "lab_test": 179,
+      "field_train": 69,
+      "field_val": 18,
+      "field_test": 29
+    },
+    {
+      "class_id": "Corn_(maize)___Northern_Leaf_Blight",
+      "lab_train": 691,
+      "lab_val": 147,
+      "lab_test": 147,
+      "field_train": 115,
+      "field_val": 29,
+      "field_test": 48
+    },
+    {
+      "class_id": "Corn_(maize)___healthy",
+      "lab_train": 814,
+      "lab_val": 174,
+      "lab_test": 174,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Grape___Black_rot",
+      "lab_train": 824,
+      "lab_val": 176,
+      "lab_test": 180,
+      "field_train": 39,
+      "field_val": 10,
+      "field_test": 15
+    },
+    {
+      "class_id": "Grape___Esca_(Black_Measles)",
+      "lab_train": 971,
+      "lab_val": 208,
+      "lab_test": 204,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+      "lab_train": 756,
+      "lab_val": 160,
+      "lab_test": 160,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Grape___healthy",
+      "lab_train": 297,
+      "lab_val": 63,
+      "lab_test": 63,
+      "field_train": 43,
+      "field_val": 11,
+      "field_test": 15
+    },
+    {
+      "class_id": "Orange___Haunglongbing_(Citrus_greening)",
+      "lab_train": 3854,
+      "lab_val": 826,
+      "lab_test": 827,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Peach___Bacterial_spot",
+      "lab_train": 1611,
+      "lab_val": 342,
+      "lab_test": 344,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Peach___healthy",
+      "lab_train": 252,
+      "lab_val": 54,
+      "lab_test": 54,
+      "field_train": 66,
+      "field_val": 17,
+      "field_test": 29
+    },
+    {
+      "class_id": "Pepper,_bell___Bacterial_spot",
+      "lab_train": 699,
+      "lab_val": 150,
+      "lab_test": 148,
+      "field_train": 40,
+      "field_val": 12,
+      "field_test": 19
+    },
+    {
+      "class_id": "Pepper,_bell___healthy",
+      "lab_train": 1033,
+      "lab_val": 221,
+      "lab_test": 224,
+      "field_train": 37,
+      "field_val": 9,
+      "field_test": 15
+    },
+    {
+      "class_id": "Potato___Early_blight",
+      "lab_train": 704,
+      "lab_val": 148,
+      "lab_test": 148,
+      "field_train": 71,
+      "field_val": 17,
+      "field_test": 29
+    },
+    {
+      "class_id": "Potato___Late_blight",
+      "lab_train": 696,
+      "lab_val": 152,
+      "lab_test": 152,
+      "field_train": 61,
+      "field_val": 17,
+      "field_test": 27
+    },
+    {
+      "class_id": "Potato___healthy",
+      "lab_train": 108,
+      "lab_val": 24,
+      "lab_test": 20,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Raspberry___healthy",
+      "lab_train": 258,
+      "lab_val": 57,
+      "lab_test": 56,
+      "field_train": 72,
+      "field_val": 18,
+      "field_test": 29
+    },
+    {
+      "class_id": "Soybean___healthy",
+      "lab_train": 3562,
+      "lab_val": 763,
+      "lab_test": 765,
+      "field_train": 41,
+      "field_val": 9,
+      "field_test": 15
+    },
+    {
+      "class_id": "Squash___Powdery_mildew",
+      "lab_train": 1285,
+      "lab_val": 274,
+      "lab_test": 276,
+      "field_train": 77,
+      "field_val": 20,
+      "field_test": 33
+    },
+    {
+      "class_id": "Strawberry___Leaf_scorch",
+      "lab_train": 777,
+      "lab_val": 165,
+      "lab_test": 167,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Strawberry___healthy",
+      "lab_train": 324,
+      "lab_val": 64,
+      "lab_test": 68,
+      "field_train": 59,
+      "field_val": 12,
+      "field_test": 25
+    },
+    {
+      "class_id": "Tomato___Bacterial_spot",
+      "lab_train": 1495,
+      "lab_val": 320,
+      "lab_test": 312,
+      "field_train": 64,
+      "field_val": 18,
+      "field_test": 28
+    },
+    {
+      "class_id": "Tomato___Early_blight",
+      "lab_train": 705,
+      "lab_val": 144,
+      "lab_test": 151,
+      "field_train": 54,
+      "field_val": 12,
+      "field_test": 22
+    },
+    {
+      "class_id": "Tomato___Late_blight",
+      "lab_train": 1337,
+      "lab_val": 285,
+      "lab_test": 287,
+      "field_train": 66,
+      "field_val": 17,
+      "field_test": 28
+    },
+    {
+      "class_id": "Tomato___Leaf_Mold",
+      "lab_train": 664,
+      "lab_val": 144,
+      "lab_test": 144,
+      "field_train": 55,
+      "field_val": 13,
+      "field_test": 23
+    },
+    {
+      "class_id": "Tomato___Septoria_leaf_spot",
+      "lab_train": 1240,
+      "lab_val": 264,
+      "lab_test": 267,
+      "field_train": 91,
+      "field_val": 22,
+      "field_test": 38
+    },
+    {
+      "class_id": "Tomato___Spider_mites Two-spotted_spider_mite",
+      "lab_train": 1176,
+      "lab_val": 248,
+      "lab_test": 252,
+      "field_train": 2,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Tomato___Target_Spot",
+      "lab_train": 983,
+      "lab_val": 210,
+      "lab_test": 211,
+      "field_train": 0,
+      "field_val": 0,
+      "field_test": 0
+    },
+    {
+      "class_id": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+      "lab_train": 3751,
+      "lab_val": 802,
+      "lab_test": 804,
+      "field_train": 47,
+      "field_val": 11,
+      "field_test": 18
+    },
+    {
+      "class_id": "Tomato___Tomato_mosaic_virus",
+      "lab_train": 262,
+      "lab_val": 55,
+      "lab_test": 56,
+      "field_train": 32,
+      "field_val": 7,
+      "field_test": 15
+    },
+    {
+      "class_id": "Tomato___healthy",
+      "lab_train": 1114,
+      "lab_val": 238,
+      "lab_test": 239,
+      "field_train": 37,
+      "field_val": 9,
+      "field_test": 17
+    }
+  ],
+  "note": "Lab = PlantVillage group-aware split; field = PlantDoc group-aware split (web photos, not GB photos). Training uses a class-balanced lab subset and oversamples field photos to counter the imbalance."
+}

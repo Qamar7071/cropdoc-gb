@@ -168,3 +168,18 @@ Directory is `backend`, so Vercel never saw the repository root (model, web app,
 also explains the earlier 500: Vercel ran `backend/app/main.py` directly and it crashed writing to the read-only
 folder (fixed in D18 anyway). **Fix:** set Root Directory to the repository root in the Vercel dashboard (only the
 owner can change it). The build command now stops with a plain message naming this setting if `frontend/` is missing.
+
+## 2026-11-26 · D22 Field-robust model v2: pre-registered training, calibration and promotion rules
+**Why:** the owner's new brief asks to improve real-world accuracy instead of hiding it; v1 is ~21% correct on
+real-world photos. **Data:** PlantDoc gets its own group-aware split (embedding cosine >= 0.95 ∪ identical dihedral
+pHash; StratifiedGroupKFold 20: 60/15/25 → 1,545 / 387 / 646 photos, `ml/splits/plantdoc_group_aware.csv.gz`).
+**Training (`python -m cropdoc.field_model`):** weighted linear head (lab train + field train), then fine-tune the
+last 4 blocks for <= 6 epochs on <= 200 lab photos/class with background randomization (procedural backgrounds only;
+the ImageNet photos stay unseen because they are the non-leaf test set) + field train photos x3 with strong
+augmentation; best epoch by mean(lab val, field val) macro-F1. **Calibration (validation only):** temperature and the
+"not sure" threshold on domain-balanced validation (lab = field weight), lowest confidence with >= 95% accuracy on
+kept photos; "unsupported" energy threshold accepts >= 95% of validation photos in each domain.
+**Promotion (replaces the lab-only rule 5 for this comparison):** v2 replaces v1 only if field-test macro-F1 improves
+by >= 5 points, lab-test macro-F1 drops by <= 1 point, and <= 5% of non-leaf photos are answered "confident".
+These rules were written into the code before any test result was seen; a 1-epoch smoke run (152 lab photos)
+then checked the pipeline end to end and nothing was changed after it.
