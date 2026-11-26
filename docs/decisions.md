@@ -142,3 +142,12 @@ AWS Lambda variables); (2) `with_writable_storage` test-writes the data folder a
 reason and other endpoints answer 503 with it; (4) if the app cannot even be imported, `index.py` serves a plain
 page with the error type and location (standard library only). **Verified:** with and without `VERCEL`, Vercel's
 handler serves `/api/health` (model loaded), `/`, `/live`, a live frame, a saved scan and the history.
+
+## 2026-11-26 · D19 The project requires Python 3.11 (the Vercel build failed on a 3.10 claim)
+**What happened:** GitHub shows Vercel's verdict for each commit: the v1.1.1 and v1.1.2 deployments **failed at build
+time**, so the older v1.1.0 deployment (no Vercel setup) stayed live and kept answering 500. Vercel installs Python
+libraries with `uv lock` on `pyproject.toml`, which resolves *every* Python version the project claims. It claimed
+`>=3.10`, but the pinned numpy 2.4 needs 3.11+, so `uv lock` stopped with "No solution found" (reproduced here).
+**Fix:** `requires-python = ">=3.11"`; `start.sh`, `start.bat` and `scripts/ensure_deps.py` also ask for 3.11+
+(with 3.10 the pinned libraries could never install). A test keeps these in line. `uv lock --no-build` and
+`uv sync --no-build --python 3.12` now succeed, as on Vercel.

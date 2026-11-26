@@ -101,8 +101,8 @@ def fix_windows_runtime(error: str) -> None:
 
 
 def main() -> int:
-    if sys.version_info < (3, 10):  # noqa: UP036 - runs on the user's own Python, which may be old
-        print("Python 3.10 or newer is required (3.11 recommended).")
+    if sys.version_info < (3, 11):  # noqa: UP036 - runs on the user's own Python, which may be old
+        print("Python 3.11 or newer is required.")
         return 1
     code = install_requirements()
     if code != 0:

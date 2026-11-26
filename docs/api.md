@@ -7,7 +7,7 @@ Base URL when running locally: `http://127.0.0.1:8000`. Interactive OpenAPI docs
 
 ### `GET /api/health`
 ```json
-{ "status": "ok", "app_version": "1.1.2", "model_loaded": true, "model_version": "quick-mbv3l-2026-11-09",
+{ "status": "ok", "app_version": "1.1.3", "model_loaded": true, "model_version": "quick-mbv3l-2026-11-09",
   "reason": null, "num_classes": 38, "thresholds_provisional": true, "temporary_storage": false,
   "metrics": { "test_accuracy": 0.983, "test_macro_f1": 0.981, "test_n": 8145, "source": "results/quick_model/metrics.json" } }
 ```

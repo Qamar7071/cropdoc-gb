@@ -9,14 +9,14 @@ set "PY="
 where py >nul 2>nul
 if %errorlevel%==0 (
   py -3.11 -c "import sys" >nul 2>nul && set "PY=py -3.11"
-  if not defined PY py -3 -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" >nul 2>nul && set "PY=py -3"
+  if not defined PY py -3 -c "import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)" >nul 2>nul && set "PY=py -3"
 )
 if not defined PY (
-  python -c "import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)" >nul 2>nul && set "PY=python"
+  python -c "import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)" >nul 2>nul && set "PY=python"
 )
 if not defined PY (
   echo.
-  echo Python 3.10 or newer is required. Install Python 3.11 from https://www.python.org/downloads/
+  echo Python 3.11 or newer is required. Install Python 3.11 from https://www.python.org/downloads/
   echo During installation tick "Add python.exe to PATH", then double-click start.bat again.
   echo.
   pause

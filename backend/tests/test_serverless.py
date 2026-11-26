@@ -186,3 +186,16 @@ print(sent[1]["body"].decode())
     )
     assert result.stdout.startswith("500")
     assert "CropDoc GB could not start" in result.stdout and "ModuleNotFoundError" in result.stdout
+
+
+def test_supported_python_versions_match_the_pins():
+    """Cloud builders (Vercel runs `uv lock`) resolve every Python version the project claims to support.
+
+    numpy 2.4 needs Python >= 3.11, so claiming 3.10 made the Vercel build fail ("No solution found").
+    The start scripts must ask for the same minimum.
+    """
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]
+    assert project["requires-python"] == ">=3.11"
+    for script in ("start.sh", "start.bat", "scripts/ensure_deps.py"):
+        text = (ROOT / script).read_text()
+        assert "(3, 10)" not in text and "(3, 11)" in text, script
