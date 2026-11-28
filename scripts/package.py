@@ -36,6 +36,7 @@ INCLUDE = [
     "results",
     "scripts",
     "docs",
+    "public",  # Vercel outputDirectory (vercel.json); robots.txt keeps the folder present
     "README.md",
     "MODEL_CARD.md",
     "CLAUDE.md",

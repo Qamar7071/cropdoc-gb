@@ -241,3 +241,14 @@ else still works); off with `CROPDOC_WEATHER=off`. Advisories are rules of thumb
 photo buttons, tiles for history, crops, assistant, tips and language, weather and two tips); the research summary
 stays below it. **Crops and tips:** 9 crops and 9 tips in English and Urdu with sources (`crops.json`, `tips.json`,
 `needs_review: true`).
+
+## 2026-11-28 · D28 The zip keeps `public/` for Vercel; temp-folder tests work on Windows
+**What happened:** the downloaded zip had no `public/` folder, because `scripts/package.py` did not list it, but
+`vercel.json` sets `"outputDirectory": "public"` (D20). A Vercel project made from that zip could stop with "no output
+directory". The GitHub repository already has `public/robots.txt`, so deployments from GitHub were not affected.
+**Fix:** `package.py` now includes `public`. The two serverless tests
+compared against a hard-coded `/tmp`, while the app uses the system temp folder (`/tmp` on Vercel, `%TEMP%` on
+Windows). They now compare against `tempfile.gettempdir()`, so the same check passes on the owner's Windows laptop.
+**Verified here (Windows, Python 3.11):** backend tests pass, frontend tests, type check and lint pass, `npm ci && npm
+run build` works, and the root `index.py` with `VERCEL=1` reports `model_loaded: true` and serves the web app.
+**Not verified here:** a real Vercel build. ML tests need PyTorch, which is not installed in this environment.

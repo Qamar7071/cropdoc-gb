@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+import tempfile
 import tomllib
 from pathlib import Path
 
@@ -17,6 +18,8 @@ from app.ratelimit import client_key
 from tests.conftest import image_bytes
 
 ROOT = Path(__file__).resolve().parents[2]
+# The system temp folder: /tmp on Vercel and Linux, %TEMP% on Windows (the code uses tempfile.gettempdir()).
+TMP = Path(tempfile.gettempdir()).as_posix()
 
 
 def test_app_works_even_if_the_host_skips_lifespan(tmp_path, tiny_model_dir, diseases_file):
@@ -52,7 +55,7 @@ def test_on_vercel_data_goes_to_tmp_and_storage_is_marked_temporary():
         text=True,
         check=True,
     ).stdout.split()
-    assert out == ["/tmp/cropdoc/app", "/tmp/cropdoc/inbox", "True", "True"]
+    assert out == [f"{TMP}/cropdoc/app", f"{TMP}/cropdoc/inbox", "True", "True"]
 
 
 def test_health_reports_temporary_storage(make_client):
@@ -142,7 +145,7 @@ def test_vercel_handler_variables_alone_mean_serverless():
         text=True,
         check=True,
     ).stdout.split()
-    assert out == ["/tmp/cropdoc/app", "True"]
+    assert out == [f"{TMP}/cropdoc/app", "True"]
 
 
 def test_failed_startup_is_reported_not_crashed(monkeypatch, tmp_path, tiny_model_dir, diseases_file):
