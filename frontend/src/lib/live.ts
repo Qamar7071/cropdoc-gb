@@ -60,7 +60,7 @@ export function lightingOf(brightness: number): Lighting {
  * `needed` of the last `window` frames, and we keep showing it until another class locks or the
  * camera has seen no confident leaf for `window` frames in a row.
  */
-export type LivePhase = "searching" | "unsupported" | "unsure" | "steadying" | "locked";
+export type LivePhase = "searching" | "retake" | "unsupported" | "unsure" | "steadying" | "locked";
 
 export interface LiveView {
   phase: LivePhase;
@@ -135,7 +135,13 @@ export class LiveSmoother {
     }
     // a single confident frame is not enough yet: ask the farmer to hold steady for one more
     const phase: LivePhase =
-      frame.status === "not_a_leaf_or_unsupported_crop" ? "unsupported" : frame.status === "low_confidence" ? "unsure" : "steadying";
+      frame.status === "retake_photo"
+        ? "retake" // blurry / too dark / too bright: never shown as a disease
+        : frame.status === "not_a_leaf_or_unsupported_crop"
+          ? "unsupported"
+          : frame.status === "low_confidence"
+            ? "unsure"
+            : "steadying";
     return {
       phase,
       result: frame,
@@ -149,7 +155,7 @@ export class LiveSmoother {
 
 export function statusTone(status: Status | LivePhase): "good" | "warn" | "bad" | "idle" {
   if (status === "confident" || status === "locked") return "good";
-  if (status === "low_confidence" || status === "unsure" || status === "steadying") return "warn";
+  if (status === "low_confidence" || status === "unsure" || status === "steadying" || status === "retake" || status === "retake_photo") return "warn";
   if (status === "not_a_leaf_or_unsupported_crop" || status === "unsupported") return "bad";
   return "idle";
 }

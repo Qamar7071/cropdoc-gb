@@ -84,6 +84,12 @@ class Settings:
             "CROPDOC_DISEASES_FILE", Path(__file__).parent / "data" / "diseases.json"
         )
     )
+    crops_file: Path = field(
+        default_factory=lambda: _env_path("CROPDOC_CROPS_FILE", Path(__file__).parent / "data" / "crops.json")
+    )
+    tips_file: Path = field(
+        default_factory=lambda: _env_path("CROPDOC_TIPS_FILE", Path(__file__).parent / "data" / "tips.json")
+    )
     max_upload_bytes: int = int(os.environ.get("CROPDOC_MAX_UPLOAD_MB", "5")) * 1024 * 1024
     max_image_pixels: int = int(os.environ.get("CROPDOC_MAX_IMAGE_PIXELS", str(40_000_000)))
     cors_origins: list[str] = field(
@@ -94,6 +100,18 @@ class Settings:
     rate_limit_per_minute: int = int(os.environ.get("CROPDOC_RATE_LIMIT_PER_MINUTE", "30"))
     # live camera mode sends ~1-2 small frames per second, so it gets its own, larger bucket
     live_rate_limit_per_minute: int = int(os.environ.get("CROPDOC_LIVE_RATE_LIMIT_PER_MINUTE", "240"))
+    weather_enabled: bool = field(
+        default_factory=lambda: os.environ.get("CROPDOC_WEATHER", "on").lower() != "off"
+    )
+    assistant_model: str = field(
+        default_factory=lambda: os.environ.get("CROPDOC_ASSISTANT_MODEL", "claude-opus-5-5")
+    )
+    assistant_effort: str = field(
+        default_factory=lambda: os.environ.get("CROPDOC_ASSISTANT_EFFORT", "medium")
+    )
+    assistant_rate_limit_per_minute: int = int(
+        os.environ.get("CROPDOC_ASSISTANT_RATE_LIMIT_PER_MINUTE", "20")
+    )
     # set by `run.py --phone`: the app is served over HTTPS on the local network for phones
     phone_mode: bool = field(default_factory=lambda: os.environ.get("CROPDOC_PHONE_MODE", "") == "1")
     public_urls: list[str] = field(default_factory=lambda: _env_list("CROPDOC_PUBLIC_URLS", []))

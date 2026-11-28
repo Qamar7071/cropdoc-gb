@@ -21,8 +21,12 @@ from app.api import router as api_router
 from app.config import Settings, with_writable_storage
 from app.db import init_db
 from app.ratelimit import RateLimitMiddleware
+from app.services.assistant import Assistant, AssistantConfig
+from app.services.crops import CropLibrary
 from app.services.diseases import DiseaseLibrary
 from app.services.inference import InferenceService
+from app.services.quality import QualityThresholds
+from app.services.weather import WeatherService
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -62,6 +66,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         paths=("/api/predict/live",),
         trust_proxy_headers=settings.trust_proxy_headers,
     )
+    app.add_middleware(
+        RateLimitMiddleware,
+        per_minute=settings.assistant_rate_limit_per_minute,
+        paths=("/api/assistant/chat",),
+        trust_proxy_headers=settings.trust_proxy_headers,
+    )
     app.include_router(api_router, prefix="/api")
     _mount_frontend(app, settings.frontend_dist)
     return app
@@ -87,6 +97,14 @@ def ensure_ready(app: FastAPI) -> None:
         app.state.session_factory = init_db(settings.db_url)
         app.state.inference = InferenceService.load(settings.model_dir)
         app.state.diseases = DiseaseLibrary.load(settings.diseases_file)
+        app.state.crops = CropLibrary.load(settings.crops_file, settings.tips_file)
+        app.state.quality = QualityThresholds.load(settings.model_dir / "quality.json")
+        app.state.assistant = Assistant(
+            app.state.diseases,
+            app.state.crops,
+            AssistantConfig(model=settings.assistant_model, effort=settings.assistant_effort),
+        )
+        app.state.weather = WeatherService(enabled=settings.weather_enabled)
         app.state.ready = True
 
 

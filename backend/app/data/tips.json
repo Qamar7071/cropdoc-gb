@@ -1,0 +1,260 @@
+{
+  "meta": {
+    "version": "2026-11-26",
+    "status": "General good practice drawn from FAO integrated pest management (IPM) guidance and the FAO/WHO International Code of Conduct on Pesticide Management. Needs review by an agriculture expert and a native Urdu speaker.",
+    "needs_review": true,
+    "sources": [
+      "https://www.fao.org/pest-and-pesticide-management/ipm/principles-and-practices/en/",
+      "https://www.fao.org/pest-and-pesticide-management/ipm/integrated-pest-management/en/",
+      "https://www.fao.org/newsroom/detail/q-a-on-pests-and-pesticide-management/en"
+    ],
+    "keywords_note": "keywords help the assistant find a tip; they are never shown to the farmer"
+  },
+  "tips": [
+    {
+      "id": "scout",
+      "icon": "search",
+      "title": {
+        "en": "Check your field every week",
+        "ur": "ہر ہفتے کھیت کا معائنہ کریں"
+      },
+      "body": {
+        "en": "Walk through the field and look under the leaves. Problems found early are easier and cheaper to control.",
+        "ur": "کھیت میں چل کر پتوں کے نیچے بھی دیکھیں۔ جلد پکڑے گئے مسائل پر قابو پانا آسان اور سستا ہوتا ہے۔"
+      },
+      "keywords": {
+        "en": [
+          "monitor",
+          "inspect",
+          "early",
+          "yield",
+          "improve"
+        ],
+        "ur": [
+          "معائنہ",
+          "نگرانی",
+          "پیداوار"
+        ]
+      }
+    },
+    {
+      "id": "seed",
+      "icon": "sprout",
+      "title": {
+        "en": "Start with healthy seed",
+        "ur": "صحت مند بیج سے آغاز کریں"
+      },
+      "body": {
+        "en": "Use certified seed, healthy seedlings and recommended varieties. Many diseases arrive with infected seed or plants.",
+        "ur": "تصدیق شدہ بیج، صحت مند پنیری اور تجویز کردہ اقسام استعمال کریں۔ بہت سی بیماریاں متاثرہ بیج یا پودوں کے ساتھ آتی ہیں۔"
+      },
+      "keywords": {
+        "en": [
+          "yield",
+          "production",
+          "improve",
+          "variety",
+          "varieties",
+          "seedlings",
+          "nursery"
+        ],
+        "ur": [
+          "پیداوار",
+          "بیج",
+          "قسم",
+          "اقسام",
+          "پنیری"
+        ]
+      }
+    },
+    {
+      "id": "rotation",
+      "icon": "repeat",
+      "title": {
+        "en": "Rotate your crops",
+        "ur": "فصلوں کا ہیر پھیر کریں"
+      },
+      "body": {
+        "en": "Do not grow the same crop family in the same field year after year. Rotation starves diseases that live in soil and crop remains.",
+        "ur": "ایک ہی خاندان کی فصل ہر سال ایک ہی کھیت میں نہ اگائیں۔ ہیر پھیر سے مٹی اور باقیات میں رہنے والی بیماریاں کمزور پڑتی ہیں۔"
+      },
+      "keywords": {
+        "en": [
+          "soil",
+          "yield",
+          "same",
+          "field",
+          "improve"
+        ],
+        "ur": [
+          "ہیر",
+          "پھیر",
+          "مٹی",
+          "پیداوار"
+        ]
+      }
+    },
+    {
+      "id": "fertilizer",
+      "icon": "flask",
+      "title": {
+        "en": "Feed the crop in balance",
+        "ur": "متوازن کھاد دیں"
+      },
+      "body": {
+        "en": "Fertilize according to a soil test and the recommendation for your crop. Too much nitrogen makes many diseases and pests worse.",
+        "ur": "مٹی کے تجزیے اور اپنی فصل کی سفارش کے مطابق کھاد دیں۔ زیادہ نائٹروجن سے بہت سی بیماریاں اور کیڑے بڑھ جاتے ہیں۔"
+      },
+      "keywords": {
+        "en": [
+          "yield",
+          "nutrients",
+          "soil",
+          "manure",
+          "compost",
+          "nitrogen",
+          "improve",
+          "suitable"
+        ],
+        "ur": [
+          "پیداوار",
+          "کھاد",
+          "مٹی",
+          "زمین",
+          "غذائیت"
+        ]
+      }
+    },
+    {
+      "id": "water",
+      "icon": "droplets",
+      "title": {
+        "en": "Water at the roots",
+        "ur": "جڑوں کے پاس پانی دیں"
+      },
+      "body": {
+        "en": "Water at the base of plants, early in the day, and avoid standing water. Wet leaves for many hours help fungal diseases spread.",
+        "ur": "دن کے شروع میں پودوں کی جڑ کے پاس پانی دیں اور پانی کھڑا نہ ہونے دیں۔ کئی گھنٹے گیلے پتے پھپھوندی کی بیماریوں کو پھیلاتے ہیں۔"
+      },
+      "keywords": {
+        "en": [
+          "irrigation",
+          "irrigate",
+          "watering",
+          "drought",
+          "yield"
+        ],
+        "ur": [
+          "آبپاشی",
+          "پانی",
+          "سیراب"
+        ]
+      }
+    },
+    {
+      "id": "hygiene",
+      "icon": "trash",
+      "title": {
+        "en": "Keep the field clean",
+        "ur": "کھیت صاف رکھیں"
+      },
+      "body": {
+        "en": "Remove and destroy diseased plants, fallen fruit and crop remains. Clean tools after working with sick plants.",
+        "ur": "بیمار پودے، گرا ہوا پھل اور فصل کی باقیات ہٹا کر تلف کریں۔ بیمار پودوں پر کام کے بعد اوزار صاف کریں۔"
+      },
+      "keywords": {
+        "en": [
+          "clean",
+          "weeds",
+          "remains",
+          "spread"
+        ],
+        "ur": [
+          "صفائی",
+          "جڑی",
+          "بوٹیاں"
+        ]
+      }
+    },
+    {
+      "id": "ipm",
+      "icon": "shield",
+      "title": {
+        "en": "Use pesticides only as a last resort",
+        "ur": "زہریلی دوا آخری چارہ ہو"
+      },
+      "body": {
+        "en": "First use prevention and natural enemies of pests. If a pesticide is needed, ask your agriculture extension officer which product is approved, and use only what the label says.",
+        "ur": "پہلے احتیاطی طریقے اور کیڑوں کے قدرتی دشمن استعمال کریں۔ اگر دوا ضروری ہو تو زرعی افسر سے منظور شدہ دوا پوچھیں اور صرف لیبل کے مطابق استعمال کریں۔"
+      },
+      "keywords": {
+        "en": [
+          "pesticide",
+          "spray",
+          "insects",
+          "pests",
+          "chemical",
+          "natural"
+        ],
+        "ur": [
+          "اسپرے",
+          "کیڑے",
+          "زہر",
+          "دوا"
+        ]
+      }
+    },
+    {
+      "id": "safety",
+      "icon": "hand",
+      "title": {
+        "en": "Protect yourself and your family",
+        "ur": "اپنی اور اپنے خاندان کی حفاظت کریں"
+      },
+      "body": {
+        "en": "If you use any pesticide: read the label, wear gloves and a mask, keep children and animals away, and never reuse empty containers for food or water.",
+        "ur": "اگر کوئی دوا استعمال کریں تو: لیبل پڑھیں، دستانے اور ماسک پہنیں، بچوں اور جانوروں کو دور رکھیں، اور خالی ڈبے کبھی کھانے یا پانی کے لیے استعمال نہ کریں۔"
+      },
+      "keywords": {
+        "en": [
+          "gloves",
+          "mask",
+          "poison",
+          "spray",
+          "chemical",
+          "children"
+        ],
+        "ur": [
+          "دستانے",
+          "ماسک",
+          "زہر",
+          "حفاظت"
+        ]
+      }
+    },
+    {
+      "id": "records",
+      "icon": "notebook",
+      "title": {
+        "en": "Keep simple records",
+        "ur": "سادہ ریکارڈ رکھیں"
+      },
+      "body": {
+        "en": "Write down what you planted, when, and which problems appeared. Saved scans in this app help too. Records help the extension officer give better advice.",
+        "ur": "لکھ لیں کہ کیا اور کب کاشت کیا اور کون سے مسائل آئے۔ اس ایپ میں محفوظ اسکین بھی مدد دیتے ہیں۔ ریکارڈ سے زرعی افسر بہتر مشورہ دے سکتا ہے۔"
+      },
+      "keywords": {
+        "en": [
+          "notes",
+          "diary",
+          "record",
+          "remember"
+        ],
+        "ur": [
+          "ریکارڈ",
+          "نوٹ"
+        ]
+      }
+    }
+  ]
+}

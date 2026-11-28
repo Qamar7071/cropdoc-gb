@@ -56,6 +56,12 @@ export function LiveViewport({ videoRef, viewRef, ...props }: Props) {
   else if (!result) message = t("live.pointAtLeaf");
   else if (liveView.phase === "locked") message = `${result.disease} · ${crop(result.crop)}`;
   else if (liveView.phase === "steadying") message = t("live.holdSteady");
+  else if (liveView.phase === "retake")
+    message = result.quality?.issues.includes("too_dark")
+      ? t("live.tooDark")
+      : result.quality?.issues.includes("too_bright")
+        ? t("live.tooBright")
+        : t("live.blurry");
   else if (liveView.phase === "unsure") message = t("live.moveCloser");
   else message = t("live.noLeaf");
 

@@ -8,7 +8,7 @@ HAS_WEB := $(wildcard frontend/package.json)
 
 .PHONY: help setup data split train api phone web web-build test test-py test-web lint format e2e package \
         baseline leakage background sweep sweep-status promote eval calibrate ood shift fewshot explain export \
-        report research smoke
+        report research smoke train-field quality
 
 help: ## list targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-12s %s\n", $$1, $$2}'
@@ -27,6 +27,12 @@ split: ## manifest, duplicate groups, group-aware + naive splits (ml/splits)
 
 train: ## quick CPU model -> models/active (real metrics in model_card.json)
 	$(PY) scripts/train_quick.py
+
+train-field: ## model v2 (lab + real-world photos, ~45 min CPU); installs only if the D22 rules pass
+	$(PY) -m cropdoc.field_model
+
+quality: ## photo-check limits (too dark / too bright / blurry) from validation photos
+	$(PY) -m cropdoc.research.quality
 
 # ----------------------------------------------------------------------------- app
 api: ## run the app (API + built frontend) at http://127.0.0.1:8000

@@ -112,6 +112,89 @@ function GapSection({ data }: { data: Json }) {
   );
 }
 
+/** Percentage points from a 0–1 difference: 0.451 → "45.1". */
+const points = (value: number | null) => (value === null ? "—" : (value * 100).toFixed(1));
+
+/** Model v1 (lab photos only) vs v2 (lab + real-world photos), and the pre-registered deployment rules. */
+function FieldModelSection({ data }: { data: Json }) {
+  const { t } = useI18n();
+  const v1 = obj(data.v1);
+  const v2 = obj(data.v2);
+  const metric = (model: Json, domain: string, key: string) => asNumber(obj(model[domain])[key]);
+  // grouped by photo type, one bar per model: the lab bars barely move, the real-world bars jump
+  const bars = [
+    { name: t("field.lab"), v1: metric(v1, "lab_test", "accuracy"), v2: metric(v2, "lab_test", "accuracy") },
+    { name: t("field.field"), v1: metric(v1, "field_test", "accuracy"), v2: metric(v2, "field_test", "accuracy") },
+  ];
+  const diff = obj(data.field_accuracy_difference_v2_minus_v1);
+  const ci = Array.isArray(diff.ci95) ? (diff.ci95 as unknown[]).map(asNumber) : [null, null];
+  const checks = Object.entries(obj(data.promotion_checks)).map(([key, value]) => {
+    const check = obj(value);
+    return { key, ok: check.ok === true, value: asNumber(check.value), required: check.required };
+  });
+  const promoted = data.promoted === true;
+  const show = (key: string, value: number | null) => (key === "non_leaf_confident_share" ? percent(value) : `${points(value)} ${t("field.points")}`);
+  const limit = (key: string, required: unknown) => {
+    const text = String(required ?? "");
+    const number = Number.parseFloat(text.replace(/[^0-9.]/g, ""));
+    const sign = text.startsWith(">=") ? "≥" : text.startsWith("<=") ? "≤" : "";
+    return `${sign} ${show(key, Number.isFinite(number) ? number : null)}`;
+  };
+  return (
+    <div className="space-y-3" data-testid="field-model">
+      <p className="text-sm text-gray-700">{t("field.v2Lead")}</p>
+      <div className="h-64" dir="ltr">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={bars}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+            <YAxis domain={[0, 1]} tickFormatter={(v: number) => `${Math.round(v * 100)}%`} />
+            <Tooltip formatter={(v) => percent(Number(v))} />
+            <Legend />
+            <Bar isAnimationActive={false} dataKey="v1" name={`v1 · ${t("field.accuracy")}`} fill="#86efac" radius={[6, 6, 0, 0]} />
+            <Bar isAnimationActive={false} dataKey="v2" name={`v2 · ${t("field.accuracy")}`} fill="#15803d" radius={[6, 6, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      <dl className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <Tile label={t("field.v2FieldGain")} value={`+${points(asNumber(diff.difference))}`} />
+        <Tile
+          label={`${t("field.macroF1")} · ${t("field.field")}`}
+          value={`${decimal(metric(v1, "field_test", "macro_f1"), 2)} → ${decimal(metric(v2, "field_test", "macro_f1"), 2)}`}
+        />
+        <Tile
+          label={`${t("field.macroF1")} · ${t("field.lab")}`}
+          value={`${decimal(metric(v1, "lab_test", "macro_f1"), 3)} → ${decimal(metric(v2, "lab_test", "macro_f1"), 3)}`}
+        />
+        <Tile label={t("field.ci95")} value={`${points(ci[0] ?? null)} – ${points(ci[1] ?? null)}`} />
+        <Tile
+          label={`${t("field.ece")} · ${t("field.field")}`}
+          value={`${decimal(metric(v1, "field_test", "ece_calibrated"), 2)} → ${decimal(metric(v2, "field_test", "ece_calibrated"), 2)}`}
+        />
+        <Tile label={`${t("field.nonLeafConfident")} · v2`} value={percent(asNumber(v2.non_leaf_confident_share))} />
+      </dl>
+      <div className={`rounded-xl border p-3 ${promoted ? "border-brand-200 bg-brand-50" : "border-amber-300 bg-amber-50 text-amber-950"}`} data-testid="field-model-verdict">
+        <p className="font-bold">{promoted ? t("field.v2Promoted") : t("field.v2NotPromoted")}</p>
+        <ul className="mt-2 space-y-1 text-sm">
+          {checks.map((check) => (
+            <li key={check.key} className="flex items-start gap-2">
+              <span aria-hidden="true" className={check.ok ? "text-brand-700" : "text-red-700"}>
+                {check.ok ? "✓" : "✗"}
+              </span>
+              <span>
+                {t(`field.check.${check.key}`)}: <strong className="latin">{show(check.key, check.value)}</strong>{" "}
+                <span className="text-gray-600 latin">
+                  ({t("field.required")} {limit(check.key, check.required)})
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function FewShotSection({ data }: { data: Json }) {
   const { t } = useI18n();
   const ks = Array.isArray(data.k) ? (data.k as number[]) : [];
@@ -282,6 +365,7 @@ function SectionBody({ id, section }: { id: string; section: FieldSection }) {
   if (section.status !== "ready" || !section.data) return <PendingNotice reason={section.pending_reason} source={section.source} />;
   const data = section.data;
   if (id === "plantdoc_gap" || id === "field_gap") return <GapSection data={data} />;
+  if (id === "field_model") return <FieldModelSection data={data} />;
   if (id.startsWith("fewshot")) return <FewShotSection data={data} />;
   if (id === "calibration") return <CalibrationSection data={data} />;
   if (id === "leakage") return <LeakageSection data={data} />;
@@ -339,7 +423,7 @@ function ContributeForm() {
   );
 }
 
-const ORDER = ["plantdoc_gap", "field_gap", "leakage", "background", "calibration", "ood", "fewshot_plantdoc", "fewshot_field", "cam_focus", "sweep"];
+const ORDER = ["plantdoc_gap", "field_model", "field_gap", "leakage", "background", "calibration", "ood", "fewshot_plantdoc", "fewshot_field", "cam_focus", "sweep"];
 
 export function FieldIntelPage() {
   const { t } = useI18n();

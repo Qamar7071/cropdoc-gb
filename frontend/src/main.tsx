@@ -5,6 +5,8 @@ import { BrowserRouter } from "react-router";
 
 import { App } from "./App";
 import { I18nProvider } from "./i18n";
+import "@fontsource/noto-nastaliq-urdu/arabic-400.css";
+import "@fontsource/noto-nastaliq-urdu/arabic-700.css";
 import "./index.css";
 import { DistrictProvider } from "./state/district";
 

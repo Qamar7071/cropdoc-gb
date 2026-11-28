@@ -437,7 +437,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--max-minutes", type=float, default=80.0)
     parser.add_argument("--no-install", action="store_true", help="never touch models/active (smoke runs)")
+    parser.add_argument(
+        "--summary-only", action="store_true", help="rewrite summary.json from an existing comparison.json"
+    )
     args = parser.parse_args(argv)
+    if args.summary_only:
+        write_json(OUT / "summary.json", summarize(read_json(OUT / "comparison.json")))
+        return 0
 
     seed_everything(args.seed)
     torch.set_num_threads(4)
@@ -583,6 +589,7 @@ def main(argv: list[str] | None = None) -> int:
         "created_utc": created,
     }
     write_json(OUT / "comparison.json", comparison)
+    write_json(OUT / "summary.json", summarize(comparison))
     for name in ("v1", "v2"):
         for domain in ("lab_test", "field_test"):
             pd.DataFrame(results[name][domain]["per_class"]).to_csv(
@@ -593,6 +600,48 @@ def main(argv: list[str] | None = None) -> int:
     if promote:
         install(onnx_path, version, cal_v2, results["v2"], split, args, comparison)
     return 0
+
+
+def summarize(comparison: dict) -> dict:
+    """Small copy of comparison.json for the Field Intelligence page and the README (no new numbers)."""
+
+    def domain(block: dict) -> dict:
+        confident = block["safety_net"]["confident"]
+        return {
+            "n": block["n"],
+            "accuracy": block["accuracy"],
+            "macro_f1": block["macro_f1"],
+            "ece_calibrated": block["ece_calibrated"],
+            "crop_hint_accuracy": block["crop_hint_accuracy"],
+            "confident_share": confident["share"],
+            "confident_accuracy": confident["accuracy"],
+        }
+
+    def model(name: str) -> dict:
+        block = comparison[name]
+        non_leaf = (block.get("non_leaf_photos") or {}).get("confident", {})
+        return {
+            "lab_test": domain(block["lab_test"]),
+            "field_test": domain(block["field_test"]),
+            "non_leaf_confident_share": non_leaf.get("share"),
+            "calibration": block["calibration"],
+        }
+
+    return {
+        "question": comparison["question"],
+        "field_data": comparison["field_data"],
+        "candidate_version": comparison["candidate_version"],
+        "v1": model("v1"),
+        "v2": model("v2"),
+        "field_accuracy_difference_v2_minus_v1": comparison["field_accuracy_difference_v2_minus_v1"],
+        "lab_accuracy_difference_v2_minus_v1": comparison["lab_accuracy_difference_v2_minus_v1"],
+        "promotion_checks": comparison["promotion_checks"],
+        "promoted": comparison["promoted"],
+        "training_minutes": comparison["training"]["minutes"],
+        "hardware": comparison["training"]["hardware"],
+        "source": "results/field_model/comparison.json",
+        "created_utc": comparison["created_utc"],
+    }
 
 
 def install(onnx_path: Path, version: str, cal: dict, v2: dict, split: dict, args, comparison: dict) -> None:

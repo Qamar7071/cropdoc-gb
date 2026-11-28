@@ -1,5 +1,5 @@
 /* Bottom navigation for phones and tablets (< 1024 px), with a centre live-scan button. */
-import { BarChart3, BookOpen, FlaskConical, History, Home, Info, Menu, ScanLine, Video, X } from "lucide-react";
+import { BarChart3, BookOpen, Bot, FlaskConical, History, Home, Info, Lightbulb, Menu, ScanLine, Video, Wheat, X } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router";
 
@@ -36,9 +36,9 @@ export function MobileNav() {
               </span>
             )}
           </NavLink>
-          <NavLink to="/dashboard" className={itemClass}>
-            <BarChart3 className="h-5 w-5" aria-hidden="true" />
-            {t("nav.dashboard")}
+          <NavLink to="/assistant" className={itemClass} data-testid="mobile-assistant">
+            <Bot className="h-5 w-5" aria-hidden="true" />
+            {t("nav.assistantShort")}
           </NavLink>
           <button type="button" className={itemClass({ isActive: open })} onClick={() => setOpen(true)} aria-expanded={open}>
             <Menu className="h-5 w-5" aria-hidden="true" />
@@ -59,6 +59,9 @@ export function MobileNav() {
             <ul className="grid gap-1" onClick={() => setOpen(false)}>
               {[
                 { to: "/scanner", key: "nav.scanner", icon: ScanLine },
+                { to: "/crops", key: "nav.crops", icon: Wheat },
+                { to: "/tips", key: "nav.tips", icon: Lightbulb },
+                { to: "/dashboard", key: "nav.dashboard", icon: BarChart3 },
                 { to: "/library", key: "nav.library", icon: BookOpen },
                 { to: "/field-intelligence", key: "nav.field", icon: FlaskConical },
                 { to: "/about", key: "nav.about", icon: Info },

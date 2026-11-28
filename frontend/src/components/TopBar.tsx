@@ -1,4 +1,4 @@
-import { BarChart3, BookOpen, ChevronDown, FlaskConical, Home, Info, Languages, Mountain, ScanLine, Video } from "lucide-react";
+import { BarChart3, BookOpen, Bot, ChevronDown, FlaskConical, Home, Info, Languages, Mountain, ScanLine, Video, Wheat } from "lucide-react";
 import { NavLink } from "react-router";
 
 import { useI18n } from "../i18n";
@@ -9,6 +9,8 @@ export const NAV_ITEMS = [
   { to: "/", key: "nav.home", icon: Home, end: true },
   { to: "/live", key: "nav.live", icon: Video },
   { to: "/scanner", key: "nav.scanner", icon: ScanLine },
+  { to: "/assistant", key: "nav.assistant", icon: Bot },
+  { to: "/crops", key: "nav.crops", icon: Wheat },
   { to: "/dashboard", key: "nav.dashboard", icon: BarChart3 },
   { to: "/library", key: "nav.library", icon: BookOpen },
   { to: "/field-intelligence", key: "nav.field", icon: FlaskConical },
@@ -84,8 +86,8 @@ export function TopBar() {
                   }
                 >
                   <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
-                  {/* labels from 1400 px (never wrapped); icon-only with title + accessible name below that */}
-                  <span className="sr-only min-[1400px]:not-sr-only min-[1400px]:whitespace-nowrap">{t(key)}</span>
+                  {/* labels from 1600 px (never wrapped); icon-only with title + accessible name below that */}
+                  <span className="sr-only min-[1600px]:not-sr-only min-[1600px]:whitespace-nowrap">{t(key)}</span>
                 </NavLink>
               </li>
             ))}

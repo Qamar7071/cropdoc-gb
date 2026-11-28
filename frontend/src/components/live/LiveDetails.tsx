@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { useI18n } from "../../i18n";
 import { probability } from "../../lib/format";
 import { statusTone, type LiveView } from "../../lib/live";
+import { RetakeAdvice } from "../report/Bilingual";
 import { CategoryBadge, Disclaimer, ErrorBanner } from "../ui";
 import type { LiveStats } from "./useLiveScan";
 
@@ -78,6 +79,8 @@ export function LiveDetails(props: Props) {
             {t("live.tipLight")}
           </p>
         </div>
+      ) : liveView.phase === "retake" ? (
+        <RetakeAdvice issues={result.quality?.issues ?? []} />
       ) : (
         <>
           {!locked && (
@@ -111,6 +114,11 @@ export function LiveDetails(props: Props) {
                 <p className="text-2xl leading-tight font-bold text-gray-900" data-testid="live-disease">
                   {result.disease}
                 </p>
+                {result.disease_info.report?.name.ur && (
+                  <p lang="ur" dir="rtl" className="urdu text-right text-lg font-semibold text-gray-800" data-testid="live-disease-ur">
+                    {result.disease_info.report.name.ur} ({result.disease_info.report.crop.ur})
+                  </p>
+                )}
                 <p className="mt-0.5 flex flex-wrap items-center gap-2 text-gray-700">
                   <span>{crop(result.crop)}</span>
                   {result.disease_info.category && <CategoryBadge category={result.disease_info.category} />}

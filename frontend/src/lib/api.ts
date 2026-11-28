@@ -1,6 +1,51 @@
 /* Typed client for the CropDoc GB API (see docs/api.md). */
 
-export type Status = "confident" | "low_confidence" | "not_a_leaf_or_unsupported_crop";
+export type Status = "confident" | "low_confidence" | "not_a_leaf_or_unsupported_crop" | "retake_photo";
+
+export interface Bilingual {
+  en: string;
+  ur: string;
+}
+
+export interface BilingualList {
+  en: string[];
+  ur: string[];
+}
+
+export type RiskLevel = "low" | "medium" | "high" | "none" | "";
+
+/** Bilingual knowledge for one class (from the knowledge base, never measured from the photo). */
+export interface DiseaseReport {
+  id: string;
+  crop: Bilingual;
+  name: Bilingual;
+  category: string;
+  healthy: boolean;
+  pathogen: string;
+  description: Bilingual;
+  risk_level: RiskLevel;
+  risk_reason: Bilingual;
+  symptoms_early: BilingualList;
+  symptoms_advanced: BilingualList;
+  spread: Bilingual;
+  causes: BilingualList;
+  immediate_actions: BilingualList;
+  prevention: BilingualList;
+  treatment_categories: BilingualList;
+  call_expert_when: BilingualList;
+  extension_fallback: Bilingual;
+  sources: string[];
+  needs_review: boolean;
+  urdu_needs_review: boolean;
+}
+
+export interface QualityReport {
+  checked: boolean;
+  ok: boolean;
+  issues: ("too_dark" | "too_bright" | "blurry")[];
+  brightness?: number | null;
+  sharpness?: number | null;
+}
 
 export interface Health {
   status: "ok";
@@ -60,12 +105,14 @@ export interface PredictResponse {
     category: string;
     recommendations: string[];
     needs_review: boolean;
+    report?: DiseaseReport | null;
   };
   gradcam_png: string;
   heatmap_png: string;
   model_view_jpeg: string;
   scores: Record<string, number>;
   thresholds: { min_confidence: number; max_energy: number | null; provisional: boolean; source: string };
+  quality?: QualityReport;
   crop_hint: string | null;
   district: string | null;
   model_version: string;
@@ -82,6 +129,7 @@ export interface LivePredictResponse {
   top3: TopPrediction[];
   disease_info: PredictResponse["disease_info"];
   heatmap_png: string;
+  quality?: QualityReport;
   crop_hint: string | null;
   model_version: string;
   inference_ms: number;
@@ -168,6 +216,81 @@ export interface DiseaseDetail {
   sources: string[];
   needs_review: boolean;
   images: string[];
+  report?: DiseaseReport;
+}
+
+export interface CropSummary {
+  id: string;
+  name: Bilingual;
+  season: Bilingual;
+  summary: Bilingual;
+  scanner_supported: boolean;
+  diseases: Bilingual[];
+}
+
+export interface CropDisease {
+  name: Bilingual;
+  symptoms: Bilingual;
+  prevention: BilingualList;
+}
+
+export interface CropDetail extends Omit<CropSummary, "diseases" | "scanner_supported"> {
+  diseases: CropDisease[];
+  seasonal_care: BilingualList;
+  scanner_classes: string[];
+  scanner_diseases: { id: string; name: Bilingual }[];
+  sources: string[];
+  needs_review: boolean;
+  meta: { scanner_note?: Bilingual; status?: string };
+}
+
+export interface Tip {
+  id: string;
+  icon: string;
+  title: Bilingual;
+  body: Bilingual;
+}
+
+export interface WeatherDay {
+  date: string;
+  summary: Bilingual;
+  temp_max: number | null;
+  temp_min: number | null;
+  precipitation_mm: number | null;
+  precipitation_probability: number | null;
+}
+
+export interface Weather {
+  available: boolean;
+  reason?: string;
+  place?: string | null;
+  current?: { temperature: number | null; humidity: number | null; precipitation_mm: number | null; wind_kmh: number | null; summary: Bilingual };
+  daily?: WeatherDay[];
+  advisories?: Bilingual[];
+  advisory_note?: Bilingual;
+  attribution?: string;
+}
+
+export interface ChatTurn {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface AssistantReply {
+  reply: string;
+  language: "en" | "ur";
+  mode: "ai" | "knowledge_base";
+  model: string | null;
+  notice: "ai_not_configured" | "ai_unavailable" | null;
+  related: { kind: "disease" | "crop" | "tip"; id: string; title: Bilingual }[];
+  sources: string[];
+  disclaimer: string;
+}
+
+export interface AssistantStatus {
+  ai_available: boolean;
+  model: string | null;
+  privacy: Bilingual;
 }
 
 export interface FieldSection {
@@ -264,6 +387,17 @@ export const api = {
     request<{ items: DiseaseSummary[]; crops: string[] }>(`/api/diseases${query(params)}`),
   disease: (id: string) => request<DiseaseDetail>(`/api/diseases/${encodeURIComponent(id)}`),
   fieldIntel: () => request<FieldIntel>("/api/field-intelligence"),
+  crops: () => request<{ items: CropSummary[]; meta: { scanner_note?: Bilingual } }>("/api/crops"),
+  crop: (id: string) => request<CropDetail>(`/api/crops/${encodeURIComponent(id)}`),
+  tips: () => request<{ items: Tip[]; meta: { sources: string[] } }>("/api/tips"),
+  weather: (params: { district?: string; lat?: number; lon?: number }) => request<Weather>(`/api/weather${query(params)}`),
+  assistantStatus: () => request<AssistantStatus>("/api/assistant/status"),
+  assistantChat: (messages: ChatTurn[], classId?: string) =>
+    request<AssistantReply>("/api/assistant/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages, class_id: classId || undefined }),
+    }),
   contribute: (file: File, label: string, consent: boolean, district?: string) => {
     const form = new FormData();
     form.append("image", file);

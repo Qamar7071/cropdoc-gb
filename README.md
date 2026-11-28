@@ -1,11 +1,14 @@
 # CropDoc GB: AI Plant Disease Scanner for Gilgit-Baltistan
 
 Point your phone or laptop camera at a leaf and CropDoc GB names the likely disease **live, on screen,
-like a scanner**, or upload a photo for a full report. It shows **where the AI looked**
-(Grad-CAM heatmap) and gives an **honest confidence** with a "not sure, ask an expert" warning. It
-also offers **general care guidance** with sources. It runs privately on your own computer. Behind
-the app is a measured study of the problem most plant-disease demos hide: **models trained on clean
-lab photos fail on real field photos.**
+like a scanner**, or upload a photo for a full **Plant Analysis Report in English and Urdu on the same
+screen**. It shows **where the AI looked** (Grad-CAM heatmap), gives an **honest confidence** with a "not
+sure, ask an expert" warning, and asks for **another photo** when a picture is too dark, too bright or blurry.
+Farmers also get a **treatment guide** (cultural practices and safe steps, never product names or doses),
+an **agriculture assistant** that answers in Urdu or English, **crop information** for 9 Pakistani crops,
+**farming tips** and the **weather**. It runs privately on your own computer. Behind the app is a measured
+study of the problem most plant-disease demos hide: **models trained on clean lab photos fail on real
+field photos.**
 
 > General guidance only, not a diagnosis. Please consult an agriculture expert.
 
@@ -15,6 +18,10 @@ lab photos fail on real field photos.**
 
 The screenshots come from the automated end-to-end test (`frontend/e2e/live.spec.ts`): a fake webcam shows a PlantVillage
 *test* photo of potato early blight and the real model answers every frame.
+
+| Plant Analysis Report (English + Urdu) | Farmer dashboard | Agriculture assistant |
+|---|---|---|
+| <img src="docs/img/report-phone.jpg" alt="Plant Analysis Report on a phone: plant, disease, status, confidence and severity in English and Urdu" width="250"> | <img src="docs/img/dashboard-phone.jpg" alt="Farmer dashboard on a phone: big scan buttons, tiles, weather and tips" width="250"> | <img src="docs/img/assistant-phone.jpg" alt="Assistant answering a wheat question in Urdu from the knowledge base" width="250"> |
 
 ![Disease Scanner](docs/img/scanner-desktop.jpg)
 
@@ -56,6 +63,26 @@ certificate: tap **Advanced → Proceed**. Photos stay on your Wi-Fi. If Windows
 To use it anywhere without the laptop, deploy it to a free HTTPS host (Hugging Face Spaces, Render or Vercel):
 see [`docs/deploy.md`](docs/deploy.md).
 
+### Agriculture assistant (optional AI key)
+The **Assistant** page answers questions such as "گندم کی فصل کو بیماری سے کیسے بچاؤں؟" or "tamatar ke pattay
+peelay hain": in Urdu for Urdu or Roman Urdu questions, in English for English ones. It always searches the CropDoc
+knowledge base first (diseases, crops, tips with sources). It works in two modes:
+- **Without a key (default):** it shows a short summary of the best-matching verified entries. It works offline.
+- **With an Anthropic API key:** Claude writes a short answer **only from those passages**, asks a follow-up question
+  when the crop or symptoms are unclear, and follows the same safety rules (no product names or doses). Before
+  starting, set the key in the console (never put it in a file you share):
+
+  | Windows (cmd) | macOS / Linux |
+  |---|---|
+  | `set ANTHROPIC_API_KEY=sk-ant-...` then `start.bat` | `export ANTHROPIC_API_KEY=sk-ant-...` then `./start.sh` |
+
+  When the key is set, questions are sent to Anthropic to write the answer, and the page says so. If the service is
+  unreachable, the assistant falls back to the knowledge base. Optional: `CROPDOC_ASSISTANT_MODEL` (default
+  `claude-opus-5-5`) and `CROPDOC_ASSISTANT_EFFORT` (default `medium`).
+
+The **weather card** uses the free [Open-Meteo](https://open-meteo.com) service (no key, internet needed). Your
+location is rounded to about 10 km before it leaves the computer. Turn it off with `CROPDOC_WEATHER=off`.
+
 ## Troubleshooting
 - **"The AI engine (ONNX Runtime) could not start … DLL load failed" (Windows):** install the latest
   [Microsoft Visual C++ Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe), restart if asked,
@@ -72,8 +99,8 @@ see [`docs/deploy.md`](docs/deploy.md).
   "Take a photo" still works meanwhile.
 - **"Camera permission is blocked":** tap the lock icon in the address bar → Permissions → Camera → Allow, then reload.
 - **"Camera is busy":** close video-call or camera apps that are using it.
-- **Deployed on Vercel but it does not work:** set Framework Preset to `FastAPI` (or `Other`) and Root Directory to the
-  repository root (not `frontend`), then redeploy without the build cache. Check `https://<project>.vercel.app/api/health`.
+- **Deployed on Vercel but it does not work:** in Settings → Build and Deployment, **Root Directory must be empty** (the
+  repository root, not `backend` or `frontend`) and Framework Preset `FastAPI`; then redeploy without the build cache. Check `https://<project>.vercel.app/api/health`.
   Details: [`docs/deploy.md`](docs/deploy.md#option-c-vercel-free-serverless).
 - **The phone cannot open the address:** both devices must be on the same Wi-Fi (not a guest network that isolates
   devices), and the firewall must allow Python on private networks.
@@ -133,6 +160,37 @@ _Source: `results/ood/ood_summary.json`, `results/calibration/thresholds.json`._
 _Source: `results/background/background_summary.json`, `results/explain/cam_outside_leaf.json`._
 <!-- END:shortcut -->
 
+### Can training with real-world photos close the gap? (model v2)
+Model v2 learned from lab photos **and** real-world photos (PlantDoc's own group-aware train split, 1,545 photos),
+with background randomization so the plain lab background stops being a shortcut (`make train-field`, about
+45 minutes on 4 CPU cores). The deployment rules were written down **before** any test result was seen
+(`docs/decisions.md`, D22). Both models were then tested once on the same unseen photos:
+<!-- BEGIN:field_model -->
+| Measure | v1 (deployed, lab photos only) | v2 (lab + real-world photos) |
+|---|---|---|
+| Lab test photos: accuracy | 98.3% | 97.3% |
+| Lab test photos: macro-F1 | 0.981 | 0.967 |
+| Real-world test photos: accuracy | 23.4% | 68.1% |
+| Real-world test photos: macro-F1 | 0.227 | 0.678 |
+| Real-world: calibration error (ECE) | 0.479 | 0.074 |
+| Real-world: share answered 'confident' | 14.7% | 52.3% |
+| Real-world: accuracy when 'confident' | 44.2% | 85.2% |
+| Non-leaf photos answered 'confident' | 2.8% | 3.7% |
+
+Test photos: 8,145 lab, 646 real-world (PlantDoc web photos, not Gilgit-Baltistan). Real-world accuracy difference v2 − v1: +44.7 points (95% CI +40.1 to +49.2); lab: -1.0 points (95% CI -1.4 to -0.7). Rules: real-world macro-F1 gain 45.12 points (rule: ≥ 5.00 points) ✓; lab macro-F1 drop 1.37 points (rule: ≤ 1.00 points) ✗; non-leaf photos answered 'confident' 3.7% (rule: ≤ 5.0%) ✓. **v2 is not deployed**: it failed a rule fixed before testing, so the app keeps v1.
+
+_Source: `results/field_model/summary.json` (from `comparison.json`)._
+<!-- END:field_model -->
+
+v2 is far better on real-world photos, but it missed the pre-registered lab rule (macro-F1 may drop by at most
+1 point), so **the app still uses v1**. The rule is not changed after the fact; whether to deploy v2 anyway is the
+owner's decision and would be logged in `docs/decisions.md`. Remaining v2 mistakes are mostly between look-alike
+diseases (corn gray leaf spot vs northern leaf blight, tomato septoria vs bacterial spot, potato vs tomato late
+blight): see the confusion matrices in `results/field_model/`. **Class imbalance**
+(`results/data_audit/class_balance.json`): lab training photos per class range from 108 to 3,854 and real-world ones
+from 2 to 115, and 10 classes have no real-world photos at all. v2's fine-tuning draws at most 200 lab photos per class
+per epoch, and every comparison uses macro-F1, which counts each class equally.
+
 ![Field Intelligence page: every number is loaded from results/](docs/img/field-intelligence.jpg)
 
 ## Why this matters in Gilgit-Baltistan
@@ -142,6 +200,18 @@ unsure, can help a farmer decide when to call the extension officer. It is only 
 trusted on *real* field photos, which is why the field study comes first.
 
 ## What the app does
+- **Plant Analysis Report (English + Urdu side by side):** plant, disease, status, confidence and severity (risk) in a
+  table, then symptoms, possible causes and recommended actions in both languages, with buttons for the full details,
+  the treatment guide, the assistant, saving and scanning another plant.
+- **Photo check:** too dark, too bright or blurry photos get "please take another photo" with advice, and no disease is
+  shown or saved. The limits were measured on real validation photos (`results/quality/quality_summary.json`).
+- **Treatment guide:** overview, early and advanced symptoms, causes and spread, immediate actions, prevention,
+  generic treatment categories, safety and when to call an expert. Cultural practices only: no product names, doses
+  or spray schedules ("consult your local agriculture extension officer").
+- **Agriculture assistant:** questions in Urdu, Roman Urdu or English; grounded in the knowledge base with sources.
+- **Crop information:** wheat, rice, cotton, sugarcane, tomato, potato, maize, mango and citrus: common diseases,
+  prevention and seasonal care in English and Urdu, from cited sources. **Farming tips** from FAO guidance.
+- **Farmer dashboard:** big buttons for scanning, history, crops, assistant, tips and language, plus local weather.
 - **Live Scan:** point the camera at a leaf and the answer appears on screen within about a second, with a scan box
   that turns green when 2 of the last 3 frames agree, a live heatmap, flashlight and camera switch. Works on laptops
   (webcam) and phones (back camera); one tap saves a full report.
@@ -212,6 +282,7 @@ _Source: `results/export/benchmark.json`, `results/export/parity.json`._
 | Leakage: naive vs group-aware split | ready | `results/leakage/leakage_summary.json` |
 | Background uniformity / background-only probe | ready | `results/background/background_summary.json` |
 | Lab → real-world photos (PlantDoc) | ready | `results/shift/plantdoc_gap.json` |
+| Model v2 trained with real-world photos (v1 vs v2) | ready | `results/field_model/summary.json` |
 | Lab → Gilgit-Baltistan field photos | **PENDING** | `results/shift/field_gap.json` |
 | Calibration (ECE, reliability) | ready | `results/calibration/calibration_summary.json` |
 | OOD detection (AUROC) | ready | `results/ood/ood_summary.json` |
@@ -223,12 +294,20 @@ _Source: `results/export/benchmark.json`, `results/export/parity.json`._
 
 ## Limitations (honest)
 - The deployed model is a **quick CPU-trained** model trained only on lab photos. Real-world accuracy is low (see above),
-  so treat any answer on a field photo as a hint, not a result.
+  so treat any answer on a field photo as a hint, not a result. Model v2 is much better on real-world photos but is
+  not deployed because it missed a pre-registered lab-accuracy rule (see "model v2" above).
+- The photo check only measures light and sharpness. It cannot tell whether a sharp photo shows the right leaf; the
+  "unsupported" warning handles that, and it is not perfect either.
+- Severity (risk) is the disease's general potential for loss from the cited sources, **not** a measurement of how
+  badly this plant is affected.
+- The assistant answers only from the CropDoc knowledge base. In AI mode the wording is written by an AI model and can
+  still be wrong; it always points to the extension officer for products and doses.
 - Real-world results so far come from **PlantDoc web photos, not Gilgit-Baltistan photos**. The GB study is PENDING
   until field photos are collected (`docs/field_collection_guide.md`).
-- It covers 38 classes from 14 crops. Apricot, walnut, mulberry, wheat and other local crops are unsupported.
-- Disease guidance was drafted from cited extension sources and is **awaiting expert review** (`needs_review`). The Urdu
-  text is machine-written and needs native review.
+- The scanner covers 38 classes from 14 crops. Apricot, walnut, mulberry, wheat, rice, cotton, sugarcane, mango, citrus
+  and other local crops are not recognised by the scanner (the crop pages still give information about them).
+- Disease, crop and tip content was drafted from cited sources and is **awaiting expert review** (`needs_review`). All
+  Urdu text (interface, reports, crops, tips) is machine-written and needs review by a native speaker.
 
 ## Ethics
 CropDoc GB is **not a replacement for agronomists or agriculture extension officers**. It never names chemical
@@ -246,8 +325,8 @@ only with consent and after an expert has checked the label.
 
 ## Project structure
 ```
-backend/   FastAPI app (ONNX Runtime inference, Grad-CAM, SQLite history, upload security)
-frontend/  React + Vite + TypeScript + Tailwind (8 pages incl. Live Scan, EN/UR, PWA), vitest + Playwright
+backend/   FastAPI app (ONNX Runtime inference, Grad-CAM, photo check, SQLite history, bilingual knowledge, assistant, weather)
+frontend/  React + Vite + TypeScript + Tailwind (Live Scan, scanner, report, assistant, crops, tips, EN/UR, PWA), vitest + Playwright
 ml/        cropdoc package: data, models, train, sweep, evaluate, calibration, research/*, configs, Colab notebook
 models/active/  deployed ONNX model + model card + calibration (thresholds)
 results/   every metric and plot as JSON/CSV/PNG: the only source of numbers in the docs and UI

@@ -14,17 +14,19 @@ Plan: `docs/PLAN.md`. Decisions: `docs/decisions.md` (append, never rewrite hist
 2. **Never ship placeholder predictions.** If no model is loaded, the API reports
    `model_loaded: false`, `/api/predict` returns HTTP 503 with instructions, and the
    UI shows "Model not loaded".
-3. **Disease content safety:** cultural practices only. Never invent chemical names,
-   doses, spray intervals or application methods. Use "Consult your local agriculture
-   extension officer for approved products and doses." Anything not checked against a
-   cited source keeps `needs_review: true`. Every result screen keeps the disclaimer.
+3. **Disease content safety:** cultural practices, plus generic treatment categories only in
+   `treatment_categories` (e.g. "a fungicide labelled for this disease", always with "ask your
+   extension officer / follow the label"). Never write product or active-ingredient names, doses,
+   spray intervals or application methods. Use "Consult your local agriculture extension officer
+   for approved products and doses." Anything not checked against a cited source keeps
+   `needs_review: true`. Every result screen keeps the disclaimer. Tests enforce this (EN + UR).
 4. **No leakage:** the group-aware split (`ml/splits/`) is the only split used for
    reported metrics. Model selection, temperature and thresholds use validation data
    only; test and field sets are evaluation-only.
 5. Swap a new model into `models/active/` **only** if it beats the current one on the
    group-aware test split (macro-F1), and regenerate `model_card.json` from result files.
-6. Urdu strings are machine-written: keep `frontend/src/i18n/ur.json` marked
-   "needs native review".
+6. Urdu strings are machine-written: keep `frontend/src/i18n/ur.json` and
+   `backend/app/data/diseases_ur.json` marked "needs native review".
 7. Use design references in `design/` as inspiration only; original branding (CropDoc GB),
    no third-party logos, names or icons.
 
@@ -38,7 +40,8 @@ Plan: `docs/PLAN.md`. Decisions: `docs/decisions.md` (append, never rewrite hist
 
 ## Layout
 ```
-backend/app/      FastAPI app (main.py, api/, services/, db.py, schemas.py, data/diseases.json)
+backend/app/      FastAPI app (main.py, api/, services/, db.py, schemas.py,
+                  data/diseases.json + diseases_ur.json, crops.json, tips.json)
 backend/tests/    pytest (uses a tiny generated ONNX model; no real model needed)
 frontend/         React + Vite + TS + Tailwind (src/pages, src/components, src/lib, src/i18n)
 ml/src/cropdoc/   training/research package (data, models, train, evaluate, calibration,
@@ -56,6 +59,8 @@ make setup      # venv (.venv, Python 3.11) + all pinned deps + frontend npm ci
 make data       # download PlantVillage (+ masks) and PlantDoc
 make split      # manifest, duplicate groups, group-aware + naive splits
 make train      # quick CPU model -> models/active (scripts/train_quick.py)
+make train-field  # model v2 (lab + real-world photos); installs only if the D22 rules pass
+make quality    # photo-check limits (dark/bright/blurry) from validation photos -> models/active/quality.json
 make api        # run backend on http://localhost:8000 (serves built frontend)
 make phone      # HTTPS on the Wi-Fi (self-signed) so phones can use Live Scan; prints the address
 make web        # Vite dev server (proxy /api -> :8000)

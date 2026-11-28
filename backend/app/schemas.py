@@ -7,7 +7,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-Status = Literal["confident", "low_confidence", "not_a_leaf_or_unsupported_crop"]
+Status = Literal["confident", "low_confidence", "not_a_leaf_or_unsupported_crop", "retake_photo"]
 
 GB_DISTRICTS = [
     "Skardu",
@@ -63,12 +63,61 @@ class TopPrediction(BaseModel):
     probability: float
 
 
+class Bilingual(BaseModel):
+    en: str = ""
+    ur: str = ""
+
+
+class BilingualList(BaseModel):
+    en: list[str] = Field(default_factory=list)
+    ur: list[str] = Field(default_factory=list)
+
+
+class DiseaseReport(BaseModel):
+    """Bilingual knowledge for the result screen (from diseases.json + diseases_ur.json, never from the photo)."""
+
+    id: str
+    crop: Bilingual
+    name: Bilingual
+    category: str = ""
+    healthy: bool = False
+    pathogen: str = ""
+    description: Bilingual
+    risk_level: str = Field(
+        "", description="General loss potential of the disease (low/medium/high/none), from sources."
+    )
+    risk_reason: Bilingual
+    symptoms_early: BilingualList
+    symptoms_advanced: BilingualList
+    spread: Bilingual
+    causes: BilingualList
+    immediate_actions: BilingualList
+    prevention: BilingualList
+    treatment_categories: BilingualList
+    call_expert_when: BilingualList
+    extension_fallback: Bilingual
+    sources: list[str] = Field(default_factory=list)
+    needs_review: bool = True
+    urdu_needs_review: bool = True
+
+
+class QualityReport(BaseModel):
+    """Is the photo good enough to analyse? (thresholds from validation photos: models/active/quality.json)"""
+
+    checked: bool = False
+    ok: bool = True
+    issues: list[str] = Field(default_factory=list, description="too_dark, too_bright, blurry")
+    brightness: float | None = None
+    sharpness: float | None = None
+
+
 class DiseaseBrief(BaseModel):
     id: str
     description: str = ""
     category: str = ""
     recommendations: list[str] = Field(default_factory=list)
     needs_review: bool = True
+    report: DiseaseReport | None = None
 
 
 class PredictResponse(BaseModel):
@@ -87,6 +136,7 @@ class PredictResponse(BaseModel):
     model_view_jpeg: str = Field(..., description="Base64 JPEG: the centre crop the model actually saw.")
     scores: dict[str, float]
     thresholds: dict[str, Any]
+    quality: QualityReport = Field(default_factory=QualityReport)
     crop_hint: str | None = None
     district: str | None = None
     model_version: str
@@ -107,6 +157,7 @@ class LivePredictResponse(BaseModel):
     heatmap_png: str = Field(
         ..., description="Base64 PNG (RGBA, 112 px): Grad-CAM with transparency, to draw over the camera."
     )
+    quality: QualityReport = Field(default_factory=QualityReport)
     crop_hint: str | None = None
     model_version: str
     inference_ms: float = Field(..., description="Server time spent on this frame, in milliseconds.")

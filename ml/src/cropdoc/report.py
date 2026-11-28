@@ -84,10 +84,70 @@ def block_data_facts() -> str:
     return "\n".join(lines) + "\n\n_Source: `results/data_audit/`, `ml/splits/manifest.json`._"
 
 
+def block_field_model() -> str:
+    """Model v1 (lab photos only) vs v2 (lab + real-world photos) on the same unseen test photos."""
+    summary = _load("results/field_model/summary.json")
+    if not summary:
+        return f"{PENDING}: run `make train-field` (CPU, about 1 hour)."
+    v1, v2 = summary["v1"], summary["v2"]
+    rows = [
+        ("Lab test photos: accuracy", "lab_test", "accuracy", lambda v: pct(v)),
+        ("Lab test photos: macro-F1", "lab_test", "macro_f1", num),
+        ("Real-world test photos: accuracy", "field_test", "accuracy", lambda v: pct(v)),
+        ("Real-world test photos: macro-F1", "field_test", "macro_f1", num),
+        ("Real-world: calibration error (ECE)", "field_test", "ece_calibrated", num),
+        ("Real-world: share answered 'confident'", "field_test", "confident_share", lambda v: pct(v)),
+        ("Real-world: accuracy when 'confident'", "field_test", "confident_accuracy", lambda v: pct(v)),
+    ]
+    lines = ["| Measure | v1 (deployed, lab photos only) | v2 (lab + real-world photos) |", "|---|---|---|"]
+    for label, domain, key, fmt in rows:
+        lines.append(f"| {label} | {fmt(v1[domain][key])} | {fmt(v2[domain][key])} |")
+    lines.append(
+        f"| Non-leaf photos answered 'confident' | {pct(v1['non_leaf_confident_share'])} "
+        f"| {pct(v2['non_leaf_confident_share'])} |"
+    )
+    n_lab, n_field = v1["lab_test"]["n"], v1["field_test"]["n"]
+    diff = summary["field_accuracy_difference_v2_minus_v1"]
+    lab_diff = summary["lab_accuracy_difference_v2_minus_v1"]
+    checks = summary["promotion_checks"]
+    names = {
+        "field_macro_f1_gain": "real-world macro-F1 gain",
+        "lab_macro_f1_drop": "lab macro-F1 drop",
+        "non_leaf_confident_share": "non-leaf photos answered 'confident'",
+    }
+
+    def show(key: str, value: float) -> str:
+        return pct(value) if key == "non_leaf_confident_share" else f"{value * 100:.2f} points"
+
+    verdicts = []
+    for key, check in checks.items():
+        sign, limit = check["required"].split()  # e.g. ">= 0.05"
+        need = f"{'≥' if sign == '>=' else '≤'} {show(key, float(limit))}"
+        verdicts.append(
+            f"{names.get(key, key)} {show(key, check['value'])} (rule: {need}) {'✓' if check['ok'] else '✗'}"
+        )
+    decision = (
+        "**v2 passed every rule and is the deployed model.**"
+        if summary["promoted"]
+        else "**v2 is not deployed**: it failed a rule fixed before testing, so the app keeps v1."
+    )
+    return (
+        "\n".join(lines)
+        + f"\n\nTest photos: {n_lab:,} lab, {n_field:,} real-world (PlantDoc web photos, not Gilgit-Baltistan). "
+        f"Real-world accuracy difference v2 − v1: {diff['difference'] * 100:+.1f} points "
+        f"(95% CI {diff['ci95'][0] * 100:+.1f} to {diff['ci95'][1] * 100:+.1f}); lab: "
+        f"{lab_diff['difference'] * 100:+.1f} points (95% CI {lab_diff['ci95'][0] * 100:+.1f} to "
+        f"{lab_diff['ci95'][1] * 100:+.1f}). Rules: "
+        + "; ".join(verdicts)
+        + f". {decision}\n\n_Source: `results/field_model/summary.json` (from `comparison.json`)._"
+    )
+
+
 RESEARCH_FILES = [
     ("Leakage: naive vs group-aware split", "results/leakage/leakage_summary.json"),
     ("Background uniformity / background-only probe", "results/background/background_summary.json"),
     ("Lab → real-world photos (PlantDoc)", "results/shift/plantdoc_gap.json"),
+    ("Model v2 trained with real-world photos (v1 vs v2)", "results/field_model/summary.json"),
     ("Lab → Gilgit-Baltistan field photos", "results/shift/field_gap.json"),
     ("Calibration (ECE, reliability)", "results/calibration/calibration_summary.json"),
     ("OOD detection (AUROC)", "results/ood/ood_summary.json"),
@@ -109,6 +169,7 @@ BLOCKS: dict[str, Callable[[], str]] = {
     "quick_metrics": block_quick_metrics,
     "data_facts": block_data_facts,
     "research_status": block_research_status,
+    "field_model": block_field_model,
 }
 EXTRA_BLOCKS: dict[str, Callable[[], str]] = {}  # research blocks register here (cropdoc.report_research)
 

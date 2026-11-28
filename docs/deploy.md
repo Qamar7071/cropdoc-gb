@@ -91,6 +91,11 @@ This serves on port 8000 and keeps history in the `cropdoc-data` volume. Put it 
 | `CROPDOC_LIVE_RATE_LIMIT_PER_MINUTE` | `240` | live-camera frames per IP per minute (the app sends at most about 2 per second) |
 | `CROPDOC_MAX_UPLOAD_MB` | `5` | largest accepted photo |
 | `CROPDOC_CORS_ORIGINS` | localhost dev server | only needed if the web app is served from a different domain |
+| `ANTHROPIC_API_KEY` | not set | turns on AI answers in the Assistant (without it, answers come from the knowledge base). Add it as a **secret** in the host's dashboard; never commit it |
+| `CROPDOC_ASSISTANT_MODEL` | `claude-opus-5-5` | Claude model for the Assistant |
+| `CROPDOC_ASSISTANT_EFFORT` | `medium` | how much effort Claude spends per answer (`low`, `medium`, `high`) |
+| `CROPDOC_ASSISTANT_RATE_LIMIT_PER_MINUTE` | `20` | assistant questions per IP per minute |
+| `CROPDOC_WEATHER` | `on` | `off` hides the weather (no calls to Open-Meteo) |
 
 ## Privacy (read before sharing a link)
 - **Live Scan frames are never stored.** Only "Save & full report" and the photo scanner (with "Save" ticked)
@@ -98,6 +103,9 @@ This serves on port 8000 and keeps history in the `cropdoc-data` volume. Put it 
 - **One deployment = one shared history.** Everyone using the same address sees the same My Scoutings list and
   dashboard. That is fine for one farmer, a family, or an extension team. For a public link, tell users not to
   save photos they consider private, or deploy a separate copy per group.
+- **Assistant:** with `ANTHROPIC_API_KEY` set, each question is sent to Anthropic to write the answer (the page says
+  so). Without it, nothing leaves the server. Weather requests go from the server to Open-Meteo with the district
+  name or coordinates rounded to about 10 km.
 - **Free hosts may wipe saved scans** when the service restarts or redeploys (their disks are temporary unless
   you add a paid persistent disk). The app itself keeps working.
 

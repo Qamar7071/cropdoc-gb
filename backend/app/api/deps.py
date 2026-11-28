@@ -8,8 +8,12 @@ from fastapi import HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.config import Settings
+from app.services.assistant import Assistant
+from app.services.crops import CropLibrary
 from app.services.diseases import DiseaseLibrary
 from app.services.inference import InferenceService
+from app.services.quality import QualityThresholds
+from app.services.weather import WeatherService
 
 
 class StartupFailed(Exception):
@@ -55,6 +59,22 @@ def get_inference(request: Request) -> InferenceService:
 
 def get_diseases(request: Request) -> DiseaseLibrary:
     return _ready_or_503(request).diseases
+
+
+def get_crops(request: Request) -> CropLibrary:
+    return _ready_or_503(request).crops
+
+
+def get_assistant(request: Request) -> Assistant:
+    return _ready_or_503(request).assistant
+
+
+def get_weather(request: Request) -> WeatherService:
+    return _ready_or_503(request).weather
+
+
+def get_quality(request: Request) -> QualityThresholds:
+    return _ready_or_503(request).quality
 
 
 def get_session(request: Request) -> Iterator[Session]:

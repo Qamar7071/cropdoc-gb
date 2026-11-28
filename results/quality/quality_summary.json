@@ -1,0 +1,64 @@
+{
+  "rule": "each check flags at most 1% of the domain-balanced validation photos (lab val sample + field val)",
+  "thresholds": {
+    "min_brightness": 65.5818862915039,
+    "max_brightness": 221.0162811279297,
+    "min_sharpness": 70.48881072998047
+  },
+  "validation": {
+    "lab": {
+      "n": 1504,
+      "too_dark": 0.003324468085106383,
+      "too_bright": 0.0,
+      "blurry": 0.01795212765957447,
+      "any": 0.02127659574468085
+    },
+    "field": {
+      "n": 387,
+      "too_dark": 0.015503875968992248,
+      "too_bright": 0.01808785529715762,
+      "blurry": 0.002583979328165375,
+      "any": 0.03617571059431524
+    }
+  },
+  "false_alarms_on_test_photos": {
+    "lab": {
+      "n": 760,
+      "too_dark": 0.003947368421052632,
+      "too_bright": 0.0,
+      "blurry": 0.017105263157894738,
+      "any": 0.021052631578947368
+    },
+    "field": {
+      "n": 646,
+      "too_dark": 0.017027863777089782,
+      "too_bright": 0.032507739938080496,
+      "blurry": 0.006191950464396285,
+      "any": 0.05263157894736842
+    }
+  },
+  "detection_on_degraded_validation_photos": {
+    "dark": {
+      "n": 1891,
+      "too_dark": 1.0,
+      "too_bright": 0.0,
+      "blurry": 0.5446853516657852,
+      "any": 1.0
+    },
+    "bright": {
+      "n": 1891,
+      "too_dark": 0.0,
+      "too_bright": 0.9687995769434162,
+      "blurry": 0.4336329984135378,
+      "any": 0.9925965097831835
+    },
+    "blur": {
+      "n": 1891,
+      "too_dark": 0.006345848757271285,
+      "too_bright": 0.004230565838180857,
+      "blurry": 1.0,
+      "any": 1.0
+    }
+  },
+  "note": "Field photos are PlantDoc web photos, not Gilgit-Baltistan photos. Degraded copies are synthetic."
+}

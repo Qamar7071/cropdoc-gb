@@ -209,7 +209,7 @@ export function LiveScanPage() {
                 {t("live.backToScan")}
               </Button>
             </div>
-            <ResultCard result={fullReport.result} previewUrl={fullReport.url} loading={false} error={null} />
+            <ResultCard result={fullReport.result} previewUrl={fullReport.url} loading={false} error={null} onReset={closeReport} />
           </div>
         </div>
       )}

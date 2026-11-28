@@ -26,6 +26,11 @@ SECTIONS: dict[str, dict[str, str]] = {
         "title": "Lab vs real-world photos (PlantDoc, public web photos)",
         "pending": "Run `make shift` (CPU) after `make data` downloads PlantDoc.",
     },
+    "field_model": {
+        "file": "field_model/summary.json",
+        "title": "Model v2: trained with real-world photos too (v1 vs v2 on the same unseen photos)",
+        "pending": "Run `make train-field` (CPU, about 1 hour) after `make data` and `make split`.",
+    },
     "field_gap": {
         "file": "shift/field_gap.json",
         "title": "Lab vs Gilgit-Baltistan field photos",

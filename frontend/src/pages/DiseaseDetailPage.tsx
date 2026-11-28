@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ChevronLeft, ChevronRight, ExternalLink, ShieldAlert } from "lucide-react";
-import { useState } from "react";
-import { Link, useParams } from "react-router";
+import { ArrowLeft, Bot, ChevronLeft, ChevronRight, ExternalLink, FileSearch, Leaf, PhoneCall, ShieldAlert, Sprout, Stethoscope, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router";
+
+import { BiHeading, BiList, BiText, ReviewNote, RiskBadge } from "../components/report/Bilingual";
+import type { DiseaseReport } from "../lib/api";
 
 import { PageShell } from "../components/PageShell";
 import { Card, CategoryBadge, Disclaimer, ErrorBanner, Skeleton } from "../components/ui";
@@ -46,11 +49,84 @@ export function Carousel({ images, label }: { images: string[]; label: (n: numbe
   );
 }
 
+/** Full bilingual explanation + treatment guide (anchor #treatment). */
+export function DiseaseKnowledge({ report }: { report: DiseaseReport }) {
+  const { t } = useI18n();
+  return (
+    <div className="mt-8 space-y-7" data-testid="disease-knowledge">
+      <section className="space-y-3">
+        <BiHeading level={2} en="Disease overview" ur="بیماری کا جائزہ" icon={<Leaf className="h-6 w-6 text-brand-700" aria-hidden="true" />} />
+        <BiText text={report.description} />
+        <BiText className="text-sm text-gray-600" text={{ en: `Commonly affects: ${report.crop.en}. Cause: ${report.pathogen || "—"}.`, ur: `عام طور پر متاثرہ فصل: ${report.crop.ur}۔` }} />
+        <RiskBadge level={report.risk_level} reason={report.risk_reason} />
+        <p className="text-xs text-gray-500">{t("report.riskNote")}</p>
+      </section>
+      {!report.healthy && (
+        <section className="space-y-3">
+          <BiHeading level={2} en="Symptoms" ur="علامات" icon={<Stethoscope className="h-6 w-6 text-brand-700" aria-hidden="true" />} />
+          <BiHeading en="Early stage" ur="ابتدائی مرحلہ" />
+          <BiList list={report.symptoms_early} />
+          <BiHeading en="Advanced stage" ur="بڑھا ہوا مرحلہ" />
+          <BiList list={report.symptoms_advanced} />
+        </section>
+      )}
+      {report.causes.en.length > 0 && (
+        <section className="space-y-3">
+          <BiHeading level={2} en="Causes and spread" ur="وجوہات اور پھیلاؤ" icon={<FileSearch className="h-6 w-6 text-brand-700" aria-hidden="true" />} />
+          <BiList list={report.causes} />
+          <BiText className="text-sm" text={report.spread} />
+        </section>
+      )}
+      <section className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50/60 p-5" id="treatment" data-testid="treatment-guide">
+        <BiHeading level={2} en="Treatment guide" ur="علاج کی رہنمائی" icon={<Sprout className="h-6 w-6 text-brand-700" aria-hidden="true" />} />
+        <BiHeading en="Immediate actions" ur="فوری اقدامات" icon={<Zap className="h-5 w-5 text-amber-500" aria-hidden="true" />} />
+        <BiList list={report.immediate_actions} bullet="✓" />
+        <BiHeading en="Prevention and natural (non-chemical) practices" ur="بچاؤ اور قدرتی (غیر کیمیائی) طریقے" icon={<Leaf className="h-5 w-5 text-brand-700" aria-hidden="true" />} />
+        <BiList list={report.prevention} />
+        {report.treatment_categories.en.length > 0 && (
+          <>
+            <BiHeading en="Treatment category (ask before using any product)" ur="علاج کی قسم (کوئی بھی دوا استعمال کرنے سے پہلے پوچھیں)" icon={<ShieldAlert className="h-5 w-5 text-amber-600" aria-hidden="true" />} />
+            <BiList list={report.treatment_categories} />
+          </>
+        )}
+        {report.call_expert_when.en.length > 0 && (
+          <>
+            <BiHeading en="When to call an agriculture expert" ur="زرعی ماہر کو کب بلائیں" icon={<PhoneCall className="h-5 w-5 text-red-700" aria-hidden="true" />} />
+            <BiList list={report.call_expert_when} />
+          </>
+        )}
+        {!report.healthy && <BiText className="rounded-lg bg-white p-3 text-sm font-semibold" text={report.extension_fallback} />}
+        <BiText
+          className="text-sm text-gray-700"
+          text={{
+            en: "Safety: if a product is used, read the label, wear gloves and a mask, keep children away, and never reuse empty containers.",
+            ur: "حفاظت: اگر کوئی دوا استعمال ہو تو لیبل پڑھیں، دستانے اور ماسک پہنیں، بچوں کو دور رکھیں، اور خالی ڈبے دوبارہ استعمال نہ کریں۔",
+          }}
+        />
+        <ReviewNote urdu={report.urdu_needs_review} />
+        <Link
+          to={`/assistant?class_id=${encodeURIComponent(report.id)}`}
+          className="inline-flex items-center gap-2 rounded-xl bg-brand-700 px-4 py-2.5 text-[15px] font-semibold text-white hover:bg-brand-800"
+        >
+          <Bot className="h-4 w-4" aria-hidden="true" />
+          {t("report.askAssistant")}
+        </Link>
+      </section>
+    </div>
+  );
+}
+
 export function DiseaseDetailPage() {
   const { id = "" } = useParams();
+  const { hash } = useLocation();
   const { t, crop } = useI18n();
   const disease = useQuery({ queryKey: ["disease", id], queryFn: () => api.disease(id) });
   const d = disease.data;
+
+  // "Treatment Guide" links to #treatment: scroll there once the content has loaded
+  useEffect(() => {
+    if (d && hash) document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [d, hash]);
 
   return (
     <PageShell
@@ -135,6 +211,7 @@ export function DiseaseDetailPage() {
               </ul>
             </section>
           )}
+          {d.report && <DiseaseKnowledge report={d.report} />}
           <div className="mt-6">
             <Disclaimer />
           </div>

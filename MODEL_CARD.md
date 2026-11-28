@@ -48,6 +48,7 @@ _Source: `results/quick_model/metrics.json`, `models/active/model_card.json`._
 | Leakage: naive vs group-aware split | ready | `results/leakage/leakage_summary.json` |
 | Background uniformity / background-only probe | ready | `results/background/background_summary.json` |
 | Lab → real-world photos (PlantDoc) | ready | `results/shift/plantdoc_gap.json` |
+| Model v2 trained with real-world photos (v1 vs v2) | ready | `results/field_model/summary.json` |
 | Lab → Gilgit-Baltistan field photos | **PENDING** | `results/shift/field_gap.json` |
 | Calibration (ECE, reliability) | ready | `results/calibration/calibration_summary.json` |
 | OOD detection (AUROC) | ready | `results/ood/ood_summary.json` |
@@ -72,6 +73,27 @@ Accuracy drop lab → real-world: **77.2 (95% CI 75.6 to 78.9) points**. PlantDo
 
 _Source: `results/shift/plantdoc_gap.json` (deployed model; PlantDoc = public web photos, not GB photos)._
 <!-- END:headline_gap -->
+
+## Candidate model v2 (trained with real-world photos too; not deployed)
+v2 = the same architecture, fine-tuned on lab photos plus PlantDoc's own group-aware train split, with background
+randomization (`python -m cropdoc.field_model`, rules fixed in advance in `docs/decisions.md` D22). It is far better
+on real-world photos but missed the pre-registered lab rule, so this card still describes v1.
+<!-- BEGIN:field_model -->
+| Measure | v1 (deployed, lab photos only) | v2 (lab + real-world photos) |
+|---|---|---|
+| Lab test photos: accuracy | 98.3% | 97.3% |
+| Lab test photos: macro-F1 | 0.981 | 0.967 |
+| Real-world test photos: accuracy | 23.4% | 68.1% |
+| Real-world test photos: macro-F1 | 0.227 | 0.678 |
+| Real-world: calibration error (ECE) | 0.479 | 0.074 |
+| Real-world: share answered 'confident' | 14.7% | 52.3% |
+| Real-world: accuracy when 'confident' | 44.2% | 85.2% |
+| Non-leaf photos answered 'confident' | 2.8% | 3.7% |
+
+Test photos: 8,145 lab, 646 real-world (PlantDoc web photos, not Gilgit-Baltistan). Real-world accuracy difference v2 − v1: +44.7 points (95% CI +40.1 to +49.2); lab: -1.0 points (95% CI -1.4 to -0.7). Rules: real-world macro-F1 gain 45.12 points (rule: ≥ 5.00 points) ✓; lab macro-F1 drop 1.37 points (rule: ≤ 1.00 points) ✗; non-leaf photos answered 'confident' 3.7% (rule: ≤ 5.0%) ✓. **v2 is not deployed**: it failed a rule fixed before testing, so the app keeps v1.
+
+_Source: `results/field_model/summary.json` (from `comparison.json`)._
+<!-- END:field_model -->
 
 ## Unfamiliar inputs and the app's thresholds
 <!-- BEGIN:ood_table -->
@@ -99,7 +121,8 @@ _Source: `results/background/background_summary.json`, `results/explain/cam_outs
 - **Domain shift:** field photos (soil, hands, several leaves, shadows, phone cameras) differ from the lab photos;
   accuracy and calibration collapse on real-world photos (tables above). GB field photos: PENDING.
 - **Shortcut risk:** PlantVillage backgrounds are uniform per capture session, and the model partly relies on them
-  (tables above). Background randomization is tested in the Colab sweep (PENDING).
+  (tables above). Background randomization plus real-world photos (candidate v2, above) narrows the gap a lot on
+  PlantDoc photos; the full Colab sweep is PENDING.
 - **Unsupported inputs:** non-leaf photos and crops outside the 38 classes (e.g. apricot) usually trigger the
   "unsupported" status, but not always (see the OOD table); unseen diseases of known crops are much harder to flag.
 - **Look-alike diseases** (e.g. early blight vs target spot vs bacterial spot on tomato) are hard even for experts.

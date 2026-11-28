@@ -3,6 +3,7 @@ import { ArrowLeft, Columns2, Share2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 
+import { BiHeading, BiList, BiText, RiskBadge } from "../components/report/Bilingual";
 import { FeedbackControl } from "../components/result/FeedbackControl";
 import { TopPredictions } from "../components/result/TopPredictions";
 import { Button, Card, Disclaimer, ErrorBanner, Skeleton } from "../components/ui";
@@ -70,6 +71,22 @@ export function ScanDetailPage() {
                   {t("result.confidence")}: <span dir="ltr" className="latin">{probability(s.confidence)}</span> · {t(`status.${s.status}`)}
                 </p>
               </div>
+              {reference.data?.report && s.status !== "not_a_leaf_or_unsupported_crop" && (
+                <section className="space-y-2 rounded-xl border border-gray-100 bg-white p-4 shadow-sm" data-testid="scan-treatment">
+                  {reference.data.report.name.ur && (
+                    <p lang="ur" dir="rtl" className="urdu text-right text-lg font-semibold text-gray-800">
+                      {reference.data.report.name.ur} ({reference.data.report.crop.ur})
+                    </p>
+                  )}
+                  <RiskBadge level={reference.data.report.risk_level} reason={reference.data.report.risk_reason} compact />
+                  <BiHeading en="Recommended treatment" ur="تجویز کردہ علاج" />
+                  <BiList list={reference.data.report.immediate_actions} bullet="✓" />
+                  {!reference.data.report.healthy && <BiText className="rounded-lg bg-brand-50 p-2 text-sm font-semibold" text={reference.data.report.extension_fallback} />}
+                  <Link to={`/library/${encodeURIComponent(s.class_id)}#treatment`} className="inline-block text-sm font-semibold text-brand-800 underline">
+                    {t("report.treatment")}
+                  </Link>
+                </section>
+              )}
               <FeedbackControl scanId={s.id} existing={s.feedback} />
               <Button variant="secondary" onClick={() => setCompare((open) => !open)} aria-expanded={compare}>
                 <Columns2 className="h-4 w-4" aria-hidden="true" />

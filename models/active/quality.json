@@ -1,0 +1,8 @@
+{
+  "thresholds": {
+    "min_brightness": 65.5818862915039,
+    "max_brightness": 221.0162811279297,
+    "min_sharpness": 70.48881072998047
+  },
+  "source": "Validation photos only (results/quality/quality_summary.json): each check flags at most 1% of domain-balanced validation photos. Detection on synthetic dark/bright/blurred copies is reported there."
+}

@@ -30,7 +30,8 @@ export default defineConfig({
   use: { baseURL: `http://127.0.0.1:${PORT}`, trace: "off" },
   webServer: {
     command: `${PYTHON} ../backend/run.py --no-browser --port ${PORT}`,
-    env: { CROPDOC_DATA_DIR: join(dataDir, "app"), CROPDOC_INBOX_DIR: join(dataDir, "inbox") },
+    // no AI key and no weather calls in tests: the assistant answers from the knowledge base, weather says "off"
+    env: { CROPDOC_DATA_DIR: join(dataDir, "app"), CROPDOC_INBOX_DIR: join(dataDir, "inbox"), ANTHROPIC_API_KEY: "", CROPDOC_WEATHER: "off" },
     url: `http://127.0.0.1:${PORT}/api/health`,
     reuseExistingServer: false,
     timeout: 120_000,

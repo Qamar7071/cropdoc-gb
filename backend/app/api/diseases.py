@@ -43,6 +43,9 @@ def list_diseases(
                 "disease": entry.get("disease", ""),
                 "category": entry.get("category", ""),
                 "description": entry.get("description", ""),
+                "name_ur": library.urdu.get(entry["id"], {}).get("name", ""),
+                "crop_ur": library.crop_ur(entry.get("crop", "")),
+                "risk_level": entry.get("risk_level", ""),
                 "needs_review": entry.get("needs_review", True),
                 "image": images[0] if images else None,
             }
@@ -60,4 +63,8 @@ def disease_detail(
     entry = library.get(disease_id)
     if entry is None:
         raise HTTPException(404, "Disease not found.")
-    return {**entry, "images": _images(settings.frontend_dist, disease_id)}
+    return {
+        **entry,
+        "images": _images(settings.frontend_dist, disease_id),
+        "report": library.report(disease_id),
+    }

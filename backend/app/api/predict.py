@@ -10,13 +10,14 @@ import time
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_diseases, get_inference, get_session, get_settings
+from app.api.deps import get_diseases, get_inference, get_quality, get_session, get_settings
 from app.config import Settings
 from app.schemas import GB_DISTRICTS, DiseaseBrief, LivePredictResponse, PredictResponse
 from app.services import gradcam, history
 from app.services.diseases import DiseaseLibrary
 from app.services.images import ImageRejected, load_clean_image
 from app.services.inference import InferenceService
+from app.services.quality import QualityThresholds
 
 router = APIRouter(tags=["predict"])
 
@@ -27,6 +28,19 @@ async def read_upload(upload: UploadFile, max_bytes: int) -> bytes:
     if len(data) > max_bytes:
         raise HTTPException(413, f"File too large: max {max_bytes // (1024 * 1024)} MB.")
     return data
+
+
+def disease_brief(diseases: DiseaseLibrary, class_id: str) -> DiseaseBrief:
+    """Short English fields (kept for older clients) + the full bilingual report."""
+    entry = diseases.get(class_id) or {}
+    return DiseaseBrief(
+        id=class_id,
+        description=entry.get("description", ""),
+        category=entry.get("category", ""),
+        recommendations=diseases.recommendations(class_id),
+        needs_review=bool(entry.get("needs_review", True)),
+        report=diseases.report(class_id) if entry else None,
+    )
 
 
 def validate_choice(value: str | None, allowed: list[str], field: str) -> str | None:
@@ -48,6 +62,7 @@ async def predict(
     settings: Settings = Depends(get_settings),
     inference: InferenceService = Depends(get_inference),
     diseases: DiseaseLibrary = Depends(get_diseases),
+    quality_limits: QualityThresholds = Depends(get_quality),
     session: Session = Depends(get_session),
 ) -> PredictResponse:
     """Classify a leaf photo. Never returns a made-up result: 503 if no model is loaded."""
@@ -62,12 +77,15 @@ async def predict(
     hint = validate_choice(crop_hint, inference.crops, "crop_hint")
     district_name = validate_choice(district, GB_DISTRICTS, "district")
     result = inference.predict(clean, crop_hint=hint)
+    quality = quality_limits.assess(clean)
+    if not quality["ok"]:
+        # never show (or store) a disease for a photo that cannot be analysed reliably
+        result["status"] = "retake_photo"
 
     scan_id = None
-    if save:
+    if save and result["status"] != "retake_photo":
         scan_id = history.save_scan(session, result, clean, district_name).id
 
-    entry = diseases.get(result["class_id"]) or {}
     images = result["images"]
     return PredictResponse(
         scan_id=scan_id,
@@ -79,18 +97,13 @@ async def predict(
         healthy=result["healthy"],
         confidence=result["confidence"],
         top3=result["top3"],
-        disease_info=DiseaseBrief(
-            id=result["class_id"],
-            description=entry.get("description", ""),
-            category=entry.get("category", ""),
-            recommendations=diseases.recommendations(result["class_id"]),
-            needs_review=bool(entry.get("needs_review", True)),
-        ),
+        disease_info=disease_brief(diseases, result["class_id"]),
         gradcam_png=gradcam.b64(gradcam.png_bytes(images["overlay"])),
         heatmap_png=gradcam.b64(gradcam.png_bytes(images["heatmap"])),
         model_view_jpeg=gradcam.b64(gradcam.jpeg_bytes(images["model_view"])),
         scores=result["scores"],
         thresholds=result["thresholds"],
+        quality=quality,
         crop_hint=hint,
         district=district_name,
         model_version=result["model_version"],
@@ -107,6 +120,7 @@ async def predict_live(
     settings: Settings = Depends(get_settings),
     inference: InferenceService = Depends(get_inference),
     diseases: DiseaseLibrary = Depends(get_diseases),
+    quality_limits: QualityThresholds = Depends(get_quality),
 ) -> LivePredictResponse:
     """Classify one live-camera frame. Same model, calibration and safety thresholds as /predict,
     but nothing is stored and only a small transparent heatmap is returned, so it is fast enough
@@ -122,7 +136,9 @@ async def predict_live(
 
     hint = validate_choice(crop_hint, inference.crops, "crop_hint")
     result = inference.predict(clean, crop_hint=hint)
-    entry = diseases.get(result["class_id"]) or {}
+    quality = quality_limits.assess(clean)
+    if not quality["ok"]:
+        result["status"] = "retake_photo"
     heat = gradcam.heatmap_rgba(result["cam"], LIVE_HEATMAP_SIZE)
     return LivePredictResponse(
         status=result["status"],
@@ -132,14 +148,9 @@ async def predict_live(
         healthy=result["healthy"],
         confidence=result["confidence"],
         top3=result["top3"],
-        disease_info=DiseaseBrief(
-            id=result["class_id"],
-            description=entry.get("description", ""),
-            category=entry.get("category", ""),
-            recommendations=diseases.recommendations(result["class_id"]),
-            needs_review=bool(entry.get("needs_review", True)),
-        ),
+        disease_info=disease_brief(diseases, result["class_id"]),
         heatmap_png=gradcam.b64(gradcam.png_bytes(heat)),
+        quality=quality,
         crop_hint=hint,
         model_version=result["model_version"],
         inference_ms=round((time.perf_counter() - started) * 1000, 1),

@@ -31,6 +31,13 @@ html[lang="ur"] body {
   line-height: 1.9;
 }
 
+/* Urdu passages shown next to English (bilingual report): Nastaliq needs extra line height */
+.urdu,
+[lang="ur"] {
+  font-family: var(--font-urdu);
+  line-height: 2.1;
+}
+
 /* Keep numbers and Latin names readable inside Urdu text */
 html[lang="ur"] .latin {
   font-family: var(--font-sans);

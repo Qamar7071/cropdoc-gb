@@ -1,0 +1,813 @@
+{
+  "meta": {
+    "version": "2026-11-26",
+    "status": "AI-drafted from the cited sources (FAO, IRRI, provincial agriculture departments, Pakistani research journals, university extension). Must be reviewed by an agriculture expert and a native Urdu speaker before field use.",
+    "needs_review": true,
+    "content_rules": "Cultural practices and when to ask for help. No product or active-ingredient names, doses or spray schedules, even where a source mentions them.",
+    "scanner_note": {
+      "en": "The scanner only recognises the crops and diseases it was trained on. For other crops, use this page as a guide and ask your agriculture extension officer.",
+      "ur": "اسکینر صرف انہی فصلوں اور بیماریوں کو پہچانتا ہے جن پر اسے تربیت دی گئی ہے۔ دوسری فصلوں کے لیے یہ صفحہ رہنمائی کے طور پر استعمال کریں اور محکمہ زراعت کے زرعی افسر سے مشورہ کریں۔"
+    }
+  },
+  "crops": [
+    {
+      "id": "wheat",
+      "name": {
+        "en": "Wheat",
+        "ur": "گندم"
+      },
+      "season": {
+        "en": "Rabi (winter crop, sown in autumn)",
+        "ur": "ربیع (سردیوں کی فصل، خزاں میں کاشت)"
+      },
+      "scanner_classes": [],
+      "summary": {
+        "en": "Pakistan's main food crop. Rust diseases are the biggest disease threat, and resistant varieties are the main protection.",
+        "ur": "پاکستان کی سب سے اہم غذائی فصل۔ کنگی (رسٹ) کی بیماریاں سب سے بڑا خطرہ ہیں، اور مزاحمتی اقسام بنیادی تحفظ ہیں۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Yellow (stripe) rust",
+            "ur": "پیلی کنگی (یلو رسٹ)"
+          },
+          "symptoms": {
+            "en": "Yellow, powdery pustules in long stripes along the leaves; leaves dry early in cool, humid weather.",
+            "ur": "پتوں پر لمبی دھاریوں کی شکل میں پیلے، سفوفی ابھار؛ ٹھنڈے اور مرطوب موسم میں پتے جلد سوکھ جاتے ہیں۔"
+          },
+          "prevention": {
+            "en": [
+              "Sow varieties recommended as rust-resistant for your area",
+              "Replace old varieties: resistance can break down after a few years",
+              "Remove volunteer wheat plants that carry rust between seasons",
+              "Report rust early to the agriculture department"
+            ],
+            "ur": [
+              "اپنے علاقے کے لیے کنگی کے خلاف تجویز کردہ مزاحمتی اقسام کاشت کریں",
+              "پرانی اقسام بدلتے رہیں: چند سال بعد مزاحمت ختم ہو سکتی ہے",
+              "خودرو گندم کے پودے نکال دیں جو موسموں کے درمیان کنگی کو زندہ رکھتے ہیں",
+              "کنگی نظر آتے ہی محکمہ زراعت کو اطلاع دیں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Leaf (brown) rust",
+            "ur": "بھوری کنگی (لیف رسٹ)"
+          },
+          "symptoms": {
+            "en": "Small, round, orange-brown pustules scattered on the upper leaf surface.",
+            "ur": "پتے کی اوپری سطح پر بکھرے ہوئے چھوٹے، گول، نارنجی بھورے ابھار۔"
+          },
+          "prevention": {
+            "en": [
+              "Where both rusts occur, grow varieties resistant to both",
+              "Sow at the recommended time and seed rate",
+              "Avoid excess nitrogen fertilizer"
+            ],
+            "ur": [
+              "جہاں دونوں کنگیاں آتی ہوں وہاں دونوں کے خلاف مزاحمتی اقسام کاشت کریں",
+              "تجویز کردہ وقت اور شرحِ بیج کے مطابق کاشت کریں",
+              "زیادہ نائٹروجن کھاد سے بچیں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Sow at the time recommended by the provincial agriculture department for your area",
+          "Use certified seed of a recommended variety",
+          "Check fields regularly from tillering onwards, especially in cool, humid weather",
+          "Harvest on time and store grain dry"
+        ],
+        "ur": [
+          "صوبائی محکمہ زراعت کے بتائے ہوئے وقت پر کاشت کریں",
+          "تجویز کردہ قسم کا تصدیق شدہ بیج استعمال کریں",
+          "شاخیں نکلنے کے وقت سے کھیت باقاعدگی سے دیکھیں، خاص طور پر ٹھنڈے اور مرطوب موسم میں",
+          "وقت پر کٹائی کریں اور دانہ خشک حالت میں ذخیرہ کریں"
+        ]
+      },
+      "sources": [
+        "https://www.fao.org/newsroom/detail/Wheat-rust-diseases-remain-a-constant-but-neglected-threat/en",
+        "https://agris.fao.org/search/en/records/64723ea253aa8c8963031d65"
+      ],
+      "needs_review": true
+    },
+    {
+      "id": "rice",
+      "name": {
+        "en": "Rice",
+        "ur": "چاول"
+      },
+      "season": {
+        "en": "Kharif (summer crop)",
+        "ur": "خریف (گرمیوں کی فصل)"
+      },
+      "scanner_classes": [],
+      "summary": {
+        "en": "A major Kharif crop, including Basmati. Bacterial leaf blight and blast are important diseases.",
+        "ur": "باسمتی سمیت خریف کی اہم فصل۔ بیکٹیریائی پتہ جھلساؤ اور بلاسٹ اہم بیماریاں ہیں۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Bacterial leaf blight",
+            "ur": "بیکٹیریائی پتہ جھلساؤ (بیکٹیریل لیف بلائٹ)"
+          },
+          "symptoms": {
+            "en": "Yellow to straw-coloured stripes that start at the leaf tips or edges, with wavy margins; leaves dry out. The earlier it starts, the bigger the yield loss.",
+            "ur": "پتوں کی نوک یا کناروں سے شروع ہونے والی پیلی سے بھوسے رنگ کی دھاریاں جن کے کنارے لہردار ہوتے ہیں؛ پتے سوکھ جاتے ہیں۔ بیماری جتنی جلدی شروع ہو، نقصان اتنا زیادہ ہوتا ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Use clean seed and raise a healthy nursery",
+              "Apply nitrogen fertilizer as recommended; avoid excess",
+              "Remove weed hosts, stubble, ratoons and volunteer seedlings",
+              "Keep shallow water in the nursery and good drainage during floods"
+            ],
+            "ur": [
+              "صاف بیج استعمال کریں اور صحت مند پنیری تیار کریں",
+              "نائٹروجن کھاد تجویز کے مطابق ڈالیں؛ زیادتی سے بچیں",
+              "جڑی بوٹیاں، مڈھ، دوبارہ پھوٹنے والے پودے اور خودرو پنیری نکال دیں",
+              "پنیری میں کم گہرا پانی رکھیں اور سیلاب کے دوران نکاسی اچھی رکھیں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Rice blast",
+            "ur": "چاول کا بلاسٹ (گردن توڑ)"
+          },
+          "symptoms": {
+            "en": "Spindle- or diamond-shaped spots with grey centres and brown edges on the leaves; the neck of the panicle can rot and break.",
+            "ur": "پتوں پر تکلے یا ہیرے کی شکل کے دھبے جن کا درمیان سرمئی اور کنارے بھورے ہوتے ہیں؛ بالی کی گردن سڑ کر ٹوٹ سکتی ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Grow resistant varieties recommended for your area",
+              "Avoid excess nitrogen fertilizer",
+              "Plough under or destroy infected straw and stubble after harvest"
+            ],
+            "ur": [
+              "اپنے علاقے کے لیے تجویز کردہ مزاحمتی اقسام کاشت کریں",
+              "زیادہ نائٹروجن کھاد سے بچیں",
+              "کٹائی کے بعد متاثرہ پرالی اور مڈھ زمین میں دبا دیں یا تلف کریں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Raise a healthy nursery from clean seed",
+          "Transplant at the recommended time and spacing",
+          "Check fields regularly for spots and yellow stripes, especially after rain",
+          "Manage water carefully and keep drains open"
+        ],
+        "ur": [
+          "صاف بیج سے صحت مند پنیری تیار کریں",
+          "تجویز کردہ وقت اور فاصلے پر منتقلی کریں",
+          "خاص طور پر بارش کے بعد دھبوں اور پیلی دھاریوں کے لیے کھیت باقاعدگی سے دیکھیں",
+          "پانی احتیاط سے سنبھالیں اور نالیاں کھلی رکھیں"
+        ]
+      },
+      "sources": [
+        "https://news.irri.org/2017/04/bacterial-blight-management-is-crucial.html",
+        "https://agris.fao.org/search/en/records/64738d4e3ed73003714b1e62"
+      ],
+      "needs_review": true
+    },
+    {
+      "id": "cotton",
+      "name": {
+        "en": "Cotton",
+        "ur": "کپاس"
+      },
+      "season": {
+        "en": "Kharif (summer crop)",
+        "ur": "خریف (گرمیوں کی فصل)"
+      },
+      "scanner_classes": [],
+      "summary": {
+        "en": "Pakistan's main cash crop. Cotton leaf curl virus, spread by whiteflies, is the most damaging disease.",
+        "ur": "پاکستان کی سب سے اہم نقد آور فصل۔ سفید مکھی سے پھیلنے والا کپاس کا پتہ مروڑ وائرس سب سے نقصان دہ بیماری ہے۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Cotton leaf curl virus",
+            "ur": "کپاس کا پتہ مروڑ وائرس (لیف کرل)"
+          },
+          "symptoms": {
+            "en": "Leaves curl up or down, veins thicken and small leaf-like outgrowths appear under the leaves; plants are stunted and set fewer bolls.",
+            "ur": "پتے اوپر یا نیچے کی طرف مڑ جاتے ہیں، رگیں موٹی ہو جاتی ہیں اور پتوں کے نیچے چھوٹے پتے نما ابھار نکل آتے ہیں؛ پودے ٹھگنے رہ جاتے ہیں اور ٹینڈے کم لگتے ہیں۔"
+          },
+          "prevention": {
+            "en": [
+              "Sow at the time recommended for your area; a field study in Multan found that early sowing reduced leaf curl",
+              "Grow tolerant varieties recommended locally",
+              "Check leaf undersides for whiteflies and follow the extension officer's IPM advice",
+              "Remove weeds and crop residues that shelter whiteflies"
+            ],
+            "ur": [
+              "اپنے علاقے کے لیے تجویز کردہ وقت پر کاشت کریں؛ ملتان کی ایک تحقیق میں اگیتی کاشت سے پتہ مروڑ کم ہوا",
+              "مقامی طور پر تجویز کردہ برداشت والی اقسام کاشت کریں",
+              "پتوں کی نچلی سطح پر سفید مکھی دیکھیں اور زرعی افسر کے مربوط انسدادِ آفات (آئی پی ایم) مشوروں پر عمل کریں",
+              "سفید مکھی کو پناہ دینے والی جڑی بوٹیاں اور فصل کی باقیات تلف کریں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Sow on time with a recommended variety",
+          "Scout weekly for whiteflies and leaf curl from the first true leaves",
+          "Use balanced fertilizer and irrigation to avoid plant stress",
+          "Destroy cotton sticks and crop residues after the last picking"
+        ],
+        "ur": [
+          "تجویز کردہ قسم کے ساتھ وقت پر کاشت کریں",
+          "پہلے اصلی پتوں سے ہی ہر ہفتے سفید مکھی اور پتہ مروڑ کا معائنہ کریں",
+          "پودوں کو دباؤ سے بچانے کے لیے متوازن کھاد اور آبپاشی کریں",
+          "آخری چنائی کے بعد چھڑیاں اور فصل کی باقیات تلف کریں"
+        ]
+      },
+      "sources": [
+        "https://agris.fao.org/search/en/records/65de1e174c5aef494fd9f71b",
+        "https://agris.fao.org/search/en/records/669fb332429562386250aa5e"
+      ],
+      "needs_review": true
+    },
+    {
+      "id": "sugarcane",
+      "name": {
+        "en": "Sugarcane",
+        "ur": "گنا"
+      },
+      "season": {
+        "en": "Long-duration crop (spring or autumn planting)",
+        "ur": "طویل دورانیے کی فصل (بہاریہ یا خزاں کی کاشت)"
+      },
+      "scanner_classes": [],
+      "summary": {
+        "en": "An important cash crop. Most sugarcane diseases enter fields through infected seed cane (setts), so healthy seed cane is the first protection.",
+        "ur": "اہم نقد آور فصل۔ گنے کی زیادہ تر بیماریاں متاثرہ بیج والے گنے (سیٹس) کے ذریعے کھیت میں آتی ہیں، اس لیے صحت مند بیج والا گنا پہلا تحفظ ہے۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Red rot",
+            "ur": "سرخ سڑن (ریڈ راٹ)"
+          },
+          "symptoms": {
+            "en": "Upper leaves turn yellow and dry; split canes show red tissue with white patches and a sour smell.",
+            "ur": "اوپر کے پتے پیلے ہو کر سوکھ جاتے ہیں؛ گنا چیرنے پر اندر سفید دھبوں کے ساتھ سرخ گودا اور کھٹی بو ملتی ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Plant healthy, disease-free seed cane taken from a healthy field",
+              "Grow resistant varieties recommended for your area",
+              "Do not keep a ratoon crop from a diseased field",
+              "Remove and destroy diseased clumps"
+            ],
+            "ur": [
+              "صحت مند کھیت سے لیا گیا بیماری سے پاک بیج والا گنا کاشت کریں",
+              "اپنے علاقے کے لیے تجویز کردہ مزاحمتی اقسام کاشت کریں",
+              "بیمار کھیت سے مونڈھی فصل نہ رکھیں",
+              "بیمار جھنڈ نکال کر تلف کریں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Whip smut",
+            "ur": "کانگیاری (وہپ اسمٹ)"
+          },
+          "symptoms": {
+            "en": "A long, black, whip-like structure grows from the top of the cane; shoots become thin and grassy.",
+            "ur": "گنے کی چوٹی سے لمبا، سیاہ، چابک نما حصہ نکلتا ہے؛ شاخیں پتلی اور گھاس جیسی ہو جاتی ہیں۔"
+          },
+          "prevention": {
+            "en": [
+              "Use healthy seed cane and resistant varieties",
+              "Pull out smut whips into a bag before they burst, and destroy them",
+              "Ask the agriculture department about heat treatment of seed cane where it is offered",
+              "Avoid ratooning heavily smutted fields"
+            ],
+            "ur": [
+              "صحت مند بیج والا گنا اور مزاحمتی اقسام استعمال کریں",
+              "کانگیاری کے چابک پھٹنے سے پہلے تھیلے میں ڈال کر نکالیں اور تلف کریں",
+              "جہاں سہولت ہو، بیج والے گنے کو حرارت سے صاف کرنے کے بارے میں محکمہ زراعت سے پوچھیں",
+              "زیادہ متاثرہ کھیتوں کی مونڈھی فصل نہ رکھیں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Select seed cane only from healthy, disease-free fields",
+          "Plant in the season recommended for your area",
+          "Inspect fields for yellowing or drying canes and black whips",
+          "Collect and destroy the remains of diseased fields after harvest"
+        ],
+        "ur": [
+          "بیج والا گنا صرف صحت مند، بیماری سے پاک کھیتوں سے لیں",
+          "اپنے علاقے کے لیے تجویز کردہ موسم میں کاشت کریں",
+          "پیلے یا سوکھتے گنوں اور سیاہ چابکوں کے لیے کھیت دیکھتے رہیں",
+          "کٹائی کے بعد بیمار کھیتوں کی باقیات جمع کر کے تلف کریں"
+        ]
+      },
+      "sources": [
+        "https://agri.sindh.gov.pk/diseases-of-sugarcane-their-control",
+        "https://mail.pakbs.org/pjbot/papers/1560040554.pdf"
+      ],
+      "needs_review": true
+    },
+    {
+      "id": "tomato",
+      "name": {
+        "en": "Tomato",
+        "ur": "ٹماٹر"
+      },
+      "season": {
+        "en": "Grown in several seasons, depending on the area",
+        "ur": "علاقے کے لحاظ سے کئی موسموں میں کاشت"
+      },
+      "scanner_classes": [
+        "Tomato___Bacterial_spot",
+        "Tomato___Early_blight",
+        "Tomato___Late_blight",
+        "Tomato___Leaf_Mold",
+        "Tomato___Septoria_leaf_spot",
+        "Tomato___Spider_mites Two-spotted_spider_mite",
+        "Tomato___Target_Spot",
+        "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+        "Tomato___Tomato_mosaic_virus",
+        "Tomato___healthy"
+      ],
+      "summary": {
+        "en": "An important vegetable. The scanner recognises 10 tomato conditions, including early blight, late blight and leaf curl virus.",
+        "ur": "ایک اہم سبزی۔ اسکینر ٹماٹر کی 10 حالتیں پہچانتا ہے، جن میں ابتدائی جھلساؤ، پچھیتا جھلساؤ اور پتہ مروڑ وائرس شامل ہیں۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Tomato yellow leaf curl virus",
+            "ur": "ٹماٹر کا پتہ مروڑ وائرس"
+          },
+          "symptoms": {
+            "en": "Leaves curl upward with yellow edges; plants are stunted and set few fruit. Spread by whiteflies.",
+            "ur": "پتے اوپر کو مڑ جاتے ہیں اور کنارے پیلے ہوتے ہیں؛ پودے ٹھگنے رہتے ہیں اور پھل کم لگتا ہے۔ سفید مکھی سے پھیلتا ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Use virus-free seedlings and resistant varieties",
+              "Remove infected plants early",
+              "Monitor whiteflies with yellow sticky traps"
+            ],
+            "ur": [
+              "وائرس سے پاک پنیری اور مزاحمتی اقسام استعمال کریں",
+              "متاثرہ پودے جلد نکال دیں",
+              "پیلے چپچپے کارڈوں سے سفید مکھی کی نگرانی کریں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Early blight",
+            "ur": "ابتدائی جھلساؤ"
+          },
+          "symptoms": {
+            "en": "Brown spots with target-like rings on older leaves.",
+            "ur": "پرانے پتوں پر نشانے جیسے حلقوں والے بھورے دھبے۔"
+          },
+          "prevention": {
+            "en": [
+              "Rotate crops",
+              "Mulch and water at the base of plants",
+              "Remove infected lower leaves"
+            ],
+            "ur": [
+              "فصلوں کا ہیر پھیر کریں",
+              "ملچ بچھائیں اور جڑ کے پاس پانی دیں",
+              "متاثرہ نچلے پتے ہٹا دیں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Late blight",
+            "ur": "پچھیتا جھلساؤ"
+          },
+          "symptoms": {
+            "en": "Large, dark, greasy patches on leaves and stems in cool, wet weather; spreads within days.",
+            "ur": "ٹھنڈے اور گیلے موسم میں پتوں اور تنوں پر بڑے، گہرے، چکنے دھبے؛ چند دنوں میں پھیل جاتا ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Keep tomatoes away from infected potatoes",
+              "Check plants often in cool, wet weather",
+              "Remove infected plants promptly"
+            ],
+            "ur": [
+              "ٹماٹر کو متاثرہ آلو سے دور رکھیں",
+              "ٹھنڈے اور گیلے موسم میں پودے بار بار دیکھیں",
+              "متاثرہ پودے فوراً نکال دیں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Raise healthy, virus-free seedlings",
+          "Stake plants and water at the base",
+          "Watch for whiteflies and remove leaf-curl plants early",
+          "Rotate away from tomato, potato and pepper"
+        ],
+        "ur": [
+          "صحت مند، وائرس سے پاک پنیری تیار کریں",
+          "پودوں کو سہارا دیں اور جڑ کے پاس پانی دیں",
+          "سفید مکھی پر نظر رکھیں اور پتہ مروڑ والے پودے جلد نکالیں",
+          "ٹماٹر، آلو اور مرچ کے بجائے دوسری فصلوں سے ہیر پھیر کریں"
+        ]
+      },
+      "sources": [
+        "https://content.ces.ncsu.edu/tomato-yellow-leaf-curl-virus",
+        "https://extension.umaine.edu/ipm/?p=4592"
+      ],
+      "needs_review": true
+    },
+    {
+      "id": "potato",
+      "name": {
+        "en": "Potato",
+        "ur": "آلو"
+      },
+      "season": {
+        "en": "Mainly autumn and spring crops in the plains; summer crop in the hills",
+        "ur": "میدانی علاقوں میں زیادہ تر خزاں اور بہار کی فصل؛ پہاڑی علاقوں میں گرمیوں کی فصل"
+      },
+      "scanner_classes": [
+        "Potato___Early_blight",
+        "Potato___Late_blight",
+        "Potato___healthy"
+      ],
+      "summary": {
+        "en": "A major vegetable crop. Late blight can destroy a field within days in cool, foggy weather. The scanner recognises early and late blight.",
+        "ur": "ایک اہم سبزی۔ ٹھنڈے اور دھند والے موسم میں پچھیتا جھلساؤ چند دنوں میں کھیت تباہ کر سکتا ہے۔ اسکینر ابتدائی اور پچھیتا جھلساؤ پہچانتا ہے۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Late blight",
+            "ur": "پچھیتا جھلساؤ"
+          },
+          "symptoms": {
+            "en": "Large, dark, water-soaked patches on leaves with white growth underneath in humid weather; tubers rot.",
+            "ur": "پتوں پر بڑے، گہرے، بھیگے ہوئے دھبے اور مرطوب موسم میں نیچے سفید تہہ؛ آلو سڑ جاتے ہیں۔"
+          },
+          "prevention": {
+            "en": [
+              "Plant certified seed tubers",
+              "Destroy volunteer potatoes and cull piles",
+              "Check fields daily in cool, foggy weather"
+            ],
+            "ur": [
+              "تصدیق شدہ بیج والے آلو لگائیں",
+              "خودرو آلو اور پھینکے ہوئے ڈھیر تلف کریں",
+              "ٹھنڈے اور دھند والے موسم میں کھیت روزانہ دیکھیں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Early blight",
+            "ur": "ابتدائی جھلساؤ"
+          },
+          "symptoms": {
+            "en": "Dark brown spots with rings, first on older leaves.",
+            "ur": "پہلے پرانے پتوں پر حلقوں والے گہرے بھورے دھبے۔"
+          },
+          "prevention": {
+            "en": [
+              "Rotate for at least 3 years",
+              "Keep plants well fed and watered"
+            ],
+            "ur": [
+              "کم از کم 3 سال فصلوں کا ہیر پھیر کریں",
+              "پودوں کو مناسب کھاد اور پانی دیں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Plant certified seed tubers",
+          "Check fields daily in cool, foggy weather",
+          "Remove volunteer potatoes and cull piles",
+          "Store only healthy, dry tubers"
+        ],
+        "ur": [
+          "تصدیق شدہ بیج والے آلو لگائیں",
+          "ٹھنڈے اور دھند والے موسم میں کھیت روزانہ دیکھیں",
+          "خودرو آلو اور پھینکے ہوئے ڈھیر ہٹا دیں",
+          "صرف صحت مند اور خشک آلو ذخیرہ کریں"
+        ]
+      },
+      "sources": [
+        "https://www.umass.edu/agriculture-food-environment/vegetable/fact-sheets/solanaceous-late-blight",
+        "https://www.ndsu.edu/agriculture/ag-hub/publications/early-blight-potato"
+      ],
+      "needs_review": true
+    },
+    {
+      "id": "maize",
+      "name": {
+        "en": "Maize",
+        "ur": "مکئی"
+      },
+      "season": {
+        "en": "Spring and Kharif (summer) seasons",
+        "ur": "بہاریہ اور خریف (گرمیوں) کے موسم"
+      },
+      "scanner_classes": [
+        "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+        "Corn_(maize)___Common_rust_",
+        "Corn_(maize)___Northern_Leaf_Blight",
+        "Corn_(maize)___healthy"
+      ],
+      "summary": {
+        "en": "Grown for grain and fodder. The scanner recognises gray leaf spot, common rust and northern leaf blight.",
+        "ur": "دانے اور چارے کے لیے کاشت کی جاتی ہے۔ اسکینر سرمئی دھبے، کنگی اور پتہ جھلساؤ پہچانتا ہے۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Northern leaf blight",
+            "ur": "پتہ جھلساؤ (ناردرن لیف بلائٹ)"
+          },
+          "symptoms": {
+            "en": "Long, cigar-shaped grey-green to tan lesions, starting on lower leaves.",
+            "ur": "لمبے، سگار نما سبزی مائل سرمئی سے ہلکے بھورے زخم جو نچلے پتوں سے شروع ہوتے ہیں۔"
+          },
+          "prevention": {
+            "en": [
+              "Plant resistant hybrids",
+              "Rotate crops and manage residue"
+            ],
+            "ur": [
+              "مزاحمتی ہائبرڈ لگائیں",
+              "فصلوں کا ہیر پھیر کریں اور باقیات سنبھالیں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Common rust",
+            "ur": "کنگی (کامن رسٹ)"
+          },
+          "symptoms": {
+            "en": "Small reddish-brown powdery pustules on both leaf surfaces.",
+            "ur": "پتے کی دونوں سطحوں پر چھوٹے سرخی مائل بھورے سفوفی ابھار۔"
+          },
+          "prevention": {
+            "en": [
+              "Plant resistant hybrids",
+              "Keep plants healthy with balanced nutrition"
+            ],
+            "ur": [
+              "مزاحمتی ہائبرڈ لگائیں",
+              "متوازن کھاد سے پودوں کو صحت مند رکھیں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Choose hybrids with disease resistance for your area",
+          "Rotate with other crops and manage maize residue",
+          "Check leaves from tasselling onwards",
+          "Apply balanced fertilizer and irrigation"
+        ],
+        "ur": [
+          "اپنے علاقے کے لیے بیماری کے خلاف مزاحمتی ہائبرڈ چنیں",
+          "دوسری فصلوں سے ہیر پھیر کریں اور مکئی کی باقیات سنبھالیں",
+          "بور نکلنے کے وقت سے پتے دیکھتے رہیں",
+          "متوازن کھاد اور آبپاشی کریں"
+        ]
+      },
+      "sources": [
+        "https://extension.umn.edu/corn-pest-management/northern-corn-leaf-blight",
+        "https://extension.umn.edu/corn-pest-management/common-rust-corn"
+      ],
+      "needs_review": true
+    },
+    {
+      "id": "mango",
+      "name": {
+        "en": "Mango",
+        "ur": "آم"
+      },
+      "season": {
+        "en": "Perennial orchard (flowering in spring, harvest in summer)",
+        "ur": "سدا بہار باغ (بہار میں پھول، گرمیوں میں پھل)"
+      },
+      "scanner_classes": [],
+      "summary": {
+        "en": "Pakistan's leading fruit. Anthracnose, powdery mildew, malformation and mango sudden death (decline) are the main disease problems. The scanner does not recognise mango yet.",
+        "ur": "پاکستان کا سرفہرست پھل۔ اینتھراکنوز، سفوفی پھپھوندی، گچھا (مالفارمیشن) اور آم کا اچانک سوکھنا (سڈن ڈیتھ) اہم بیماریاں ہیں۔ اسکینر ابھی آم کو نہیں پہچانتا۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Anthracnose",
+            "ur": "اینتھراکنوز"
+          },
+          "symptoms": {
+            "en": "Black spots on leaves, flowers and fruit; blossoms dry up and fruit rots while ripening.",
+            "ur": "پتوں، پھولوں اور پھل پر سیاہ دھبے؛ بور سوکھ جاتا ہے اور پکتے وقت پھل گل جاتا ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Prune dead and diseased twigs and take them out of the orchard",
+              "Collect fallen leaves, flowers and fruit",
+              "Prune for good air flow inside the canopy"
+            ],
+            "ur": [
+              "مردہ اور بیمار ٹہنیاں کاٹ کر باغ سے باہر لے جائیں",
+              "گرے ہوئے پتے، پھول اور پھل جمع کریں",
+              "چھتر کے اندر ہوا کے گزر کے لیے کانٹ چھانٹ کریں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Powdery mildew",
+            "ur": "سفوفی پھپھوندی (پاؤڈری ملڈیو)"
+          },
+          "symptoms": {
+            "en": "White powdery growth on flowers and young leaves; flowers and young fruit drop.",
+            "ur": "پھولوں اور نئے پتوں پر سفید سفوفی تہہ؛ پھول اور چھوٹا پھل گر جاتا ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Keep the canopy open to sun and air",
+              "Watch flower clusters closely in cool, humid weather",
+              "Before flowering, ask your extension officer about approved protection"
+            ],
+            "ur": [
+              "چھتر کو دھوپ اور ہوا کے لیے کھلا رکھیں",
+              "ٹھنڈے اور مرطوب موسم میں بور کو غور سے دیکھیں",
+              "پھول آنے سے پہلے منظور شدہ تحفظ کے بارے میں زرعی افسر سے پوچھیں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Malformation",
+            "ur": "گچھا (مالفارمیشن)"
+          },
+          "symptoms": {
+            "en": "Bunchy, deformed shoots and flower clusters that set no fruit.",
+            "ur": "گچھے دار، بگڑی ہوئی شاخیں اور بور جن پر پھل نہیں لگتا۔"
+          },
+          "prevention": {
+            "en": [
+              "Cut out and destroy malformed shoots and flower clusters",
+              "Plant healthy nursery plants without malformation"
+            ],
+            "ur": [
+              "بگڑی ہوئی شاخیں اور بور کاٹ کر تلف کریں",
+              "گچھے سے پاک صحت مند نرسری کے پودے لگائیں"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Mango sudden death (decline)",
+            "ur": "آم کا اچانک سوکھنا (سڈن ڈیتھ)"
+          },
+          "symptoms": {
+            "en": "Branches or the whole tree wilt suddenly, gum may ooze from the bark, and the tree dries within weeks to months. The causes are complex and still being studied.",
+            "ur": "شاخیں یا پورا درخت اچانک مرجھا جاتا ہے، چھال سے گوند نکل سکتی ہے اور درخت چند ہفتوں یا مہینوں میں سوکھ جاتا ہے۔ اس کی وجوہات پیچیدہ ہیں اور ان پر ابھی تحقیق جاری ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Avoid wounding the roots and trunk",
+              "Remove and destroy dead branches and dead trees",
+              "Report affected trees to the Mango Research Institute or the agriculture department"
+            ],
+            "ur": [
+              "جڑوں اور تنے کو زخمی کرنے سے بچیں",
+              "مردہ شاخیں اور مردہ درخت نکال کر تلف کریں",
+              "متاثرہ درختوں کی اطلاع آم تحقیقاتی ادارے یا محکمہ زراعت کو دیں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Prune and clean the orchard after harvest",
+          "Protect flowering in spring with advice from your extension officer",
+          "Irrigate and fertilize as recommended for the age of the orchard",
+          "Inspect trees regularly for gum, wilting or malformed shoots"
+        ],
+        "ur": [
+          "پھل اترنے کے بعد باغ کی کانٹ چھانٹ اور صفائی کریں",
+          "بہار میں بور کی حفاظت کے لیے زرعی افسر سے مشورہ کریں",
+          "باغ کی عمر کے مطابق تجویز کردہ آبپاشی اور کھاد دیں",
+          "گوند، مرجھاہٹ یا بگڑی شاخوں کے لیے درخت باقاعدگی سے دیکھیں"
+        ]
+      },
+      "sources": [
+        "https://agri.sindh.gov.pk/mango-disea",
+        "https://core.ac.uk/download/322444455.pdf"
+      ],
+      "needs_review": true
+    },
+    {
+      "id": "citrus",
+      "name": {
+        "en": "Citrus (Kinnow)",
+        "ur": "ترشاوہ پھل (کینو)"
+      },
+      "season": {
+        "en": "Perennial orchard (harvest in winter)",
+        "ur": "سدا بہار باغ (سردیوں میں پھل)"
+      },
+      "scanner_classes": [
+        "Orange___Haunglongbing_(Citrus_greening)"
+      ],
+      "summary": {
+        "en": "Kinnow and other citrus are major fruits, especially in Punjab. Citrus canker and greening (HLB) are serious bacterial diseases. The scanner recognises only greening.",
+        "ur": "کینو اور دوسرے ترشاوہ پھل، خاص طور پر پنجاب میں، اہم پھل ہیں۔ سٹرس کینکر اور گریننگ (ایچ ایل بی) سنگین بیکٹیریائی بیماریاں ہیں۔ اسکینر صرف گریننگ پہچانتا ہے۔"
+      },
+      "diseases": [
+        {
+          "name": {
+            "en": "Citrus canker",
+            "ur": "سٹرس کینکر"
+          },
+          "symptoms": {
+            "en": "Raised, corky, brown spots with a yellow halo on leaves, twigs and fruit.",
+            "ur": "پتوں، ٹہنیوں اور پھل پر پیلے ہالے والے ابھرے ہوئے، کھردرے بھورے دھبے۔"
+          },
+          "prevention": {
+            "en": [
+              "Plant certified, disease-free nursery plants",
+              "Prune out and destroy cankered twigs in dry weather",
+              "Windbreaks reduce wind-driven spread",
+              "Protect young shoots from leafminer damage, which helps canker enter (ask your extension officer)"
+            ],
+            "ur": [
+              "تصدیق شدہ، بیماری سے پاک نرسری کے پودے لگائیں",
+              "خشک موسم میں کینکر والی ٹہنیاں کاٹ کر تلف کریں",
+              "ہوا روک باڑیں ہوا سے پھیلاؤ کم کرتی ہیں",
+              "نئی شاخوں کو لیف مائنر کے نقصان سے بچائیں، جو کینکر کو داخل ہونے میں مدد دیتا ہے (زرعی افسر سے پوچھیں)"
+            ]
+          }
+        },
+        {
+          "name": {
+            "en": "Citrus greening (HLB)",
+            "ur": "سٹرس گریننگ (ایچ ایل بی)"
+          },
+          "symptoms": {
+            "en": "Blotchy yellow leaves, small lopsided bitter fruit; infected trees cannot be cured. Spread by the citrus psyllid and infected nursery plants.",
+            "ur": "دھبے دار پیلے پتے، چھوٹے ٹیڑھے کڑوے پھل؛ متاثرہ درخت کا علاج ممکن نہیں۔ سٹرس سِلّا اور متاثرہ نرسری پودوں سے پھیلتی ہے۔"
+          },
+          "prevention": {
+            "en": [
+              "Buy plants only from certified nurseries",
+              "Watch new shoots for psyllids",
+              "Report suspected trees to the agriculture department"
+            ],
+            "ur": [
+              "پودے صرف تصدیق شدہ نرسریوں سے خریدیں",
+              "نئی شاخوں پر سِلّا کیڑے پر نظر رکھیں",
+              "مشکوک درختوں کی اطلاع محکمہ زراعت کو دیں"
+            ]
+          }
+        }
+      ],
+      "seasonal_care": {
+        "en": [
+          "Buy plants only from certified nurseries",
+          "Prune dead and diseased wood after harvest",
+          "Check new shoots for psyllids and leafminers",
+          "Report suspected greening to the agriculture department"
+        ],
+        "ur": [
+          "پودے صرف تصدیق شدہ نرسریوں سے خریدیں",
+          "پھل اترنے کے بعد مردہ اور بیمار لکڑی کاٹ دیں",
+          "نئی شاخوں پر سِلّا اور لیف مائنر دیکھتے رہیں",
+          "گریننگ کے شبہے پر محکمہ زراعت کو اطلاع دیں"
+        ]
+      },
+      "sources": [
+        "https://agris.fao.org/search/en/records/6472451a08fd68d5460079a1",
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC6745038"
+      ],
+      "needs_review": true
+    }
+  ]
+}

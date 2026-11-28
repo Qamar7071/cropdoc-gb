@@ -1,6 +1,6 @@
 [project]
 name = "cropdoc-gb"
-version = "1.1.4"
+version = "1.2.0"
 description = "CropDoc GB: AI plant-disease scanner for Gilgit-Baltistan (FastAPI + React + ONNX) with a lab-to-field research study."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -17,6 +17,7 @@ dependencies = [
     "numpy==2.4.6; python_full_version < '3.12'",
     "numpy==2.5.4; python_full_version >= '3.12'",
     "onnxruntime==1.31.1",
+    "anthropic==2.14.0",
 ]
 
 [project.optional-dependencies]

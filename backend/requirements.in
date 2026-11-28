@@ -8,3 +8,4 @@ pillow
 numpy
 onnxruntime
 cryptography  # self-signed HTTPS certificate for phone mode (start --phone)
+anthropic  # AI agriculture assistant (optional: used only when ANTHROPIC_API_KEY is set)

@@ -1,10 +1,16 @@
 {
   "meta": {
-    "version": "2026-11-09",
+    "version": "2026-11-26",
     "status": "Drafted by AI from the cited university extension sources. Every entry needs review by an agriculture expert before it is relied on in the field (needs_review: true).",
-    "content_rules": "Cultural practices only. No chemical product names, doses, spray intervals or application methods.",
+    "content_rules": "Cultural practices, plus generic treatment categories (for example 'a fungicide labelled for this disease') that always send the farmer to the extension officer and the product label. Never product or active-ingredient names, doses, spray intervals or application methods.",
     "extension_fallback": "Consult your local agriculture extension officer for approved products and doses.",
-    "disclaimer": "General guidance only, not a diagnosis. Please consult an agriculture expert."
+    "disclaimer": "General guidance only, not a diagnosis. Please consult an agriculture expert.",
+    "risk_levels": {
+      "meaning": "General potential of the disease to cause crop loss (from the cited extension sources), NOT measured from the photo.",
+      "low": "Usually limited damage if basic care is followed.",
+      "medium": "Can reduce yield or quality if ignored; act within days.",
+      "high": "Can cause heavy losses quickly; act immediately and contact an expert."
+    }
   },
   "diseases": [
     {
@@ -33,7 +39,26 @@
         "https://cals.cornell.edu/integrated-pest-management/outreach-education/fact-sheets/apple-scab-fruit-fact-sheet",
         "https://www.extension.purdue.edu/extmedia/bp/bp-1-w.pdf"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Rarely kills trees, but in wet springs it can spoil much of the fruit and make leaves drop early.",
+      "causes": [
+        "Fungus (Venturia inaequalis) that survives in fallen infected leaves",
+        "Cool, wet spring weather that keeps leaves wet for many hours"
+      ],
+      "immediate_actions": [
+        "Pick off badly spotted leaves and fruit and remove them from the orchard",
+        "Collect fallen leaves under the tree so they cannot infect new growth",
+        "Keep leaves dry: do not water over the canopy"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Many fruits show scabs or cracks"
+      ]
     },
     {
       "id": "Apple___Black_rot",
@@ -60,7 +85,26 @@
         "https://extension.psu.edu/pome-fruit-disease-black-rot-and-frogeye-leaf-spot",
         "https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/ppfs-fr-t-03.pdf"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Causes fruit rot and branch cankers; losses grow when mummified fruit and dead wood stay in the orchard.",
+      "causes": [
+        "Fungus (Botryosphaeria obtusa) living in dead wood, cankers and mummified fruit",
+        "Rain splash, wounds and stressed trees"
+      ],
+      "immediate_actions": [
+        "Remove rotten and mummified fruit from the tree and the ground",
+        "Cut out dead or cankered branches and take them away from the orchard",
+        "Clean pruning tools after cutting diseased wood"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Branches show sunken cankers or die back"
+      ]
     },
     {
       "id": "Apple___Cedar_apple_rust",
@@ -87,7 +131,25 @@
         "https://extension.okstate.edu/fact-sheets/cedar-apple-rust.html",
         "https://www.umass.edu/agriculture-food-environment/fruit/fact-sheets/apple-ipm-cedar-apple-rust"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "low",
+      "risk_reason": "Usually weakens leaves and spots fruit; serious mainly where junipers grow close to susceptible apple varieties.",
+      "causes": [
+        "Fungus that needs both juniper (cedar) and apple trees",
+        "Spring rains that release spores from galls on nearby junipers"
+      ],
+      "immediate_actions": [
+        "Look for orange, jelly-like galls on nearby juniper/cedar trees and cut them off",
+        "Remove badly spotted leaves",
+        "Note the variety: plan resistant varieties for new planting"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Leaves drop early on many trees",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Apple___healthy",
@@ -96,7 +158,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this apple leaf.",
-      "symptoms": ["Even green colour without spots, rust-coloured patches, powdery growth or curling"],
+      "symptoms": [
+        "Even green colour without spots, rust-coloured patches, powdery growth or curling"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -105,8 +169,21 @@
         "Prune for an open canopy with good air flow",
         "Water at the base of the tree and avoid wetting leaves"
       ],
-      "sources": ["https://www.umass.edu/agriculture-food-environment/landscape/fact-sheets/apple-scab"],
-      "needs_review": true
+      "sources": [
+        "https://www.umass.edu/agriculture-food-environment/landscape/fact-sheets/apple-scab"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Blueberry___healthy",
@@ -115,7 +192,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this blueberry leaf.",
-      "symptoms": ["Even green colour without spots, blotches or powdery growth"],
+      "symptoms": [
+        "Even green colour without spots, blotches or powdery growth"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -124,8 +203,21 @@
         "Water at the base of the plant and avoid wetting leaves",
         "Space plants for good air flow"
       ],
-      "sources": ["https://ipm.ucanr.edu/"],
-      "needs_review": true
+      "sources": [
+        "https://ipm.ucanr.edu/"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Cherry_(including_sour)___Powdery_mildew",
@@ -148,8 +240,30 @@
         "Choose less susceptible varieties when planting",
         "Check young leaves regularly in warm, humid weather"
       ],
-      "sources": ["https://treefruit.wsu.edu/?p=24610"],
-      "needs_review": true
+      "sources": [
+        "https://treefruit.wsu.edu/?p=24610"
+      ],
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Weakens leaves and can make fruit unmarketable in warm, humid seasons.",
+      "causes": [
+        "Fungus (Podosphaera species) spread by wind",
+        "Warm days with high humidity; shaded, dense canopies",
+        "Soft new growth from too much nitrogen fertilizer"
+      ],
+      "immediate_actions": [
+        "Prune out the worst affected shoots and root suckers",
+        "Open the canopy so sun and air reach the leaves",
+        "Stop extra nitrogen fertilizer for now"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Powdery spots appear on the fruit"
+      ]
     },
     {
       "id": "Cherry_(including_sour)___healthy",
@@ -158,7 +272,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this cherry leaf.",
-      "symptoms": ["Even green colour without powdery growth, spots or holes"],
+      "symptoms": [
+        "Even green colour without powdery growth, spots or holes"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -167,8 +283,21 @@
         "Rake up fallen leaves",
         "Avoid excess nitrogen fertilizer"
       ],
-      "sources": ["https://treefruit.wsu.edu/?p=24610"],
-      "needs_review": true
+      "sources": [
+        "https://treefruit.wsu.edu/?p=24610"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
@@ -195,7 +324,25 @@
         "https://extension.purdue.edu/extmedia/BP/BP-56.html",
         "https://cropprotectionnetwork.org/encyclopedia/gray-leaf-spot-of-corn"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "high",
+      "risk_reason": "In warm, humid weather it can kill leaves early and cause large yield losses.",
+      "causes": [
+        "Fungus (Cercospora zeae-maydis) that survives in maize residue",
+        "Warm, humid weather with long dew periods; maize grown after maize"
+      ],
+      "immediate_actions": [
+        "Check how high up the plant the lesions are; the upper leaves matter most for yield",
+        "Note the hybrid and field history for next season's choice",
+        "Report quickly spreading lesions to your extension officer"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Lesions reach the leaves above the cob before grain filling",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Corn_(maize)___Common_rust_",
@@ -222,7 +369,25 @@
         "https://ohioline.osu.edu/factsheet/plpath-cer-02",
         "https://cropprotectionnetwork.org/encyclopedia/common-rust-of-corn"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "low",
+      "risk_reason": "Usually causes little yield loss in field maize; sweet corn and young plants are more at risk.",
+      "causes": [
+        "Fungus (Puccinia sorghi) whose spores are carried long distances by wind",
+        "Cool to moderate temperatures with heavy dew"
+      ],
+      "immediate_actions": [
+        "Check whether pustules are increasing on the upper leaves",
+        "Keep plants well fed and watered to limit stress",
+        "Choose resistant hybrids next season"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Leaves turn yellow and die over large parts of the field",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Corn_(maize)___Northern_Leaf_Blight",
@@ -249,7 +414,25 @@
         "https://www.extension.purdue.edu/extmedia/bp/bp-84-w.pdf",
         "https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/ppfs-ag-c-10.pdf"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Can reduce yield noticeably when lesions reach the upper leaves around silking.",
+      "causes": [
+        "Fungus (Exserohilum turcicum) that survives in maize residue",
+        "Moderate temperatures with long periods of leaf wetness"
+      ],
+      "immediate_actions": [
+        "Check lower and upper leaves to see how far the lesions have moved up",
+        "Plan crop rotation and residue management after harvest",
+        "Choose resistant hybrids next season"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Lesions reach the upper leaves before or at silking",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Corn_(maize)___healthy",
@@ -258,7 +441,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this maize leaf.",
-      "symptoms": ["Even green colour without lesions, rust pustules or grey patches"],
+      "symptoms": [
+        "Even green colour without lesions, rust pustules or grey patches"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -267,8 +452,21 @@
         "Choose disease-resistant hybrids",
         "Keep plants healthy with balanced nutrition"
       ],
-      "sources": ["https://cropprotectionnetwork.org/encyclopedia/gray-leaf-spot-of-corn"],
-      "needs_review": true
+      "sources": [
+        "https://cropprotectionnetwork.org/encyclopedia/gray-leaf-spot-of-corn"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Grape___Black_rot",
@@ -296,7 +494,26 @@
         "https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/PPFS-FR-S-16.pdf",
         "https://extension.okstate.edu/fact-sheets/black-rot-of-grapes"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "high",
+      "risk_reason": "In warm, wet seasons it can destroy most of the crop by turning berries into hard black mummies.",
+      "causes": [
+        "Fungus (Guignardia bidwellii) that survives in mummified berries, fallen leaves and canes",
+        "Warm, rainy weather in spring and early summer"
+      ],
+      "immediate_actions": [
+        "Remove infected berries and clusters and take them out of the vineyard",
+        "Collect mummified berries from the vine and the ground",
+        "Thin leaves around clusters so they dry quickly"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Berries are turning black and shrivelling"
+      ]
     },
     {
       "id": "Grape___Esca_(Black_Measles)",
@@ -322,7 +539,25 @@
         "https://grapes.extension.org/?p=708",
         "https://www.lodigrowers.com/wp-content/uploads/2013/05/ipm7-07.pdf"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "high",
+      "risk_reason": "Slowly destroys the wood; vines can collapse suddenly and sometimes must be removed.",
+      "causes": [
+        "Several wood-infecting fungi",
+        "Infection through pruning wounds, especially pruning in wet weather"
+      ],
+      "immediate_actions": [
+        "Mark vines with symptoms and prune them last, with cleaned tools",
+        "Remove dead wood and badly affected vines from the vineyard",
+        "Avoid large pruning cuts in wet weather"
+      ],
+      "treatment_categories": [
+        "No cure for infected wood. Removing affected wood and protecting pruning wounds are the main measures — ask your extension officer about locally approved wound protection"
+      ],
+      "call_expert_when": [
+        "A vine wilts or collapses suddenly",
+        "Several vines show tiger-stripe leaves"
+      ]
     },
     {
       "id": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
@@ -347,7 +582,25 @@
         "https://www.gene.affrc.go.jp/databases-micro_pl_diseases_detail_en.php?id=6104",
         "https://openaccess.mku.edu.tr/items/a8d2e20b-e3bc-4f76-a309-645e5fcd945e"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "low",
+      "risk_reason": "Mainly causes early leaf drop late in the season; serious only in very humid conditions.",
+      "causes": [
+        "Fungus (Pseudocercospora vitis)",
+        "Warm, humid weather and poor air movement in the canopy"
+      ],
+      "immediate_actions": [
+        "Remove and destroy fallen infected leaves",
+        "Improve air flow by thinning dense foliage",
+        "Avoid sprinkler irrigation over the vines"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Many leaves dry and drop well before harvest",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Grape___healthy",
@@ -356,7 +609,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this grape leaf.",
-      "symptoms": ["Even green colour without spots, stripes or powdery growth"],
+      "symptoms": [
+        "Even green colour without spots, stripes or powdery growth"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -365,8 +620,21 @@
         "Manage the canopy for good air flow",
         "Prune in dry weather"
       ],
-      "sources": ["https://www.umass.edu/agriculture-food-environment/fruit/fact-sheets/grape-ipm-black-rot"],
-      "needs_review": true
+      "sources": [
+        "https://www.umass.edu/agriculture-food-environment/fruit/fact-sheets/grape-ipm-black-rot"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Orange___Haunglongbing_(Citrus_greening)",
@@ -394,7 +662,24 @@
         "https://crec.ifas.ufl.edu/media/crecifasufledu/extension/plant-pathology-/greening/pdf/Huanglongbing.pdf",
         "https://www.agriculture.gov.au/sites/default/files/documents/huanglongbing.pdf"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "high",
+      "risk_reason": "Infected trees cannot be cured, decline over the years and spread the disease to healthy trees.",
+      "causes": [
+        "Bacterium (Candidatus Liberibacter) living in the tree's sap",
+        "Spread by the Asian citrus psyllid (a tiny insect) and by infected nursery plants or budwood"
+      ],
+      "immediate_actions": [
+        "Do not move the tree, cuttings or budwood to other places",
+        "Report the tree to the agriculture department for testing",
+        "Check other trees for yellow, blotchy shoots and for psyllids on new leaves"
+      ],
+      "treatment_categories": [
+        "No cure. Psyllid control and removal of confirmed infected trees are coordinated by the agriculture department — do not treat on your own"
+      ],
+      "call_expert_when": [
+        "Always: suspected greening must be confirmed by the agriculture department"
+      ]
     },
     {
       "id": "Peach___Bacterial_spot",
@@ -421,7 +706,26 @@
         "https://site.extension.uga.edu/peaches/2025/09/an-update-of-bacterial-spot-in-peaches",
         "https://yardandgarden.extension.iastate.edu/encyclopedia/bacterial-spot-stonefruit-trees"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Leaf drop weakens trees and spotted fruit loses value, especially on susceptible varieties in rainy, windy areas.",
+      "causes": [
+        "Bacterium (Xanthomonas arboricola pv. pruni) surviving in twig cankers",
+        "Rain splash and wind-driven rain"
+      ],
+      "immediate_actions": [
+        "Prune out twigs with cankers in dry weather and remove them",
+        "Avoid working among wet trees",
+        "Note the variety: plan more resistant varieties for new planting"
+      ],
+      "treatment_categories": [
+        "Bactericide products labelled for this crop can slow the spread but do not cure — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Many fruits show pits or cracks"
+      ]
     },
     {
       "id": "Peach___healthy",
@@ -430,7 +734,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this peach leaf.",
-      "symptoms": ["Even green colour without spots, holes or curling"],
+      "symptoms": [
+        "Even green colour without spots, holes or curling"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -439,8 +745,21 @@
         "Keep trees vigorous with balanced fertilization",
         "Rake up fallen leaves"
       ],
-      "sources": ["https://www.canr.msu.edu/ipm/agriculture/fruit/bacterial_spot_of_peach_and_plum"],
-      "needs_review": true
+      "sources": [
+        "https://www.canr.msu.edu/ipm/agriculture/fruit/bacterial_spot_of_peach_and_plum"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Pepper,_bell___Bacterial_spot",
@@ -468,7 +787,26 @@
         "https://extension.wvu.edu/lawn-gardening-pests/plant-disease/fruit-vegetable-diseases/bacterial-leaf-spot-of-pepper",
         "https://pnwhandbooks.org/plantdisease/host-disease/pepper-capsicum-spp-bacterial-spot"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Heavy leaf drop lowers yield and exposes fruit to sunscald.",
+      "causes": [
+        "Bacteria (Xanthomonas species) carried on seed, transplants and crop debris",
+        "Warm, rainy weather, overhead watering and handling wet plants"
+      ],
+      "immediate_actions": [
+        "Remove badly spotted leaves and plants and take them out of the field",
+        "Do not work among the plants while they are wet",
+        "Water at the base of plants instead of overhead"
+      ],
+      "treatment_categories": [
+        "Bactericide products labelled for this crop can slow the spread but do not cure — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Spots appear on the fruit"
+      ]
     },
     {
       "id": "Pepper,_bell___healthy",
@@ -477,7 +815,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this pepper leaf.",
-      "symptoms": ["Even green colour without spots, mottling or curling"],
+      "symptoms": [
+        "Even green colour without spots, mottling or curling"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -486,8 +826,21 @@
         "Water at the base of plants",
         "Rotate crops and remove debris after harvest"
       ],
-      "sources": ["https://ipm.ucanr.edu/PMG/r604100311.html"],
-      "needs_review": true
+      "sources": [
+        "https://ipm.ucanr.edu/PMG/r604100311.html"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Potato___Early_blight",
@@ -515,7 +868,26 @@
         "https://extension.umaine.edu/ipm/?p=4592",
         "https://ipm.ucanr.edu/PMG/GARDEN/VEGES/DISEASES/earlyblight.html"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Reduces yield when it strips leaves early; tubers can also be affected.",
+      "causes": [
+        "Fungus (Alternaria solani) in plant debris, soil and tubers",
+        "Alternating wet and dry weather; stressed, ageing or poorly fed plants"
+      ],
+      "immediate_actions": [
+        "Remove badly spotted lower leaves and take them out of the field",
+        "Keep plants well fed and watered to reduce stress",
+        "Water at the base of plants, early in the day"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Tubers show dark, sunken spots"
+      ]
     },
     {
       "id": "Potato___Late_blight",
@@ -543,7 +915,25 @@
         "https://www.uidaho.edu/-/media/UIdaho-Responsive/Files/Extension/publications/bul/bul1022.PDF?la=en",
         "https://www.maine.gov/DACF/php/gotpests/diseases/late-blight.htm"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "high",
+      "risk_reason": "In cool, wet weather it can destroy a field within days and rot tubers in storage.",
+      "causes": [
+        "Water mould (Phytophthora infestans)",
+        "Cool, wet or foggy weather",
+        "Infected seed tubers, cull piles and volunteer potato plants"
+      ],
+      "immediate_actions": [
+        "Act today: pull out infected plants, put them in a bag and remove them — do not compost",
+        "Check the whole field and nearby fields daily while the weather stays cool and wet",
+        "Tell neighbouring farmers and your extension officer; it spreads quickly"
+      ],
+      "treatment_categories": [
+        "Fungicides made for late blight (water moulds) work only when applied before or very early in an outbreak — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Immediately — late blight spreads within days"
+      ]
     },
     {
       "id": "Potato___healthy",
@@ -552,7 +942,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this potato leaf.",
-      "symptoms": ["Even green colour without spots, rings, dark patches or white growth"],
+      "symptoms": [
+        "Even green colour without spots, rings, dark patches or white growth"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -561,8 +953,21 @@
         "Rotate away from potato and tomato",
         "Remove volunteer potato plants"
       ],
-      "sources": ["https://www.umass.edu/agriculture-food-environment/vegetable/fact-sheets/solanaceous-late-blight"],
-      "needs_review": true
+      "sources": [
+        "https://www.umass.edu/agriculture-food-environment/vegetable/fact-sheets/solanaceous-late-blight"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Raspberry___healthy",
@@ -571,7 +976,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this raspberry leaf.",
-      "symptoms": ["Even green colour without spots, rust or mottling"],
+      "symptoms": [
+        "Even green colour without spots, rust or mottling"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -580,8 +987,21 @@
         "Thin canes for good air flow",
         "Water at the base of plants"
       ],
-      "sources": ["https://ipm.ucanr.edu/"],
-      "needs_review": true
+      "sources": [
+        "https://ipm.ucanr.edu/"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Soybean___healthy",
@@ -590,7 +1010,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this soybean leaf.",
-      "symptoms": ["Even green colour without spots, blotches or mottling"],
+      "symptoms": [
+        "Even green colour without spots, blotches or mottling"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -599,8 +1021,21 @@
         "Use healthy seed of adapted varieties",
         "Manage crop residue"
       ],
-      "sources": ["https://cropprotectionnetwork.org/"],
-      "needs_review": true
+      "sources": [
+        "https://cropprotectionnetwork.org/"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Squash___Powdery_mildew",
@@ -626,7 +1061,25 @@
         "https://homegarden-cahnr.media.uconn.edu/wp-content/uploads/sites/3479/2022/10/Powdery-Mildew-of-Cucurbits.pdf",
         "https://www.vegetables.cornell.edu/pest-management/disease-factsheets/disease-resistant-vegetable-varieties/disease-resistant-cucurbit-varieties"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Weakens plants and lowers fruit size and quality, though plants rarely die quickly.",
+      "causes": [
+        "Fungus (Podosphaera xanthii and related fungi) spread by wind",
+        "Warm weather, shade and crowded plants; it does not need rain"
+      ],
+      "immediate_actions": [
+        "Remove the most heavily covered leaves",
+        "Give plants more space and sunlight where possible",
+        "Stop extra nitrogen fertilizer for now"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Strawberry___Leaf_scorch",
@@ -653,7 +1106,25 @@
         "https://edis.ifas.ufl.edu/publication/PP359",
         "https://ipm.ucanr.edu/PMG/GARDEN/FRUIT/DISEASE/ID/idleafspot.html"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "low",
+      "risk_reason": "Weakens plants over time; serious mainly in wet seasons and old beds.",
+      "causes": [
+        "Fungus (Diplocarpon earlianum) on old infected leaves",
+        "Long periods of leaf wetness and frequent rain"
+      ],
+      "immediate_actions": [
+        "Remove old, heavily spotted leaves",
+        "Water at the base of plants instead of overhead",
+        "Keep the bed free of weeds for better air flow"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Most leaves in the bed look scorched",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Strawberry___healthy",
@@ -662,7 +1133,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this strawberry leaf.",
-      "symptoms": ["Even green colour without purple spots, scorched edges or powdery growth"],
+      "symptoms": [
+        "Even green colour without purple spots, scorched edges or powdery growth"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -671,8 +1144,21 @@
         "Water at the base of plants",
         "Keep beds weed-free with good air drainage"
       ],
-      "sources": ["https://content.ces.ncsu.edu/leaf-scorch-of-strawberry"],
-      "needs_review": true
+      "sources": [
+        "https://content.ces.ncsu.edu/leaf-scorch-of-strawberry"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     },
     {
       "id": "Tomato___Bacterial_spot",
@@ -699,7 +1185,26 @@
         "https://u.osu.edu/vegetablediseasefacts/tomato-diseases/bacterial-leaf-spot",
         "https://publications.ca.uky.edu/sites/publications.ca.uky.edu/files/ppfs-vg-17.pdf"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Leaf loss and spotted fruit lower yield and market value, especially in warm, rainy weather.",
+      "causes": [
+        "Bacteria (Xanthomonas species) carried on seed, transplants and crop debris",
+        "Warm, rainy weather and splashing water"
+      ],
+      "immediate_actions": [
+        "Remove badly spotted leaves and plants and take them out of the field",
+        "Do not handle plants while they are wet",
+        "Water at the base of plants instead of overhead"
+      ],
+      "treatment_categories": [
+        "Bactericide products labelled for this crop can slow the spread but do not cure — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Spots appear on the fruit"
+      ]
     },
     {
       "id": "Tomato___Early_blight",
@@ -725,7 +1230,26 @@
         "https://extension.umaine.edu/ipm/?p=4592",
         "https://ipm.ucanr.edu/PMG/GARDEN/VEGES/DISEASES/earlyblight.html"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Reduces yield when it strips the lower leaves; fruit can also be spotted.",
+      "causes": [
+        "Fungus (Alternaria species) in plant debris and soil",
+        "Warm weather with rain or heavy dew; stressed plants"
+      ],
+      "immediate_actions": [
+        "Remove spotted lower leaves and take them out of the field",
+        "Mulch the soil to stop rain splashing spores onto leaves",
+        "Water at the base of plants, early in the day"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Spots appear on the fruit"
+      ]
     },
     {
       "id": "Tomato___Late_blight",
@@ -751,7 +1275,25 @@
         "https://www.umass.edu/agriculture-food-environment/vegetable/fact-sheets/solanaceous-late-blight",
         "https://www.maine.gov/DACF/php/gotpests/diseases/late-blight.htm"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "high",
+      "risk_reason": "In cool, wet weather it can destroy plants within days, and it also infects potatoes.",
+      "causes": [
+        "Water mould (Phytophthora infestans)",
+        "Cool, wet or foggy weather",
+        "Infected potatoes or tomatoes nearby"
+      ],
+      "immediate_actions": [
+        "Act today: pull out infected plants, put them in a bag and remove them — do not compost",
+        "Check all tomatoes and potatoes nearby daily while the weather stays cool and wet",
+        "Tell neighbouring farmers and your extension officer; it spreads quickly"
+      ],
+      "treatment_categories": [
+        "Fungicides made for late blight (water moulds) work only when applied before or very early in an outbreak — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Immediately — late blight spreads within days"
+      ]
     },
     {
       "id": "Tomato___Leaf_Mold",
@@ -779,7 +1321,25 @@
         "https://plantpathology.ca.uky.edu/sites/plantpathology.ca.uky.edu/files/PPFS-VG-52.pdf",
         "https://pnwhandbooks.org/plantdisease/host-disease/greenhouse-plants-tomato-leaf-mold"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Serious mainly in humid tunnels and greenhouses, where leaf loss reduces yield.",
+      "causes": [
+        "Fungus (Passalora fulva)",
+        "Humidity above about 85% in tunnels and greenhouses; poor ventilation"
+      ],
+      "immediate_actions": [
+        "Open vents or tunnel sides to lower humidity",
+        "Remove affected lower leaves",
+        "Avoid wetting the leaves when watering"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Tomato___Septoria_leaf_spot",
@@ -806,7 +1366,25 @@
         "https://extension.wvu.edu/lawn-gardening-pests/plant-disease/fruit-vegetable-diseases/septoria-leaf-spot",
         "https://extension.umd.edu/resource/septoria-leaf-spot-tomatoes"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Can strip many leaves from the bottom up and reduce fruit size; the fruit itself is rarely infected.",
+      "causes": [
+        "Fungus (Septoria lycopersici) in tomato debris and nightshade weeds",
+        "Wet leaves and splashing water"
+      ],
+      "immediate_actions": [
+        "Remove spotted lower leaves and take them out of the field",
+        "Water at the base of plants, early in the day",
+        "Remove nightshade weeds around the field"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Tomato___Spider_mites Two-spotted_spider_mite",
@@ -833,7 +1411,25 @@
         "https://ipm.cahnr.uconn.edu/tomato-spider-mites/",
         "https://hortsense.cahnrs.wsu.edu/?p=4150"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Mite numbers grow fast in hot, dry weather and can dry out leaves within weeks.",
+      "causes": [
+        "Two-spotted spider mite (Tetranychus urticae), a tiny pest",
+        "Hot, dry, dusty weather and drought-stressed plants"
+      ],
+      "immediate_actions": [
+        "Check leaf undersides: shake a leaf over white paper and look for moving dots",
+        "Wash the mites off the leaves with a strong stream of water",
+        "Water regularly and reduce dust around the field"
+      ],
+      "treatment_categories": [
+        "Miticide (a product made for mites) labelled for tomato — ask your agriculture extension officer which product is approved locally, and follow the label exactly. General insecticides usually do not control mites"
+      ],
+      "call_expert_when": [
+        "Leaves are turning bronze or drying over large areas",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Tomato___Target_Spot",
@@ -860,7 +1456,26 @@
         "https://worldveg.tind.io/record/39590",
         "https://www.pestnet.org/fact_sheets/tomato_target_spot_163.htm"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Leaf loss and spotted fruit can lower yield in warm, humid weather.",
+      "causes": [
+        "Fungus (Corynespora cassiicola) on crop debris",
+        "Warm, humid weather with long leaf wetness"
+      ],
+      "immediate_actions": [
+        "Remove spotted leaves and take them out of the field",
+        "Improve air flow by staking and pruning",
+        "Avoid overhead irrigation"
+      ],
+      "treatment_categories": [
+        "Fungicide labelled for this disease on this crop, started early (it protects new growth but does not heal spots) — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Spots spread quickly to new leaves or neighbouring plants",
+        "You are not sure which problem it is",
+        "Spots appear on the fruit"
+      ]
     },
     {
       "id": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
@@ -888,7 +1503,25 @@
         "https://ipm.ifas.ufl.edu/agricultural_ipm/tylcv_home_mgmt.shtml",
         "https://ipm.ucanr.edu/legacy_assets/PDF/PMG/TomBrochure03.pdf"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "high",
+      "risk_reason": "Plants infected young may give almost no fruit, and whiteflies spread the virus quickly.",
+      "causes": [
+        "Virus (begomovirus) carried by whiteflies",
+        "Large whitefly numbers, infected transplants and weed hosts"
+      ],
+      "immediate_actions": [
+        "Pull out and destroy infected plants early, in a bag",
+        "Check leaf undersides for whiteflies; yellow sticky traps help to monitor them",
+        "Remove weeds around the field that shelter whiteflies"
+      ],
+      "treatment_categories": [
+        "No cure for infected plants. Whitefly control with an approved product can slow the spread — ask your agriculture extension officer which product is approved locally, and follow the label exactly"
+      ],
+      "call_expert_when": [
+        "Many plants show curled, yellow leaves",
+        "Whiteflies are present in large numbers"
+      ]
     },
     {
       "id": "Tomato___Tomato_mosaic_virus",
@@ -915,7 +1548,25 @@
         "https://u.osu.edu/vegetablediseasefacts/?p=1381",
         "https://hortsense.cahnrs.wsu.edu/fact-sheet/tomato-mosaic-viruses/"
       ],
-      "needs_review": true
+      "needs_review": true,
+      "risk_level": "medium",
+      "risk_reason": "Lowers yield and fruit quality; it spreads easily by hands and tools and cannot be cured.",
+      "causes": [
+        "Virus (tobamovirus) that survives on seed, plant debris, hands and tools",
+        "Handling plants and using contaminated seed"
+      ],
+      "immediate_actions": [
+        "Remove infected plants carefully and take them out of the field",
+        "Wash hands with soap and clean tools before touching healthy plants",
+        "Handle healthy plants first, suspected plants last"
+      ],
+      "treatment_categories": [
+        "No cure and no spray treatment. Prevention and hygiene are the only measures"
+      ],
+      "call_expert_when": [
+        "Many plants show mottled, distorted leaves",
+        "You are not sure which problem it is"
+      ]
     },
     {
       "id": "Tomato___healthy",
@@ -924,7 +1575,9 @@
       "category": "healthy",
       "pathogen": "",
       "description": "No disease symptoms were recognised on this tomato leaf.",
-      "symptoms": ["Even green colour without spots, rings, mould, mottling or curling"],
+      "symptoms": [
+        "Even green colour without spots, rings, mould, mottling or curling"
+      ],
       "spread": "Not applicable.",
       "most_affected_part": "Not applicable.",
       "general_management": [
@@ -933,8 +1586,21 @@
         "Stake or space plants for good air flow",
         "Rotate crops and remove debris after harvest"
       ],
-      "sources": ["https://pddc.wisc.edu/2015/08/16/septoria-leaf-spot/"],
-      "needs_review": true
+      "sources": [
+        "https://pddc.wisc.edu/2015/08/16/septoria-leaf-spot/"
+      ],
+      "needs_review": true,
+      "risk_level": "none",
+      "risk_reason": "No disease was recognised on this leaf.",
+      "causes": [],
+      "immediate_actions": [
+        "Keep checking the plants every week, especially after rain",
+        "Follow the prevention practices below to keep the crop healthy"
+      ],
+      "treatment_categories": [],
+      "call_expert_when": [
+        "Spots, mould or curling appear later"
+      ]
     }
   ]
 }

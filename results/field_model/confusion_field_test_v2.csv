@@ -1,0 +1,32 @@
+,Apple: Apple scab,Apple: Cedar apple rust,Apple: healthy,Blueberry: healthy,Cherry (including sour): healthy,Corn (maize): Cercospora leaf spot Gray leaf spot,Corn (maize): Common rust ,Corn (maize): Northern Leaf Blight,Grape: Black rot,Grape: Esca (Black Measles),Grape: healthy,Orange: Haunglongbing (Citrus greening),Peach: Bacterial spot,Peach: healthy,"Pepper, bell: Bacterial spot","Pepper, bell: healthy",Potato: Early blight,Potato: Late blight,Raspberry: healthy,Soybean: healthy,Squash: Powdery mildew,Strawberry: healthy,Tomato: Bacterial spot,Tomato: Early blight,Tomato: Late blight,Tomato: Leaf Mold,Tomato: Septoria leaf spot,Tomato: Target Spot,Tomato: Tomato Yellow Leaf Curl Virus,Tomato: Tomato mosaic virus,Tomato: healthy
+Apple: Apple scab,14,0,2,0,0,0,0,0,0,0,0,0,0,0,3,0,1,0,0,0,0,0,0,1,0,0,2,0,0,0,0
+Apple: Cedar apple rust,1,14,2,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,2,0,0,0,0,0,0,0,0
+Apple: healthy,1,0,19,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+Blueberry: healthy,0,0,0,28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0
+Cherry (including sour): healthy,1,0,1,2,7,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1
+Corn (maize): Cercospora leaf spot Gray leaf spot,0,0,0,0,0,9,0,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Corn (maize): Common rust ,0,0,0,0,0,0,26,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Corn (maize): Northern Leaf Blight,0,0,0,0,0,6,0,42,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Grape: Black rot,0,0,0,0,0,0,1,0,11,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Grape: Esca (Black Measles),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Grape: healthy,0,0,0,0,0,0,0,0,2,0,11,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0
+Orange: Haunglongbing (Citrus greening),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Peach: Bacterial spot,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Peach: healthy,0,0,1,0,1,0,0,1,0,0,0,0,0,25,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+"Pepper, bell: Bacterial spot",0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,1,0,0,0,0,0,2,0,1,0,1,0,0,0,0
+"Pepper, bell: healthy",0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,11,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0
+Potato: Early blight,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,9,1,0,0,0,1,4,3,0,0,0,0,0,0
+Potato: Late blight,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,4,13,0,2,0,0,0,0,6,1,0,0,0,0,0
+Raspberry: healthy,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25,1,0,2,0,0,0,0,0,0,0,0,1
+Soybean: healthy,0,0,0,2,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,11,0,0,0,0,0,0,0,0,0,0,0
+Squash: Powdery mildew,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,1,0,0,1,0,0,0,0,0,0
+Strawberry: healthy,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,24,0,0,0,0,0,0,0,0,0
+Tomato: Bacterial spot,0,1,0,0,0,0,1,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,8,2,0,2,8,1,0,1,0
+Tomato: Early blight,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,4,0,0,0,0,0,2,9,0,1,4,0,1,0,0
+Tomato: Late blight,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,1,18,2,0,0,0,0,0
+Tomato: Leaf Mold,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,2,2,11,2,0,2,0,0
+Tomato: Septoria leaf spot,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,6,1,0,1,0,0,10,5,0,0,13,0,0,0,0
+Tomato: Target Spot,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Tomato: Tomato Yellow Leaf Curl Virus,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,1,0
+Tomato: Tomato mosaic virus,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,2,0,0,2,8,0
+Tomato: healthy,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,1,0,11

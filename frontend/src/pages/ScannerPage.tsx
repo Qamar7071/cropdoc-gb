@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Hero } from "../components/Hero";
 import { HowItWorksCard, RecentStatsCard } from "../components/InfoCards";
@@ -9,15 +9,31 @@ import { useI18n } from "../i18n";
 import { api, type PredictResponse } from "../lib/api";
 import { prepareUpload } from "../lib/files";
 import { useDistrict } from "../state/district";
+import { lastScan } from "../state/lastScan";
 
 export function ScannerPage() {
   const { t } = useI18n();
   const { district } = useDistrict();
   const queryClient = useQueryClient();
-  const [file, setFile] = useState<File | null>(null);
-  const [cropHint, setCropHint] = useState("");
+  // start from the last scan of this visit (e.g. coming back from the treatment guide)
+  const [file, setFile] = useState<File | null>(() => lastScan.file);
+  const [cropHint, setCropHint] = useState(() => lastScan.cropHint);
   const [save, setSave] = useState(true);
-  const [result, setResult] = useState<PredictResponse | null>(null);
+  const [result, setResult] = useState<PredictResponse | null>(() => lastScan.result);
+  const restored = useRef(lastScan.result !== null);
+
+  useEffect(() => {
+    lastScan.file = file;
+    lastScan.result = result;
+    lastScan.cropHint = cropHint;
+  }, [file, result, cropHint]);
+
+  useEffect(() => {
+    // on phones the report sits below the photo: show it again straight away when coming back
+    if (restored.current && window.matchMedia("(max-width: 1279px)").matches) {
+      document.querySelector('[data-testid="result-card"]')?.scrollIntoView({ block: "start" });
+    }
+  }, []);
 
   // preview URL derived from the file; released when the file changes or the page unmounts
   const previewUrl = useMemo(() => (file ? URL.createObjectURL(file) : null), [file]);
@@ -76,6 +92,12 @@ export function ScannerPage() {
               error={mutation.error}
               saving={mutation.isPending}
               onSave={file ? () => mutation.mutate({ file, save: true }) : undefined}
+              onReset={() => {
+                setFile(null);
+                setResult(null);
+                mutation.reset();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             />
           </div>
           <div className="no-print grid gap-5 lg:grid-cols-2 xl:col-start-1 xl:row-start-2 xl:grid-cols-1">

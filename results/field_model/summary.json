@@ -1,0 +1,93 @@
+{
+  "question": "Does training with real-world photos + background randomization close the lab\u2192field gap?",
+  "field_data": "PlantDoc (public web photos, own group-aware split; NOT Gilgit-Baltistan photos)",
+  "candidate_version": "field-mbv3l-2026-11-26",
+  "v1": {
+    "lab_test": {
+      "n": 8145,
+      "accuracy": 0.9830570902394107,
+      "macro_f1": 0.9810468292499097,
+      "ece_calibrated": 0.002959950483233187,
+      "crop_hint_accuracy": 0.9866175567833027,
+      "confident_share": 0.939840392879067,
+      "confident_accuracy": 0.9922926192031352
+    },
+    "field_test": {
+      "n": 646,
+      "accuracy": 0.23374613003095976,
+      "macro_f1": 0.22703386634817194,
+      "ece_calibrated": 0.4793139394407302,
+      "crop_hint_accuracy": 0.5170278637770898,
+      "confident_share": 0.14705882352941177,
+      "confident_accuracy": 0.4421052631578947
+    },
+    "non_leaf_confident_share": 0.028426395939086295,
+    "calibration": {
+      "temperature": 1.0327781214773315,
+      "min_confidence": 0.64,
+      "max_energy": -6.530911922454834
+    }
+  },
+  "v2": {
+    "lab_test": {
+      "n": 8145,
+      "accuracy": 0.972621240024555,
+      "macro_f1": 0.967325539025825,
+      "ece_calibrated": 0.05311482008649501,
+      "crop_hint_accuracy": 0.9767955801104973,
+      "confident_share": 0.9033763044812768,
+      "confident_accuracy": 0.9953791791247621
+    },
+    "field_test": {
+      "n": 646,
+      "accuracy": 0.6811145510835913,
+      "macro_f1": 0.6782831119704515,
+      "ece_calibrated": 0.0737611947137136,
+      "crop_hint_accuracy": 0.7925696594427245,
+      "confident_share": 0.5232198142414861,
+      "confident_accuracy": 0.8520710059171598
+    },
+    "non_leaf_confident_share": 0.03654822335025381,
+    "calibration": {
+      "temperature": 0.9083136302722873,
+      "min_confidence": 0.775,
+      "max_energy": -1.2990119457244873
+    }
+  },
+  "field_accuracy_difference_v2_minus_v1": {
+    "difference": 0.4473684210526315,
+    "ci95": [
+      0.40092879256965946,
+      0.49229876160990693
+    ]
+  },
+  "lab_accuracy_difference_v2_minus_v1": {
+    "difference": -0.010435850214855713,
+    "ci95": [
+      -0.013505217925107504,
+      -0.007366482504604033
+    ]
+  },
+  "promotion_checks": {
+    "field_macro_f1_gain": {
+      "value": 0.45124924562227964,
+      "required": ">= 0.05",
+      "ok": true
+    },
+    "lab_macro_f1_drop": {
+      "value": 0.013721290224084748,
+      "required": "<= 0.01",
+      "ok": false
+    },
+    "non_leaf_confident_share": {
+      "value": 0.03654822335025381,
+      "required": "<= 0.05",
+      "ok": true
+    }
+  },
+  "promoted": false,
+  "training_minutes": 43.15538138151169,
+  "hardware": "CPU only (4 cores), no GPU",
+  "source": "results/field_model/comparison.json",
+  "created_utc": "2026-11-26T22:15:03+00:00"
+}

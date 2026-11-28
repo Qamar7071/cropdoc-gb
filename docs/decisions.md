@@ -183,3 +183,61 @@ kept photos; "unsupported" energy threshold accepts >= 95% of validation photos 
 by >= 5 points, lab-test macro-F1 drops by <= 1 point, and <= 5% of non-leaf photos are answered "confident".
 These rules were written into the code before any test result was seen; a 1-epoch smoke run (152 lab photos)
 then checked the pipeline end to end and nothing was changed after it.
+
+## 2026-11-28 · D23 Model v2 is not deployed: it missed the pre-registered lab rule
+**Result** (`results/field_model/comparison.json`, one run, 43 minutes on 4 CPU cores, evaluated once):
+real-world test photos (646 PlantDoc photos, own group-aware split) accuracy 23.4% → 68.1% (+44.7 points, 95% CI
++40.1 to +49.2), macro-F1 0.227 → 0.678, calibration error 0.479 → 0.074; lab test photos (8,145) accuracy
+98.3% → 97.3% (−1.0 points, 95% CI −1.4 to −0.7), macro-F1 0.981 → 0.967; non-leaf photos answered "confident"
+2.8% → 3.7%. **D22 rules:** real-world gain ≥ 5 points ✓ (45.1), lab drop ≤ 1 point ✗ (1.37), non-leaf ≤ 5% ✓.
+**Decision:** v2 is not promoted; `models/active/` still holds v1 (CLAUDE.md rule 5 is not met either: v2 does not
+beat v1 on the group-aware lab test). The rule is kept as written: relaxing it after seeing the test result would make
+the pre-registration meaningless. **Open for the owner:** (a) deploy v2 anyway as an explicit, logged owner decision
+(`python -m cropdoc.field_model` re-creates and installs it in about 45 minutes once the check is changed), or (b) a new
+pre-registered run that also protects lab accuracy (for example more lab photos per class per epoch), judged by the
+same rules; it would reuse the same test photos a second time, which must be reported. The comparison is shown on the
+Field Intelligence page and in README/MODEL_CARD (generated from `results/field_model/summary.json`).
+
+## 2026-11-28 · D24 Photo check before analysis: too dark, too bright or blurry → "please take another photo"
+**What:** brightness = mean grey level (0–255); sharpness = variance of the Laplacian (edge strength) after resizing
+to 384 px. **Thresholds (validation only):** each check flags at most 1% of domain-balanced validation photos
+(1,504 lab + 387 real-world): min brightness 65.6, max brightness 221.0, min sharpness 70.5
+(`models/active/quality.json`, `results/quality/quality_summary.json`). **Measured:** artificially darkened /
+brightened / blurred validation photos are flagged 100% / 99.3% / 100% of the time; false alarms on test photos are
+2.1% (lab) and 5.3% (real-world). **Behaviour:** status `retake_photo`; the disease is never shown and the scan is not
+saved; Live Scan shows the same advice per frame. The threshold code (`ml/src/cropdoc/quality.py`) and the server
+check (`backend/app/services/quality.py`) are kept identical by a parity test. **Not covered:** a sharp photo of the
+wrong thing (the "unsupported" warning handles that).
+
+## 2026-11-28 · D25 Bilingual Plant Analysis Report; generic treatment categories allowed, products and doses never
+The owner's brief asks for English and Urdu on the same screen and for treatment categories and "when to call an
+expert". `diseases.json` gains `risk_level` + `risk_reason` (the disease's general loss potential from the cited
+sources, not a measurement of the photographed plant), `causes`, `immediate_actions`, `treatment_categories` and
+`call_expert_when`; `diseases_ur.json` holds the Urdu (machine-written, `needs_native_review`). The API returns both
+languages in `disease_info.report`; the result screen shows them side by side (`lang`/`dir` per text, self-hosted
+Noto Nastaliq Urdu font). **Content rule (CLAUDE.md rule 3 updated):** generic categories such as "a fungicide labelled
+for this disease" are allowed only in `treatment_categories` and always send the farmer to the extension officer and
+the label; product or active-ingredient names (for example "copper-type" was removed), doses, spray intervals and
+application methods are never written. Tests check every English and Urdu field.
+
+## 2026-11-28 · D26 Agriculture assistant: knowledge-base retrieval first, Claude optional, never invented answers
+**Retrieval:** BM25 keyword search over the disease, crop and tip entries in English, Urdu script and common Roman Urdu
+words (small word map); healthy entries count less. **With `ANTHROPIC_API_KEY`:** Claude (default `claude-opus-5-5`,
+effort `medium`, server-side fallback) writes a short answer only from the retrieved entries, in the language of the
+question, with the same safety rules, and asks a follow-up question when the crop or symptoms are unclear. **Without a
+key, on an API error or a refusal:** the best passages are returned in the farmer's language (`mode: knowledge_base`),
+kept short for a phone. Roman Urdu questions get Urdu-script answers there (Roman Urdu writers usually read Urdu script
+better than English; in AI mode Claude mirrors the exact script). A question that names a disease ("late blight")
+ranks that disease above the general crop page.
+**Privacy:** the page says questions go to Anthropic in AI mode; CropDoc stores no chats; 20 requests per minute per IP.
+Tests use a fake client (no network). **Why not a fully generative bot:** the brief forbids unsupported claims, and a
+grounded answer can always show its sources.
+
+## 2026-11-28 · D27 Weather from Open-Meteo through the server; farmer dashboard
+**Weather:** Open-Meteo (free, no key, CC BY 4.0 attribution shown) fetched by the server, so the browser contacts no
+third party; coordinates rounded to 0.1° (about 10 km); 30-minute cache; `available: false` when offline (everything
+else still works); off with `CROPDOC_WEATHER=off`. Advisories are rules of thumb on the forecast (rain likely, frost
+≤ 2 °C, heat ≥ 40 °C), not disease predictions. **Dashboard:** the home page is now a farmer dashboard (big Live Scan /
+photo buttons, tiles for history, crops, assistant, tips and language, weather and two tips); the research summary
+stays below it. **Crops and tips:** 9 crops and 9 tips in English and Urdu with sources (`crops.json`, `tips.json`,
+`needs_review: true`).
